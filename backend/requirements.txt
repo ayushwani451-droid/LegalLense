@@ -11,6 +11,17 @@
 # Do not blindly upgrade paddlepaddle/paddleocr - see backend/ocr/README.md
 # for a real CPU/oneDNN incompatibility found and worked around at these
 # exact pinned versions.
+#
+# opencv-contrib-python is listed below alongside opencv-python-headless:
+# this project only intends to use the headless build, but paddlex (a
+# paddleocr dependency) hard-pins opencv-contrib-python==4.10.0.84 via its
+# "ocr" extra - confirmed via `pip show paddlex` / package metadata.
+# Deleting this line does NOT remove it from the install; pip reinstalls
+# the exact same pin from paddlex's own dependency metadata regardless.
+# The full/contrib build dynamically links libGL, which a minimal Linux
+# image doesn't ship by default - see backend/Dockerfile, which installs
+# libgl1 (+ related libs) as the actual fix for
+# "ImportError: libGL.so.1: cannot open shared object file".
 aiohappyeyeballs==2.7.1
 aiohttp==3.14.3
 aiosignal==1.4.0

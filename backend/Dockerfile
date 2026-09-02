@@ -13,14 +13,23 @@
 
 FROM python:3.11-slim
 
-# System libraries actually needed by paddlepaddle / opencv-python-headless
-# on a minimal Debian base (documented PaddlePaddle/PaddleOCR Linux
-# dependencies - not guessed):
-#   libgomp1          - OpenMP runtime, required by paddlepaddle
-#   libglib2.0-0       - required by some OpenCV image codecs
-#   libsm6, libxext6, libxrender1 - commonly required transitively by OpenCV
+# System libraries needed by paddlepaddle / OpenCV on a minimal Debian base.
+#   libgomp1     - OpenMP runtime, required by paddlepaddle
+#   libgl1       - required by cv2 at import time. `opencv-python-headless`
+#                  is what this project intends to use, but `paddlex` (a
+#                  paddleocr dependency) hard-pins the full, GUI-capable
+#                  `opencv-contrib-python==4.10.0.84` via its "ocr" extra
+#                  (confirmed via `pip show`/package metadata - not
+#                  removable by editing requirements.txt, since pip
+#                  reinstalls that exact pin from paddlex's own metadata
+#                  regardless). That build dynamically links libGL, which a
+#                  slim image doesn't ship - hence
+#                  "ImportError: libGL.so.1: cannot open shared object file".
+#   libglib2.0-0, libsm6, libxext6, libxrender1 - transitively required by
+#                  that same OpenCV build.
 RUN apt-get update && apt-get install -y --no-install-recommends \
     libgomp1 \
+    libgl1 \
     libglib2.0-0 \
     libsm6 \
     libxext6 \
