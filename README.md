@@ -3,16 +3,9 @@
 AI-assisted Legal Metrology compliance inspection portal.
 
 ```
-frontend/   Vite-built multi-page static site
-backend/    FastAPI + PaddleOCR service
+frontend/   Vite-built multi-page static site  -> deploy to Vercel
+backend/    FastAPI + PaddleOCR service         -> deploy to Render/Railway/etc.
 ```
-
-Two deployment topologies are supported - see "Deployment: two supported
-topologies" below for the tradeoffs:
-- **Option A (recommended):** frontend on Vercel, backend on Render/Railway.
-- **Option B:** both on Vercel together via `vercel.json` (Vercel
-  Services) - convenient, but the backend then runs under Vercel Functions'
-  platform limits, which matter for this specific OCR-upload workload.
 
 Current implemented pipeline: **image upload -> real PaddleOCR -> OCR result
 shown in the browser.** Qwen3-VL extraction, the Legal Metrology rule
@@ -176,24 +169,28 @@ npm run preview   # serves the real dist/ output
 
 ---
 
-## Deployment: two supported topologies
+## Deployment architecture
 
-**Option A - split (recommended):** frontend on Vercel, backend on
-Render/Railway, on different domains. Simpler, no platform limits on the
-OCR path, no `vercel.json` needed.
+**Frontend -> Vercel. Backend (FastAPI + PaddleOCR) -> Render/Railway.**
+Two separate services on two separate domains, connected only via
+`VITE_API_BASE_URL` and CORS. No `vercel.json` is used or needed - Vercel
+deploys `frontend/` as a plain standalone Vite project.
 
-**Option B - full-stack on Vercel (Vercel Services):** frontend and backend
-both deploy from one Vercel project via `vercel.json`, on one shared
-domain, with `/api/*` rewritten to the backend service. Convenient (one
-project, one domain, atomic deploys), but the backend then runs as a
-**Vercel Function**, which has real, non-configurable platform limits that
-matter for this specific OCR workload - see the callout below before
-choosing this path.
+> **Note on a path not taken:** Vercel also offers a "Services" feature
+> that can deploy a Python/FastAPI backend from the same repo as a second
+> service on the same domain, via a root-level `vercel.json`. That was
+> evaluated and deliberately **not** used here: Vercel Functions (which is
+> what such a backend service runs as under the hood) impose a hard,
+> non-configurable **4.5MB request body limit**, which routinely breaks
+> real phone-camera photo uploads for this app's OCR feature, plus a
+> duration ceiling that sits uncomfortably close to this backend's measured
+> real-photo inference times (111-168s on CPU). Keeping the backend on a
+> normal persistent host (Render/Railway) avoids all of that. If a
+> `vercel.json` reappears at the repo root and Vercel starts asking for a
+> multi-service config again, delete it - it is not part of this project's
+> deployment.
 
-### Option A: frontend on Vercel
-
-There is no `vercel.json` needed for this option - routing is literal
-static files, not an SPA requiring rewrites.
+### Deploying the frontend to Vercel
 
 | Setting | Value |
 |---|---|
@@ -212,68 +209,7 @@ Steps:
    deployed backend (see below) before the first production build.
 4. Deploy.
 
-### Option B: full-stack on Vercel via Services (`vercel.json`)
-
-`vercel.json` at the repo root defines both services and routes `/api/*` to
-the backend:
-
-```json
-{
-  "services": {
-    "frontend": { "root": "frontend", "framework": "vite" },
-    "backend": { "root": "backend" }
-  },
-  "rewrites": [
-    { "source": "/api(/.*)?", "destination": { "type": "service", "service": "backend" } },
-    { "source": "/(.*)", "destination": { "type": "service", "service": "frontend" } }
-  ]
-}
-```
-
-Because both services share one domain, the frontend should call the API
-**same-origin** rather than an absolute URL. `ocr-client.js` already
-handles this: if `VITE_API_BASE_URL` is unset (or your Vercel dashboard
-won't accept an empty string value), it automatically falls back to
-same-origin relative calls (`/api/ocr`) on any non-localhost domain, and to
-`http://localhost:8000` only when the page itself is served from
-`localhost`/`127.0.0.1`. So for this option, either:
-- leave `VITE_API_BASE_URL` unset in the Vercel project (recommended - the
-  fallback does the right thing automatically), or
-- explicitly set it to an empty string if your dashboard allows saving one.
-
-Import steps: **Add New Project** -> import the repo -> Vercel detects
-`vercel.json` and both services automatically -> deploy.
-
-> **⚠️ Read this before choosing Option B.** Backend code on Vercel runs as
-> a Vercel Function (confirmed against Vercel's current docs, not assumed),
-> which has hard limits that matter for this specific OCR workload:
->
-> - **4.5MB request body limit - not configurable.** This is a platform
->   floor, enforced ahead of anything this app's own `MAX_UPLOAD_MB` checks.
->   A real phone-camera photo of a product label routinely exceeds this
->   (our own two real test photos happened to be ~2.4MB PNGs, comfortably
->   under it, but a full-resolution JPEG easily is not). Uploads over
->   4.5MB will fail with a Vercel-level `413`, before our own 15MB check
->   ever runs. Mitigate by compressing/resizing images client-side before
->   upload, or use Option A instead.
-> - **Duration limits**: 300s on Hobby (hard cap), up to 800s/1800s(beta) on
->   Pro/Enterprise with configuration. Our own measured real-photo
->   inference times were **111s and 168s** on this CPU-only setup - well
->   within Hobby's 300s ceiling per request, but with little headroom, and
->   Pro/Enterprise billing is by active CPU time, so slow OCR requests cost
->   more there than a flat-rate host.
-> - **~500MB (Python) uncompressed bundle limit** (5GB with "Large
->   functions" beta + Fluid compute), which `paddlepaddle` + `paddleocr` +
->   `paddlex` + `opencv-contrib-python` can plausibly approach - not
->   verified against an actual Vercel deployment in this pass (no Vercel
->   account was available to test with).
->
-> None of this is a reason Option B is broken - Vercel's Python runtime and
-> multi-service Fluid compute are real and current - it's a reason to
-> genuinely weigh it against Option A for an OCR-uploads app specifically,
-> rather than default to "one project is simpler."
-
-## Deploying the backend to Render/Railway (Option A)
+## Deploying the backend to Render/Railway
 
 Example (Render "Web Service", or equivalent on Railway/any host that runs
 an arbitrary start command and injects `$PORT`):
@@ -359,25 +295,16 @@ frontend JavaScript.
   authenticated in this environment (`vercel whoami` returns "Logged
   out"). Everything above was validated locally as far as possible instead
   of being assumed or fabricated.
-
-### Option B (`vercel.json` / Vercel Services) - what's verified vs. not
-
-- **Verified:** `backend/main.py` and `backend/api/ocr.py` import correctly
-  both as `backend.main`/`backend.api.ocr` (repo root as working
-  directory) and as bare `main`/`api.ocr` (`backend/` itself as working
-  directory, which is what Vercel's per-service `"root": "backend"` and
-  Vercel's Python entrypoint detection require) - checked by explicitly
-  importing both ways and confirming the FastAPI app loads with its routes
-  intact each time.
-- **Verified:** `ocr-client.js`'s same-origin fallback logic
-  (`defaultBaseUrlForCurrentHost`) correctly returns `http://localhost:8000`
-  when the page is served from `localhost` (re-ran the full browser
-  regression + a real OCR upload after this change - still works, zero
-  console errors).
-- **Not verified:** the same fallback actually resolving to same-origin
-  `""` on a real non-localhost Vercel domain, the `/api/*` rewrite actually
-  routing to the backend service, and the backend actually cold-starting
-  and running PaddleOCR inference under real Vercel Function constraints
-  (4.5MB body limit, duration limit, bundle size) - none of this can be
-  checked without an authenticated Vercel account and a real deployment,
-  which was not available in this environment.
+- `vercel.json` (a multi-service config deploying the backend as a Vercel
+  Function too) was tried, then deliberately removed after checking
+  Vercel's current docs and finding a hard, non-configurable 4.5MB request
+  body limit that breaks real-photo OCR uploads - see "Deployment
+  architecture" above. Rebuilt and reverified after removal:
+  `npm run build` succeeds with no warnings, `dist/assets/app.js` and
+  `dist/assets/ocr-client.js` are present and byte-identical to source,
+  `%VITE_API_BASE_URL%` still resolves correctly, and `npm run preview`
+  serves the homepage and both JS assets with HTTP 200. `backend/main.py`
+  and `backend/api/ocr.py` keep a small dual-import fallback (support
+  being imported as either `backend.main`/`backend.api.ocr` or bare
+  `main`/`api.ocr`) - harmless leftover robustness from that experiment,
+  not something that needed reverting.
