@@ -20,8 +20,11 @@ engine, persistence, auth, etc.) is intentionally not implemented here yet.
 
 from __future__ import annotations
 
+import asyncio
 import logging
 import os
+from concurrent.futures import ProcessPoolExecutor
+from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
@@ -29,13 +32,13 @@ from fastapi.middleware.cors import CORSMiddleware
 try:
     # Works when the process is started from the repo root, e.g.
     # `uvicorn backend.main:app` (local dev, Render with Root Directory unset).
-    from backend.api.ocr import router as ocr_router, get_service as get_ocr_service
+    from backend.api.ocr import router as ocr_router, init_worker_engine as init_ocr_worker_engine
     from backend.api.demo_ocr import router as demo_ocr_router
 except ImportError:
     # Works when `backend/` itself is the working root, e.g. Render/Vercel
     # with Root Directory (or a service's "root") set to `backend`, where
     # `backend` is not importable as a top-level package from inside itself.
-    from api.ocr import router as ocr_router, get_service as get_ocr_service  # type: ignore[no-redef]
+    from api.ocr import router as ocr_router, init_worker_engine as init_ocr_worker_engine  # type: ignore[no-redef]
     from api.demo_ocr import router as demo_ocr_router  # type: ignore[no-redef]
 
 logging.basicConfig(
@@ -44,10 +47,44 @@ logging.basicConfig(
 )
 logger = logging.getLogger("legallense.main")
 
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    """Own the OCR worker process's lifetime alongside the app's.
+
+    A single concurrent.futures.ProcessPoolExecutor(max_workers=1) is
+    created here and stored on app.state so backend/api/ocr.py's request
+    handler can submit OCR jobs to it (see that module's docstring for why
+    inference runs in a separate OS process rather than a BackgroundTasks
+    thread). Exactly one worker, never more: PaddleOCR is memory-heavy, and
+    running a second OCR job concurrently would mean two full model copies
+    competing for RAM on top of each other.
+
+    The engine load (~20s) happens once, lazily, inside that worker
+    process on first use - so it is warmed up here at startup, the same
+    reasoning the previous single-process version used, just aimed at the
+    process that now actually performs inference instead of this one.
+    """
+    executor = ProcessPoolExecutor(max_workers=1)
+    app.state.ocr_process_pool = executor
+    try:
+        logger.info("Warming up PaddleOCR engine in the OCR worker process...")
+        await asyncio.get_running_loop().run_in_executor(executor, init_ocr_worker_engine)
+        logger.info("PaddleOCR engine ready in worker process.")
+    except Exception:
+        logger.exception("PaddleOCR engine failed to warm up in worker process; will retry on first job.")
+
+    yield
+
+    logger.info("Shutting down OCR worker process...")
+    executor.shutdown(wait=True)
+
+
 app = FastAPI(
     title="LegalLense Backend",
     description="OCR integration layer for the LegalLense compliance portal.",
     version="0.1.0",
+    lifespan=lifespan,
 )
 
 # --- CORS -------------------------------------------------------------
@@ -88,21 +125,6 @@ app.include_router(ocr_router)
 # TEMPORARY / DEMO-ONLY - see api/demo_ocr.py docstring. Remove this line
 # (and delete api/demo_ocr.py) once the live demo is over.
 app.include_router(demo_ocr_router)
-
-
-@app.on_event("startup")
-def warm_up_ocr_engine() -> None:
-    """Load the PaddleOCR models once at process startup instead of on the
-    first request, so the first real user doesn't pay the ~model-load cost
-    on top of inference time. Failure here is logged but not fatal - the
-    OCR endpoint will surface a clear engine_init_failed error per-request
-    if the engine genuinely cannot initialize."""
-    try:
-        logger.info("Warming up PaddleOCR engine at startup...")
-        get_ocr_service()._get_engine()
-        logger.info("PaddleOCR engine ready.")
-    except Exception:
-        logger.exception("PaddleOCR engine failed to warm up at startup; will retry per-request.")
 
 
 @app.get("/api/health")

@@ -11,26 +11,32 @@ synchronously - the original single-request design produced 502s):
     POST /api/ocr                  -> validates + schedules, returns 202 + job_id immediately
     GET  /api/ocr/status/{job_id}  -> poll this until status is "done" or "error"
 
-PaddleOCRService.run() is fully synchronous (confirmed: no `async def`
-anywhere in it, `engine.predict()` is a direct blocking call), so the
-background work is a plain `def`, not a coroutine. FastAPI/Starlette's
-BackgroundTasks automatically runs a plain-`def` task in a worker thread
-(via anyio.to_thread), which is exactly what's needed - `asyncio.create_task`
-would instead run a blocking sync call straight on the event loop and freeze
-the whole server, including this same status-polling endpoint, for the
-entire 52-168s.
+Inference runs in a separate OS process, not a thread (confirmed via live
+testing on the deployed backend: PaddleOCR/PaddleX's native inference does
+not release Python's GIL for its full 52-168s duration, so the previous
+BackgroundTasks-thread approach still froze the entire event loop -
+including this same status-polling endpoint - even though the OCR call
+itself was technically "in the background"). The single OCR worker process
+is a concurrent.futures.ProcessPoolExecutor(max_workers=1) created once at
+app startup and stored on app.state (see backend/main.py) - one worker
+because PaddleOCR is memory-heavy and multiple concurrent OCR processes
+would compete for RAM. POST /api/ocr submits work to it via
+loop.run_in_executor() inside a fire-and-forget asyncio.create_task(), so
+the request handler still returns 202 immediately without awaiting OCR.
 """
 
 from __future__ import annotations
 
+import asyncio
 import logging
 import os
 import tempfile
 import uuid
+from concurrent.futures import ProcessPoolExecutor
 from pathlib import Path
 from typing import Literal, Optional
 
-from fastapi import APIRouter, BackgroundTasks, File, HTTPException, UploadFile
+from fastapi import APIRouter, File, HTTPException, Request, UploadFile
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 
@@ -62,19 +68,12 @@ MAX_UPLOAD_BYTES = int(os.environ.get("MAX_UPLOAD_MB", "15")) * 1024 * 1024
 # (see backend/ocr/README.md). A Linux host may not hit the same bug and
 # could re-enable it for a speed gain via OCR_ENABLE_MKLDNN=true, but the
 # safe, verified-working default is preserved here rather than assumed.
+#
+# This module is re-imported fresh inside the ProcessPoolExecutor's worker
+# process (see _get_worker_service() below), so this env lookup happens
+# independently in both the main process and the worker process - there is
+# no need to pass this value across the process boundary as an argument.
 _ENABLE_MKLDNN = os.environ.get("OCR_ENABLE_MKLDNN", "false").strip().lower() in ("1", "true", "yes")
-
-# One shared service instance: PaddleOCRService caches its underlying
-# PaddleOCR engine internally, so the (slow) model load happens once per
-# process, not once per request. get_service() lets other modules (e.g.
-# the startup warm-up hook in main.py) reuse the exact same instance
-# without duplicating construction logic.
-_service = PaddleOCRService(enable_mkldnn=_ENABLE_MKLDNN)
-
-
-def get_service() -> PaddleOCRService:
-    return _service
-
 
 ALLOWED_EXTENSIONS = {".jpg", ".jpeg", ".png", ".webp"}
 
@@ -103,32 +102,99 @@ def _error_response(status_code: int, image: str, code: str, message: str) -> JS
     return JSONResponse(status_code=status_code, content=result.model_dump())
 
 
-# --- background worker ------------------------------------------------
+# --- OCR worker-process code -------------------------------------------
+# Everything in this section runs inside the ProcessPoolExecutor's worker
+# process, not the main FastAPI process. It must stay self-contained:
+# concurrent.futures pickles the submitted callable (by module + name) and
+# its arguments/return value to move them across the process boundary, so
+# only plain, picklable data can cross - no live PaddleOCRService/engine,
+# no UploadFile, no FastAPI app/request object.
 
-def _process_ocr_job(job_id: str, tmp_path: Path, original_name: str) -> None:
-    """Runs in a background thread, off the event loop. Never lets an
-    exception from PaddleOCRService propagate silently - always records
-    either a "done" result or an "error" status for the job."""
+_worker_service: Optional[PaddleOCRService] = None
+
+
+def _get_worker_service() -> PaddleOCRService:
+    """Lazily build (and cache) this worker process's own PaddleOCRService.
+
+    A PaddleOCRService that has already built its `_engine` wraps a live
+    PaddleOCR/PaddleX C++ engine object, which is not picklable - so the
+    main process's existing service instance can never be sent across the
+    process boundary. Each worker process must instead construct its own.
+    Because backend/main.py creates the executor with max_workers=1, the
+    same single worker process (and therefore this same module-level
+    cache) handles every OCR job for the life of the app, so the
+    expensive model load still happens only once - just once per worker
+    *process* instead of once per app.
+    """
+    global _worker_service
+    if _worker_service is None:
+        _worker_service = PaddleOCRService(enable_mkldnn=_ENABLE_MKLDNN)
+    return _worker_service
+
+
+def init_worker_engine() -> None:
+    """Submitted once to the ProcessPoolExecutor at app startup (see the
+    lifespan handler in backend/main.py) so the worker process's PaddleOCR
+    engine is loaded before the first real request needs it, not during
+    it - the same reasoning as the old single-process startup warm-up,
+    just aimed at the process that now actually does the inference.
+    """
+    _get_worker_service()._get_engine()
+
+
+def _run_ocr_worker(tmp_path_str: str, original_name: str) -> dict:
+    """The actual OCR job, run inside the worker process.
+
+    Takes only plain str arguments and returns a plain dict (never the
+    live PaddleOCRService, nor the pydantic OCRResult object) so the
+    result can be pickled back to the main process. PaddleOCRService.run()
+    already never raises for expected failure modes (bad/missing/corrupt
+    image, engine init failure, inference failure) - those all come back
+    as a well-formed OCRResult(success=False, error=...), which is
+    forwarded here as-is. Only a genuinely unexpected exception would
+    propagate out of this function, to be pickled and re-raised in the
+    main process by concurrent.futures (handled in _run_ocr_job below).
+    """
+    result = _get_worker_service().run(tmp_path_str)
+    # Swap the temp filename back out for the original, client-facing name,
+    # and scrub the server-side temp path out of any error message so no
+    # internal filesystem detail reaches the browser.
+    result.image = original_name
+    result.image_path = None
+    if result.error is not None:
+        result.error.message = result.error.message.replace(tmp_path_str, original_name)
+    return result.model_dump()
+
+
+# --- main-process orchestration -----------------------------------------
+
+async def _run_ocr_job(job_id: str, tmp_path: Path, original_name: str, executor: ProcessPoolExecutor) -> None:
+    """Runs as a fire-and-forget asyncio Task on the main process's event
+    loop (scheduled via asyncio.create_task in run_ocr() below - never
+    awaited there, so POST /api/ocr still returns immediately).
+
+    Submits the actual inference to `executor` and awaits the resulting
+    future. Awaiting a ProcessPoolExecutor future yields control back to
+    the event loop for the entire 52-168s the other process is working -
+    unlike the previous BackgroundTasks-thread version, nothing here holds
+    the GIL, so concurrent requests (including GET
+    /api/ocr/status/{job_id}) keep getting served normally the whole time.
+
+    Never lets an exception from the worker process propagate silently -
+    always records either a "done" result or an "error" status for the
+    job."""
     set_status(job_id, "processing")
+    loop = asyncio.get_running_loop()
     try:
-        result = _service.run(str(tmp_path))
-        # Swap the temp filename back out for the original, client-facing name,
-        # and scrub the server-side temp path out of any error message so no
-        # internal filesystem detail reaches the browser.
-        result.image = original_name
-        result.image_path = None
-        if result.error is not None:
-            result.error.message = result.error.message.replace(str(tmp_path), original_name)
+        result_dict = await loop.run_in_executor(executor, _run_ocr_worker, str(tmp_path), original_name)
 
         logger.info(
-            "OCR job %s for '%s' complete: success=%s detections=%d",
-            job_id, original_name, result.success, result.detection_count,
+            "OCR job %s for '%s' complete: success=%s detections=%s",
+            job_id, original_name, result_dict.get("success"), result_dict.get("detection_count"),
         )
         # A well-formed OCRResult(success=False) - e.g. an unreadable image -
-        # is still a normal completed job, not a job-level error. PaddleOCRService
-        # already never raises for expected failure modes; only a genuine
-        # exception (below) counts as a job "error".
-        set_result(job_id, result.model_dump())
+        # is still a normal completed job, not a job-level error.
+        set_result(job_id, result_dict)
 
     except OCRInitializationError:
         logger.exception("PaddleOCR engine failed to initialize for job %s", job_id)
@@ -149,11 +215,12 @@ def _process_ocr_job(job_id: str, tmp_path: Path, original_name: str) -> None:
 # --- routes -----------------------------------------------------------
 
 @router.post("/api/ocr", response_model=JobAcceptedResponse, status_code=202)
-async def run_ocr(background_tasks: BackgroundTasks, file: Optional[UploadFile] = File(None)):
-    """Validate the upload and schedule PaddleOCR to run in the background.
-    Returns immediately with a job_id - poll GET /api/ocr/status/{job_id}
-    for the result. Validation failures (bad/missing/oversized file) are
-    still reported synchronously here, before any job is created."""
+async def run_ocr(request: Request, file: Optional[UploadFile] = File(None)):
+    """Validate the upload and schedule PaddleOCR to run in the OCR worker
+    process. Returns immediately with a job_id - poll GET
+    /api/ocr/status/{job_id} for the result. Validation failures
+    (bad/missing/oversized file) are still reported synchronously here,
+    before any job is created."""
 
     if file is None or not file.filename:
         logger.warning("OCR request received with no file attached")
@@ -190,7 +257,8 @@ async def run_ocr(background_tasks: BackgroundTasks, file: Optional[UploadFile] 
     logger.info("Saved upload '%s' (%d bytes) to temp file for OCR", original_name, len(contents))
 
     job_id = create_job()
-    background_tasks.add_task(_process_ocr_job, job_id, tmp_path, original_name)
+    executor: ProcessPoolExecutor = request.app.state.ocr_process_pool
+    asyncio.create_task(_run_ocr_job(job_id, tmp_path, original_name, executor))
     logger.info("Scheduled OCR job %s for '%s'", job_id, original_name)
 
     return JSONResponse(status_code=202, content={"job_id": job_id, "status": "pending"})
