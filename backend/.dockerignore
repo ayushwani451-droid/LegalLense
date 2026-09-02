@@ -1,0 +1,21 @@
+# Local dev environment - never copied into the image, requirements.txt is
+# reinstalled fresh inside the container instead.
+.venv/
+__pycache__/
+**/__pycache__/
+*.pyc
+
+# Local test fixtures / scratch output - not needed at runtime.
+test_images/
+ocr_output/
+
+# Env files - real config comes from Railway's environment variables, not
+# a committed/copied file. .env.example is documentation only, also not
+# needed inside the running container.
+.env
+.env.example
+
+# Misc
+.git/
+.gitignore
+*.md
