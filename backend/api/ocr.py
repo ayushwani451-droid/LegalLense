@@ -17,8 +17,13 @@ from typing import Optional
 from fastapi import APIRouter, File, UploadFile
 from fastapi.responses import JSONResponse
 
-from backend.ocr.paddle_ocr_service import OCRInitializationError, PaddleOCRService
-from backend.ocr.schemas import OCRError, OCRResult
+try:
+    from backend.ocr.paddle_ocr_service import OCRInitializationError, PaddleOCRService
+    from backend.ocr.schemas import OCRError, OCRResult
+except ImportError:
+    # See backend/main.py for why both import styles are supported.
+    from ocr.paddle_ocr_service import OCRInitializationError, PaddleOCRService  # type: ignore[no-redef]
+    from ocr.schemas import OCRError, OCRResult  # type: ignore[no-redef]
 
 logger = logging.getLogger("legallense.api.ocr")
 

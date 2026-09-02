@@ -7,9 +7,12 @@ Scope for now: OCR only.
 Local run (from the `stitch_legallense_compliance_portal` directory):
     backend\\.venv\\Scripts\\python.exe -m uvicorn backend.main:app --reload --port 8000
 
-Production run (Render/Railway/any host that sets $PORT), same command
-everywhere - never bind to localhost/127.0.0.1 in production:
-    uvicorn backend.main:app --host 0.0.0.0 --port $PORT
+Production run (Render/Railway/any host that sets $PORT), never bind to
+localhost/127.0.0.1 in production. The exact module path depends on whether
+the host's working/root directory is the repo root or `backend/` itself -
+both import styles are supported (see the try/except below):
+    uvicorn backend.main:app --host 0.0.0.0 --port $PORT     # root dir = repo root
+    uvicorn main:app --host 0.0.0.0 --port $PORT              # root dir = backend/
 
 Everything downstream of OCR (Qwen3-VL extraction, the Legal Metrology rule
 engine, persistence, auth, etc.) is intentionally not implemented here yet.
@@ -23,7 +26,15 @@ import os
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from backend.api.ocr import router as ocr_router, get_service as get_ocr_service
+try:
+    # Works when the process is started from the repo root, e.g.
+    # `uvicorn backend.main:app` (local dev, Render with Root Directory unset).
+    from backend.api.ocr import router as ocr_router, get_service as get_ocr_service
+except ImportError:
+    # Works when `backend/` itself is the working root, e.g. Render/Vercel
+    # with Root Directory (or a service's "root") set to `backend`, where
+    # `backend` is not importable as a top-level package from inside itself.
+    from api.ocr import router as ocr_router, get_service as get_ocr_service  # type: ignore[no-redef]
 
 logging.basicConfig(
     level=logging.INFO,

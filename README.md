@@ -3,9 +3,16 @@
 AI-assisted Legal Metrology compliance inspection portal.
 
 ```
-frontend/   Vite-built multi-page static site  -> deploy to Vercel
-backend/    FastAPI + PaddleOCR service         -> deploy to Render/Railway/etc.
+frontend/   Vite-built multi-page static site
+backend/    FastAPI + PaddleOCR service
 ```
+
+Two deployment topologies are supported - see "Deployment: two supported
+topologies" below for the tradeoffs:
+- **Option A (recommended):** frontend on Vercel, backend on Render/Railway.
+- **Option B:** both on Vercel together via `vercel.json` (Vercel
+  Services) - convenient, but the backend then runs under Vercel Functions'
+  platform limits, which matter for this specific OCR-upload workload.
 
 Current implemented pipeline: **image upload -> real PaddleOCR -> OCR result
 shown in the browser.** Qwen3-VL extraction, the Legal Metrology rule
@@ -169,10 +176,24 @@ npm run preview   # serves the real dist/ output
 
 ---
 
-## Deploying the frontend to Vercel
+## Deployment: two supported topologies
 
-Exact settings (there is no `vercel.json` - none was needed since routing
-is literal static files, not an SPA requiring rewrites):
+**Option A - split (recommended):** frontend on Vercel, backend on
+Render/Railway, on different domains. Simpler, no platform limits on the
+OCR path, no `vercel.json` needed.
+
+**Option B - full-stack on Vercel (Vercel Services):** frontend and backend
+both deploy from one Vercel project via `vercel.json`, on one shared
+domain, with `/api/*` rewritten to the backend service. Convenient (one
+project, one domain, atomic deploys), but the backend then runs as a
+**Vercel Function**, which has real, non-configurable platform limits that
+matter for this specific OCR workload - see the callout below before
+choosing this path.
+
+### Option A: frontend on Vercel
+
+There is no `vercel.json` needed for this option - routing is literal
+static files, not an SPA requiring rewrites.
 
 | Setting | Value |
 |---|---|
@@ -184,14 +205,75 @@ is literal static files, not an SPA requiring rewrites):
 | Environment Variable | `VITE_API_BASE_URL` = `https://<your-backend-domain>` (Production scope) |
 
 Steps:
-1. Push this repo to GitHub (see "Git" note below - no repo exists yet).
+1. Push this repo to GitHub.
 2. In Vercel: **Add New Project** -> import the repo -> set **Root
    Directory** to `frontend` -> Vercel auto-detects the Vite framework.
 3. Add the `VITE_API_BASE_URL` environment variable pointing at the
    deployed backend (see below) before the first production build.
 4. Deploy.
 
-## Deploying the backend to Render/Railway
+### Option B: full-stack on Vercel via Services (`vercel.json`)
+
+`vercel.json` at the repo root defines both services and routes `/api/*` to
+the backend:
+
+```json
+{
+  "services": {
+    "frontend": { "root": "frontend", "framework": "vite" },
+    "backend": { "root": "backend" }
+  },
+  "rewrites": [
+    { "source": "/api(/.*)?", "destination": { "type": "service", "service": "backend" } },
+    { "source": "/(.*)", "destination": { "type": "service", "service": "frontend" } }
+  ]
+}
+```
+
+Because both services share one domain, the frontend should call the API
+**same-origin** rather than an absolute URL. `ocr-client.js` already
+handles this: if `VITE_API_BASE_URL` is unset (or your Vercel dashboard
+won't accept an empty string value), it automatically falls back to
+same-origin relative calls (`/api/ocr`) on any non-localhost domain, and to
+`http://localhost:8000` only when the page itself is served from
+`localhost`/`127.0.0.1`. So for this option, either:
+- leave `VITE_API_BASE_URL` unset in the Vercel project (recommended - the
+  fallback does the right thing automatically), or
+- explicitly set it to an empty string if your dashboard allows saving one.
+
+Import steps: **Add New Project** -> import the repo -> Vercel detects
+`vercel.json` and both services automatically -> deploy.
+
+> **⚠️ Read this before choosing Option B.** Backend code on Vercel runs as
+> a Vercel Function (confirmed against Vercel's current docs, not assumed),
+> which has hard limits that matter for this specific OCR workload:
+>
+> - **4.5MB request body limit - not configurable.** This is a platform
+>   floor, enforced ahead of anything this app's own `MAX_UPLOAD_MB` checks.
+>   A real phone-camera photo of a product label routinely exceeds this
+>   (our own two real test photos happened to be ~2.4MB PNGs, comfortably
+>   under it, but a full-resolution JPEG easily is not). Uploads over
+>   4.5MB will fail with a Vercel-level `413`, before our own 15MB check
+>   ever runs. Mitigate by compressing/resizing images client-side before
+>   upload, or use Option A instead.
+> - **Duration limits**: 300s on Hobby (hard cap), up to 800s/1800s(beta) on
+>   Pro/Enterprise with configuration. Our own measured real-photo
+>   inference times were **111s and 168s** on this CPU-only setup - well
+>   within Hobby's 300s ceiling per request, but with little headroom, and
+>   Pro/Enterprise billing is by active CPU time, so slow OCR requests cost
+>   more there than a flat-rate host.
+> - **~500MB (Python) uncompressed bundle limit** (5GB with "Large
+>   functions" beta + Fluid compute), which `paddlepaddle` + `paddleocr` +
+>   `paddlex` + `opencv-contrib-python` can plausibly approach - not
+>   verified against an actual Vercel deployment in this pass (no Vercel
+>   account was available to test with).
+>
+> None of this is a reason Option B is broken - Vercel's Python runtime and
+> multi-service Fluid compute are real and current - it's a reason to
+> genuinely weigh it against Option A for an OCR-uploads app specifically,
+> rather than default to "one project is simpler."
+
+## Deploying the backend to Render/Railway (Option A)
 
 Example (Render "Web Service", or equivalent on Railway/any host that runs
 an arbitrary start command and injects `$PORT`):
@@ -277,3 +359,25 @@ frontend JavaScript.
   authenticated in this environment (`vercel whoami` returns "Logged
   out"). Everything above was validated locally as far as possible instead
   of being assumed or fabricated.
+
+### Option B (`vercel.json` / Vercel Services) - what's verified vs. not
+
+- **Verified:** `backend/main.py` and `backend/api/ocr.py` import correctly
+  both as `backend.main`/`backend.api.ocr` (repo root as working
+  directory) and as bare `main`/`api.ocr` (`backend/` itself as working
+  directory, which is what Vercel's per-service `"root": "backend"` and
+  Vercel's Python entrypoint detection require) - checked by explicitly
+  importing both ways and confirming the FastAPI app loads with its routes
+  intact each time.
+- **Verified:** `ocr-client.js`'s same-origin fallback logic
+  (`defaultBaseUrlForCurrentHost`) correctly returns `http://localhost:8000`
+  when the page is served from `localhost` (re-ran the full browser
+  regression + a real OCR upload after this change - still works, zero
+  console errors).
+- **Not verified:** the same fallback actually resolving to same-origin
+  `""` on a real non-localhost Vercel domain, the `/api/*` rewrite actually
+  routing to the backend service, and the backend actually cold-starting
+  and running PaddleOCR inference under real Vercel Function constraints
+  (4.5MB body limit, duration limit, bundle size) - none of this can be
+  checked without an authenticated Vercel account and a real deployment,
+  which was not available in this environment.
