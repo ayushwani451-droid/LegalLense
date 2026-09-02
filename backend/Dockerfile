@@ -49,6 +49,11 @@ COPY main.py .
 COPY api ./api
 COPY ocr ./ocr
 
+# TEMPORARY / DEMO-ONLY: needed so GET /api/demo-ocr-sync (backend/api/demo_ocr.py)
+# can find its bundled sample image at runtime. Remove this line along with
+# that route once the demo is over.
+COPY test_images/synthetic_label.png ./test_images/synthetic_label.png
+
 # PaddleOCR/PaddleX cache model weights under the running user's home
 # directory on first use (see backend/ocr/README.md) - not baked into this
 # image, since Railway's filesystem is ephemeral per deploy anyway and
