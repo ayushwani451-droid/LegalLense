@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Revision History - LegalLense</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "secondary-fixed-dim": "#76d6d5",
+                      "surface-container-low": "#f3f4f5",
+                      "secondary-container": "#90efef",
+                      "secondary": "#006a6a",
+                      "surface": "#f8f9fa",
+                      "inverse-surface": "#2e3132",
+                      "primary-fixed": "#d3e4ff",
+                      "secondary-fixed": "#93f2f2",
+                      "on-primary-fixed-variant": "#1c4877",
+                      "primary-fixed-dim": "#a2c9ff",
+                      "surface-tint": "#386090",
+                      "on-primary-fixed": "#001c38",
+                      "on-primary-container": "#82a9dd",
+                      "surface-variant": "#e1e3e4",
+                      "surface-dim": "#d9dadb",
+                      "background": "#f8f9fa",
+                      "on-error-container": "#93000a",
+                      "tertiary-fixed": "#ffdfa0",
+                      "on-tertiary-container": "#d39d00",
+                      "primary": "#00274a",
+                      "outline": "#737780",
+                      "on-background": "#191c1d",
+                      "surface-container-high": "#e7e8e9",
+                      "on-tertiary-fixed": "#261a00",
+                      "on-secondary-fixed": "#002020",
+                      "surface-container-lowest": "#ffffff",
+                      "tertiary": "#332300",
+                      "surface-container-highest": "#e1e3e4",
+                      "primary-container": "#0b3d6b",
+                      "on-secondary-container": "#006e6e",
+                      "on-error": "#ffffff",
+                      "tertiary-container": "#4e3800",
+                      "on-tertiary-fixed-variant": "#5c4300",
+                      "inverse-primary": "#a2c9ff",
+                      "outline-variant": "#c3c6d0",
+                      "inverse-on-surface": "#f0f1f2",
+                      "tertiary-fixed-dim": "#fbbc00",
+                      "surface-bright": "#f8f9fa",
+                      "on-surface": "#191c1d",
+                      "on-surface-variant": "#42474f",
+                      "on-tertiary": "#ffffff",
+                      "on-secondary": "#ffffff",
+                      "on-secondary-fixed-variant": "#004f4f",
+                      "error-container": "#ffdad6",
+                      "surface-container": "#edeeef",
+                      "on-primary": "#ffffff",
+                      "error": "#ba1a1a"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.125rem",
+                      "lg": "0.25rem",
+                      "xl": "0.5rem",
+                      "full": "0.75rem"
+              },
+              "spacing": {
+                      "sidebar-width": "260px",
+                      "container-max": "1440px",
+                      "unit": "4px",
+                      "margin-page": "32px",
+                      "gutter": "24px"
+              },
+              "fontFamily": {
+                      "headline-lg": [
+                              "Inter"
+                      ],
+                      "headline-md": [
+                              "Inter"
+                      ],
+                      "label-md": [
+                              "Inter"
+                      ],
+                      "display-lg": [
+                              "Inter"
+                      ],
+                      "headline-lg-mobile": [
+                              "Inter"
+                      ],
+                      "body-lg": [
+                              "Inter"
+                      ],
+                      "body-md": [
+                              "Inter"
+                      ]
+              },
+              "fontSize": {
+                      "headline-lg": [
+                              "28px",
+                              {
+                                      "lineHeight": "36px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "headline-md": [
+                              "22px",
+                              {
+                                      "lineHeight": "28px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "label-md": [
+                              "12px",
+                              {
+                                      "lineHeight": "16px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "display-lg": [
+                              "36px",
+                              {
+                                      "lineHeight": "44px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "headline-lg-mobile": [
+                              "24px",
+                              {
+                                      "lineHeight": "32px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "body-lg": [
+                              "16px",
+                              {
+                                      "lineHeight": "24px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "body-md": [
+                              "14px",
+                              {
+                                      "lineHeight": "20px",
+                                      "fontWeight": "400"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+      </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined.filled {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen">
+<!-- SideNavBar -->
+<nav class="fixed left-0 top-0 h-full w-[260px] border-r border-outline-variant bg-primary dark:bg-primary-container z-50">
+<div class="flex flex-col h-full py-6">
+<div class="px-6 mb-8 flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-white flex items-center justify-center shrink-0">
+<img alt="Department of Consumer Affairs Logo" class="w-8 h-8 object-contain" data-alt="A highly detailed 50-100 word prompt describing the Department of Consumer Affairs official government emblem or logo, featuring the Lion Capital of Ashoka and stylized typography, rendered in a clean, official, and authoritative vector style suitable for a high-level government portal dashboard. The color palette primarily uses deep blues and crisp whites to emphasize institutional clarity." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAnDyhfL-23JzDvFY-SF2rAKEb6bb2MR3juWeu3hEz8I3-L7tOPDGcHEidLh6qXX0HK17r5NAMMKf19Oolvp2fr6edBpFYP48XomL2LOI_8G8Ycvju9ynqetugb7Hcz1pmfQOmm83STtw8BjLnAt-Eygx7WdA9T52n4uHQGmw7VT-g_LKUdVzeZdjWj6HVjoY0bh4jTuiTqAMYj5Jp0-LLd6blUdIl6E2pJJtWMHabsIHgpiW8j4Knk"/>
+</div>
+<div>
+<div class="text-headline-md font-headline-md font-bold text-on-primary">LegalLense</div>
+<div class="text-label-md font-label-md text-on-primary/70">Govt. of India Portal</div>
+</div>
+</div>
+<div class="px-4 mb-6">
+<button class="w-full bg-secondary-fixed-dim text-primary-container font-label-md font-semibold py-3 px-4 rounded-full flex items-center justify-center gap-2 hover:bg-secondary-fixed transition-colors" onclick="location.href='../new_self_check_legallense/code.html'">
+<span class="material-symbols-outlined" style="font-size: 20px;">add</span>
+                    New Compliance Scan
+                </button>
+</div>
+<ul class="flex-1 space-y-1">
+<li>
+<a class="flex items-center gap-3 px-4 py-3 text-on-primary/70 hover:text-on-primary hover:bg-on-primary-fixed-variant/5 transition-colors" href="../manufacturer_dashboard_legallense/code.html">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="text-body-md font-body-md">Dashboard</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-4 py-3 text-on-primary/70 hover:text-on-primary hover:bg-on-primary-fixed-variant/5 transition-colors" href="../new_self_check_legallense/code.html">
+<span class="material-symbols-outlined" data-icon="qr_code_scanner">qr_code_scanner</span>
+<span class="text-body-md font-body-md">Operations</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-4 py-3 border-l-4 border-secondary-fixed-dim bg-on-primary-fixed-variant/10 text-secondary-fixed-dim font-bold opacity-90 transition-opacity" href="code.html">
+<span class="material-symbols-outlined" data-icon="history">history</span>
+<span class="text-body-md font-body-md">History</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-4 py-3 text-on-primary/70 hover:text-on-primary hover:bg-on-primary-fixed-variant/5 transition-colors" href="../manufacturer_dashboard_legallense/code.html#portfolio">
+<span class="material-symbols-outlined filled" data-icon="inventory_2">inventory_2</span>
+<span class="text-body-md font-body-md">Products</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-4 py-3 text-on-primary/70 hover:text-on-primary hover:bg-on-primary-fixed-variant/5 transition-colors" href="#" onclick="return LL.comingSoon(event,'Settings')">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="text-body-md font-body-md">Settings</span>
+</a>
+</li>
+</ul>
+<div class="mt-auto pt-6 border-t border-on-primary-fixed-variant/30">
+<ul class="space-y-1">
+<li>
+<a class="flex items-center gap-3 px-4 py-3 text-on-primary/70 hover:text-on-primary hover:bg-on-primary-fixed-variant/5 transition-colors" href="#" onclick="return LL.comingSoon(event,'Support')">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+<span class="text-body-md font-body-md">Support</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-4 py-3 text-on-primary/70 hover:text-on-primary hover:bg-on-primary-fixed-variant/5 transition-colors" href="../login_legallense/code.html" onclick="window.LL&&LL.logout();">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+<span class="text-body-md font-body-md">Logout</span>
+</a>
+</li>
+</ul>
+</div>
+</div>
+</nav>
+<!-- TopAppBar -->
+<header class="docked full-width top-0 ml-[260px] border-b border-outline-variant bg-surface dark:bg-surface-dim flex justify-between items-center h-16 px-8 sticky z-40 transition-all duration-200 ease-in-out">
+<div class="flex items-center gap-8 h-full">
+<div class="text-headline-md font-headline-md font-black text-primary dark:text-primary-fixed">LegalLense</div>
+<div class="relative w-64 hidden lg:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-surface-container-low border border-outline-variant rounded-full text-body-md font-body-md focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors" placeholder="Search guidelines, products..." type="text"/>
+</div>
+<nav class="h-full hidden md:flex gap-6 ml-4">
+<a class="text-on-surface-variant font-medium hover:text-primary hover:bg-surface-container-low h-full flex items-center px-2 transition-colors" href="../manufacturer_dashboard_legallense/code.html">Manufacturer Dashboard</a>
+<a class="text-on-surface-variant font-medium hover:text-primary hover:bg-surface-container-low h-full flex items-center px-2 transition-colors" href="#" onclick="return LL.comingSoon(event,'Departmental Guidelines')">Departmental Guidelines</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<button class="w-10 h-10 rounded-full hover:bg-surface-container-low flex items-center justify-center text-on-surface-variant transition-colors relative" onclick="LL.comingSoon(event,'Notifications')" title="Notification Bell">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full"></span>
+</button>
+<button class="w-10 h-10 rounded-full hover:bg-surface-container-low flex items-center justify-center text-on-surface-variant transition-colors" onclick="LL.comingSoon(event,'Profile settings')" title="Account Circle">
+<span class="material-symbols-outlined" data-icon="account_circle">account_circle</span>
+</button>
+<div class="w-8 h-8 rounded-full bg-surface-container-highest overflow-hidden border border-outline-variant cursor-pointer ml-2 shrink-0" onclick="LL.comingSoon(event,'Profile settings')">
+<img alt="User Profile Avatar" class="w-full h-full object-cover" data-alt="A professional headshot of a corporate compliance officer in a sharp navy blue suit, standing in a brightly lit modern office environment with blurred glass walls in the background. The lighting is soft and even, typical of a high-end corporate photoshoot, emphasizing trust and authority. The overall aesthetic perfectly matches a clean, modern dashboard UI." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBm41klIeZQ2W10b15Z-RwSWh2Q95AGe84jsjHiBAmtn40EM9ezzGkt9IvIt2O_4UqTVs-ghFMNo2jlIYtTpTmh4s4YJTVazQFrVwDKefV8Rra-x6012HVqSyW_gDeWtPMU5hOORGovJLwAw_LfKd-JyfmjVMRGPM5dBXQOyWbKI7dCGi7kiEll14ju3tci9PP0MKv74jIwv49E0962xmFGS6yu83FeM_XUkzpI-8qizEw259inhYPM"/>
+</div>
+</div>
+</header>
+<!-- Main Content -->
+<main class="ml-[260px] p-margin-page max-w-container-max mx-auto">
+<!-- Breadcrumbs -->
+<nav aria-label="Breadcrumb" class="flex text-body-md font-body-md text-on-surface-variant mb-8">
+<ol class="inline-flex items-center space-x-1 md:space-x-3">
+<li class="inline-flex items-center">
+<a class="inline-flex items-center hover:text-primary transition-colors" href="../manufacturer_dashboard_legallense/code.html">
+                        Dashboard
+                    </a>
+</li>
+<li>
+<div class="flex items-center">
+<span class="material-symbols-outlined text-outline mx-1" style="font-size: 16px;">chevron_right</span>
+<a class="hover:text-primary transition-colors" href="../manufacturer_dashboard_legallense/code.html#portfolio">My Products</a>
+</div>
+</li>
+<li>
+<div class="flex items-center">
+<span class="material-symbols-outlined text-outline mx-1" style="font-size: 16px;">chevron_right</span>
+<span class="text-on-surface-variant" id="breadcrumb-product">Detergent Pro</span>
+</div>
+</li>
+<li aria-current="page">
+<div class="flex items-center">
+<span class="material-symbols-outlined text-outline mx-1" style="font-size: 16px;">chevron_right</span>
+<span class="text-primary font-medium">Revision History</span>
+</div>
+</li>
+</ol>
+</nav>
+<div class="mb-10">
+<h1 class="text-display-lg font-display-lg text-on-surface mb-2">Revision History</h1>
+<p class="text-body-lg font-body-lg text-on-surface-variant" id="page-subtitle">Track compliance iterations and improvements for Detergent Pro.</p>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+<!-- Timeline Section -->
+<div class="col-span-1 lg:col-span-8 bg-surface-container-lowest border border-surface-variant rounded-xl p-8 shadow-[0px_4px_12px_rgba(0,0,0,0.02)]">
+<div class="relative border-l border-outline-variant ml-4 space-y-12" id="revision-timeline"></div>
+</div>
+<!-- Context Card -->
+<div class="col-span-1 lg:col-span-4 flex flex-col gap-6">
+<div class="bg-surface-container-lowest border border-surface-variant rounded-xl p-6 shadow-[0px_4px_12px_rgba(0,0,0,0.02)]">
+<div class="flex items-center gap-4 mb-6 pb-6 border-b border-surface-variant">
+<div class="w-16 h-16 rounded-lg bg-surface-container flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-surface-tint" style="font-size: 32px;">local_laundry_service</span>
+</div>
+<div>
+<h2 class="text-headline-md font-headline-md text-on-surface" id="context-product-name">Detergent Pro</h2>
+<p class="text-body-md font-body-md text-on-surface-variant" id="context-category">Home Care Category</p>
+</div>
+</div>
+<div class="space-y-4">
+<div>
+<div class="flex justify-between text-label-md font-label-md text-on-surface-variant mb-1">
+<span>Current Compliance Score</span>
+<span class="text-secondary font-bold" id="context-score-label">100%</span>
+</div>
+<div class="w-full bg-surface-variant rounded-full h-2 overflow-hidden">
+<div class="bg-secondary h-2 rounded-full" id="context-score-bar" style="width: 100%"></div>
+</div>
+</div>
+<div class="pt-4 flex flex-col gap-2">
+<div class="flex items-center gap-2 text-body-md font-body-md text-on-surface">
+<span class="material-symbols-outlined text-outline" style="font-size: 18px;">calendar_today</span>
+<span id="context-created">Created: Oct 20, 2023</span>
+</div>
+<div class="flex items-center gap-2 text-body-md font-body-md text-on-surface">
+<span class="material-symbols-outlined text-outline" style="font-size: 18px;">update</span>
+<span id="context-updated">Last Updated: Oct 24, 2023</span>
+</div>
+<div class="flex items-center gap-2 text-body-md font-body-md text-on-surface">
+<span class="material-symbols-outlined text-outline" style="font-size: 18px;">person</span>
+<span id="context-owner">Owner: Jane Doe (Compliance Dept)</span>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-primary-container rounded-xl p-6 relative overflow-hidden group">
+<div class="absolute -right-8 -top-8 w-32 h-32 bg-secondary-fixed/10 rounded-full blur-2xl group-hover:bg-secondary-fixed/20 transition-all duration-500"></div>
+<div class="relative z-10">
+<h3 class="text-headline-md font-headline-md text-on-primary mb-2">Need Guidance?</h3>
+<p class="text-body-md font-body-md text-on-primary-container mb-4">Consult the official Legal Metrology guidelines for labeling requirements.</p>
+<button class="w-full bg-transparent border border-on-primary/30 text-on-primary hover:bg-on-primary/10 font-label-md font-semibold py-2 px-4 rounded-lg flex items-center justify-center gap-2 transition-colors" onclick="return LL.comingSoon(event,'Guidelines library')">
+<span class="material-symbols-outlined" style="font-size: 18px;">menu_book</span>
+                            View Guidelines
+                        </button>
+</div>
+</div>
+</div>
+</div>
+</main>
+<script src="/assets/app.js"></script>
+<script>
+    if (LL.requireRole('manufacturer')) {
+        var productId = LL.qs('productId') || 'PROD-DETERGENT';
+        var product = LL.getProduct(productId);
+        var revisions = LL.getSelfChecksByProduct(productId);
+
+        if (!product || !revisions.length) {
+            document.querySelector('main .grid.grid-cols-1.lg\\:grid-cols-12').innerHTML =
+                '<div class="col-span-1 lg:col-span-12 bg-surface-container-lowest border border-outline-variant rounded-xl p-12 text-center">' +
+                '<span class="material-symbols-outlined text-5xl text-on-surface-variant mb-4">search_off</span>' +
+                '<h2 class="text-headline-md font-headline-md text-primary mb-2">No Revision History Found</h2>' +
+                '<p class="text-body-md font-body-md text-on-surface-variant mb-6">This product has no self-check submissions yet.</p>' +
+                '<button class="px-6 py-2.5 rounded bg-primary text-on-primary font-semibold" onclick="location.href=\'../new_self_check_legallense/code.html\'">Start a Self-Check</button></div>';
+        } else {
+            document.getElementById('breadcrumb-product').textContent = product.name;
+            document.getElementById('page-subtitle').textContent = 'Track compliance iterations and improvements for ' + product.name + '.';
+            document.getElementById('context-product-name').textContent = product.name;
+            document.getElementById('context-category').textContent = product.category + ' Category';
+
+            var latest = revisions[0];
+            document.getElementById('context-score-label').textContent = latest.score + '%';
+            document.getElementById('context-score-bar').style.width = latest.score + '%';
+            var oldest = revisions[revisions.length - 1];
+            document.getElementById('context-created').textContent = 'Created: ' + LL.fmtDate(oldest.date);
+            document.getElementById('context-updated').textContent = 'Last Updated: ' + LL.fmtDate(latest.date);
+            document.getElementById('context-owner').textContent = 'Owner: ' + LL.getSession().name;
+
+            var timelineEl = document.getElementById('revision-timeline');
+            revisions.forEach(function (rev, idx) {
+                var isCompliant = rev.status === 'compliant';
+                var borderColor = isCompliant ? 'border-secondary' : (rev.score < 65 ? 'border-error' : 'border-tertiary-fixed-dim');
+                var iconColor = isCompliant ? 'text-secondary' : (rev.score < 65 ? 'text-error' : 'text-tertiary-fixed-dim');
+                var icon = isCompliant ? 'check_circle' : (rev.score < 65 ? 'error' : 'warning');
+                var badgeClass = isCompliant ? 'bg-secondary-fixed text-on-secondary-fixed border-secondary-container' : (rev.score < 65 ? 'bg-error-container text-on-error-container border-error/20' : 'bg-tertiary-fixed text-on-tertiary-fixed border-tertiary-fixed-dim/30');
+
+                var prev = revisions[idx + 1];
+                var deltaHtml = '';
+                if (prev) {
+                    var delta = rev.score - prev.score;
+                    deltaHtml = '<div class="flex items-center gap-2 text-secondary font-medium text-body-md font-body-md bg-secondary/5 inline-flex px-3 py-1.5 rounded-lg border border-secondary/10 mt-2">' +
+                        '<span class="material-symbols-outlined" style="font-size: 18px;">trending_up</span><span>' + (delta >= 0 ? '+' : '') + delta + '% change from v' + prev.version + '</span></div>';
+                }
+
+                var issuesHtml = rev.findings.filter(function (f) { return f.status !== 'compliant'; })
+                    .map(function (f) { return '<strong class="text-on-surface">' + LL.escapeHtml(f.field) + ':</strong> ' + LL.escapeHtml(f.note || ''); }).join('<br/>');
+                var notesHtml = issuesHtml
+                    ? '<div class="bg-surface-container rounded-lg p-3 mt-3 border border-surface-variant"><div class="flex items-start gap-2 text-body-md font-body-md text-on-surface-variant"><span class="material-symbols-outlined text-outline mt-0.5" style="font-size: 16px;">edit_note</span><span>' + issuesHtml + '</span></div></div>'
+                    : '';
+
+                var wrap = document.createElement('div');
+                wrap.className = 'relative pl-10 group' + (idx === revisions.length - 1 ? ' pb-4' : '');
+                wrap.innerHTML =
+                    '<div class="absolute -left-[17px] top-1 w-8 h-8 rounded-full bg-surface-container-lowest border-2 ' + borderColor + ' flex items-center justify-center shadow-sm">' +
+                    '<span class="material-symbols-outlined ' + iconColor + ' filled" style="font-size: 16px;">' + icon + '</span></div>' +
+                    '<div class="flex flex-col md:flex-row md:justify-between md:items-start gap-4"><div>' +
+                    '<div class="flex items-center gap-3 mb-1"><h3 class="text-headline-md font-headline-md text-on-surface">Version ' + rev.version + '</h3>' +
+                    '<span class="px-2 py-1 rounded-full ' + badgeClass + ' text-label-md font-label-md flex items-center gap-1 border">' +
+                    '<span class="material-symbols-outlined filled" style="font-size: 12px;">' + icon + '</span>' + rev.score + '% Compliant</span></div>' +
+                    '<p class="text-body-md font-body-md text-on-surface-variant mb-3">' + LL.fmtDate(rev.date) + ' • ' + (isCompliant ? 'Final Approval' : 'Revision Review') + '</p>' +
+                    notesHtml + deltaHtml + '</div>' +
+                    '<a class="shrink-0 flex items-center gap-2 text-primary font-medium text-body-md font-body-md hover:bg-surface-container-low px-4 py-2 rounded-lg border border-outline-variant transition-colors group-hover:border-primary" href="#">View Report <span class="material-symbols-outlined" style="font-size: 18px;">arrow_forward</span></a></div>';
+
+                wrap.querySelector('a').addEventListener('click', function (e) {
+                    e.preventDefault();
+                    if (isCompliant) location.href = '../compliance_summary_legallense/code.html?id=' + encodeURIComponent(rev.id);
+                    else location.href = '../self_check_report_legallense/code.html?id=' + encodeURIComponent(rev.id);
+                });
+                timelineEl.appendChild(wrap);
+            });
+        }
+    }
+</script>
+</body></html>

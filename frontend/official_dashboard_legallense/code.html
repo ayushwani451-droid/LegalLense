@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Enforcement Official Dashboard - LegalLense</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "secondary-fixed-dim": "#76d6d5",
+                        "surface-container-low": "#f3f4f5",
+                        "secondary-container": "#90efef",
+                        "secondary": "#006a6a",
+                        "surface": "#f8f9fa",
+                        "inverse-surface": "#2e3132",
+                        "primary-fixed": "#d3e4ff",
+                        "secondary-fixed": "#93f2f2",
+                        "on-primary-fixed-variant": "#1c4877",
+                        "primary-fixed-dim": "#a2c9ff",
+                        "surface-tint": "#386090",
+                        "on-primary-fixed": "#001c38",
+                        "on-primary-container": "#82a9dd",
+                        "surface-variant": "#e1e3e4",
+                        "surface-dim": "#d9dadb",
+                        "background": "#f8f9fa",
+                        "on-error-container": "#93000a",
+                        "tertiary-fixed": "#ffdfa0",
+                        "on-tertiary-container": "#d39d00",
+                        "primary": "#00274a",
+                        "outline": "#737780",
+                        "on-background": "#191c1d",
+                        "surface-container-high": "#e7e8e9",
+                        "on-tertiary-fixed": "#261a00",
+                        "on-secondary-fixed": "#002020",
+                        "surface-container-lowest": "#ffffff",
+                        "tertiary": "#332300",
+                        "surface-container-highest": "#e1e3e4",
+                        "primary-container": "#0b3d6b",
+                        "on-secondary-container": "#006e6e",
+                        "on-error": "#ffffff",
+                        "tertiary-container": "#4e3800",
+                        "on-tertiary-fixed-variant": "#5c4300",
+                        "inverse-primary": "#a2c9ff",
+                        "outline-variant": "#c3c6d0",
+                        "inverse-on-surface": "#f0f1f2",
+                        "tertiary-fixed-dim": "#fbbc00",
+                        "surface-bright": "#f8f9fa",
+                        "on-surface": "#191c1d",
+                        "on-surface-variant": "#42474f",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary": "#ffffff",
+                        "on-secondary-fixed-variant": "#004f4f",
+                        "error-container": "#ffdad6",
+                        "surface-container": "#edeeef",
+                        "on-primary": "#ffffff",
+                        "error": "#ba1a1a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "sidebar-width": "260px",
+                        "container-max": "1440px",
+                        "unit": "4px",
+                        "margin-page": "32px",
+                        "gutter": "24px"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "label-md": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "headline-lg-mobile": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "body-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["28px", { "lineHeight": "36px", "fontWeight": "600" }],
+                        "headline-md": ["22px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "label-md": ["12px", { "lineHeight": "16px", "fontWeight": "600" }],
+                        "display-lg": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md text-body-md antialiased min-h-screen flex">
+<!-- SideNavBar -->
+<aside class="fixed left-0 top-0 h-full w-[260px] bg-primary border-r border-outline-variant flex flex-col py-6 z-50">
+<!-- Brand / Header -->
+<div class="px-6 mb-8 flex flex-col gap-2">
+<div class="flex items-center gap-3">
+<img alt="Department of Consumer Affairs Logo" class="w-8 h-8 object-contain" data-alt="Official emblem of the Department of Consumer Affairs, Government of India, rendered in a crisp, high-resolution vector style. The emblem is depicted in solid white against a dark corporate blue background, emphasizing authority and institutional trust. Minimalist and clear for UI application." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCTSKbadPpVzA_ODtO7L-zGzRMN2GfvB9PaYt_u7IKbGnE7e6D0ucDDu2RP-RhTBcT0A4SUye5otHePT7dEo95f2ldF1W4zpiQtdbZZHvF5FxjuQLJiod0ggHLTouluvn4SioNEbZGpJUzTdjQoIBTv9Idfste9nnC9VUulkEHgSoVZVTggmU_J4pSsnvB1KgSiTKfSV9d2G1vqXwIS7sulp4-jY5jUnxYBtUeRRNaqqoPRjWCk7TF8"/>
+<span class="text-headline-md font-headline-md font-bold text-on-primary">LegalLense</span>
+</div>
+<span class="text-label-md font-label-md text-on-primary/70 uppercase tracking-wider">Govt. of India Portal</span>
+</div>
+<!-- CTA -->
+<div class="px-4 mb-6">
+<button class="w-full bg-secondary text-on-secondary font-label-md text-label-md py-3 px-4 rounded-lg flex items-center justify-center gap-2 hover:bg-on-secondary-fixed-variant transition-colors shadow-sm" onclick="location.href='../new_compliance_scan_legallense/code.html'">
+<span class="material-symbols-outlined text-[18px]">add</span>
+                New Compliance Scan
+            </button>
+</div>
+<!-- Navigation Tabs -->
+<nav class="flex-1 overflow-y-auto">
+<ul class="flex flex-col">
+<!-- Active Tab: Dashboard -->
+<li>
+<a class="flex items-center gap-3 px-4 py-3 border-l-4 border-secondary-fixed-dim bg-on-primary-fixed-variant/10 text-secondary-fixed-dim font-bold text-body-md font-body-md transition-opacity opacity-90" href="code.html">
+<span class="material-symbols-outlined text-[20px]" data-weight="fill" style="font-variation-settings: 'FILL' 1;">dashboard</span>
+                        Dashboard
+                    </a>
+</li>
+<!-- Inactive Tabs -->
+<li>
+<a class="flex items-center gap-3 px-4 py-3 text-on-primary/70 hover:text-on-primary hover:bg-on-primary-fixed-variant/5 transition-colors border-l-4 border-transparent text-body-md font-body-md" href="../new_compliance_scan_legallense/code.html">
+<span class="material-symbols-outlined text-[20px]">qr_code_scanner</span>
+                        Operations
+                    </a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-4 py-3 text-on-primary/70 hover:text-on-primary hover:bg-on-primary-fixed-variant/5 transition-colors border-l-4 border-transparent text-body-md font-body-md" href="../scan_history_legallense/code.html">
+<span class="material-symbols-outlined text-[20px]">history</span>
+                        History
+                    </a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-4 py-3 text-on-primary/70 hover:text-on-primary hover:bg-on-primary-fixed-variant/5 transition-colors border-l-4 border-transparent text-body-md font-body-md" href="#" onclick="return LL.comingSoon(event,'Product directory')">
+<span class="material-symbols-outlined text-[20px]">inventory_2</span>
+                        Products
+                    </a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-4 py-3 text-on-primary/70 hover:text-on-primary hover:bg-on-primary-fixed-variant/5 transition-colors border-l-4 border-transparent text-body-md font-body-md" href="#" onclick="return LL.comingSoon(event,'Settings')">
+<span class="material-symbols-outlined text-[20px]">settings</span>
+                        Settings
+                    </a>
+</li>
+</ul>
+</nav>
+<!-- Footer Tabs -->
+<div class="mt-auto">
+<ul class="flex flex-col border-t border-on-primary-fixed-variant/20 pt-2">
+<li>
+<a class="flex items-center gap-3 px-4 py-3 text-on-primary/70 hover:text-on-primary hover:bg-on-primary-fixed-variant/5 transition-colors border-l-4 border-transparent text-body-md font-body-md" href="#" onclick="return LL.comingSoon(event,'Support')">
+<span class="material-symbols-outlined text-[20px]">help</span>
+                        Support
+                    </a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-4 py-3 text-on-primary/70 hover:text-on-primary hover:bg-on-primary-fixed-variant/5 transition-colors border-l-4 border-transparent text-body-md font-body-md" href="../login_legallense/code.html" onclick="window.LL&&LL.logout();">
+<span class="material-symbols-outlined text-[20px]">logout</span>
+                        Logout
+                    </a>
+</li>
+</ul>
+</div>
+</aside>
+<!-- Main Content Area -->
+<div class="flex-1 ml-[260px] flex flex-col min-h-screen">
+<!-- TopAppBar -->
+<header class="flex justify-between items-center h-16 px-8 sticky top-0 z-40 bg-surface border-b border-outline-variant transition-all duration-200 ease-in-out">
+<!-- Left Side: Search (implied on left per JSON, but putting links for structural balance if search isn't explicitly detailed, we'll follow JSON nav links) -->
+<div class="flex items-center gap-6">
+<!-- Search input could go here if designed, but JSON prioritized links in this section structurally -->
+<nav class="hidden md:flex gap-6">
+<a class="text-primary font-bold border-b-2 border-primary pb-1 text-body-md font-body-md" href="code.html">Official Dashboard</a>
+<a class="text-on-surface-variant font-medium hover:text-primary hover:bg-surface-container-low px-2 py-1 rounded transition-colors text-body-md font-body-md" href="#" onclick="return LL.comingSoon(event,'Departmental Guidelines')">Departmental Guidelines</a>
+</nav>
+</div>
+<!-- Right Side: Actions & Profile -->
+<div class="flex items-center gap-4">
+<button aria-label="Notification Bell" class="p-2 text-on-surface-variant hover:text-primary hover:bg-surface-container-low rounded-full transition-colors flex items-center justify-center relative" onclick="LL.comingSoon(event,'Notifications')">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full border border-surface"></span>
+</button>
+<div class="h-8 w-px bg-outline-variant/50 mx-2"></div>
+<!-- Profile Area with Specific Requirements -->
+<div class="flex items-center gap-3 cursor-pointer p-1 rounded-lg hover:bg-surface-container-low transition-colors" onclick="LL.comingSoon(event,'Profile settings')">
+<div class="flex flex-col items-end">
+<span class="text-body-md font-body-md font-bold text-primary" id="user-name">Inspector Rajesh Kumar</span>
+<span class="text-label-md font-label-md text-secondary-fixed bg-secondary-fixed/10 px-2 py-0.5 rounded text-on-secondary-fixed">Enforcement Official</span>
+</div>
+<img alt="User Profile Avatar" class="w-10 h-10 rounded-full border border-outline-variant object-cover" data-alt="Professional headshot of an Indian male enforcement official in his 40s. He is wearing a crisp, formal light blue shirt and a navy tie. The lighting is studio-quality, bright and clean, reflecting a trustworthy, authoritative government persona against a neutral light grey background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDisdcNoE_058LSQ2xBwm3uNv0FTy8PS_yOHFW_3N7WeXqLztUQfYOAuTHhbEE-PS9GneP7pn-Tl8p4yMEb6lJ3JieTYw2FH3e-1y89stuNR_17IPRNtlJJFVwqro9uSKMjvtOkXHbR9jEX6tISOWEi7SfdAU6YfKTWy_HW_y41SZx-vOhYX8r_xdtm_ob7BQf64Poi2ipTdJkTjBFm8GGSwhyUsanxQwUmN673vQ6GospbPBv6-UGt"/>
+</div>
+</div>
+</header>
+<!-- Canvas / Page Content -->
+<main class="flex-1 p-margin-page bg-background max-w-container-max w-full mx-auto">
+<!-- Breadcrumbs -->
+<nav aria-label="Breadcrumb" class="flex text-body-md font-body-md text-on-surface-variant mb-6">
+<ol class="inline-flex items-center gap-2">
+<li class="inline-flex items-center">
+<span class="text-primary font-medium">Dashboard</span>
+</li>
+</ol>
+</nav>
+<!-- Summary Cards Grid -->
+<section class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-gutter mb-12">
+<!-- Card 1 -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-6 flex flex-col gap-4 shadow-sm">
+<div class="flex justify-between items-start">
+<span class="text-label-md font-label-md text-on-surface-variant uppercase tracking-wide">Total Scans Today</span>
+<div class="w-10 h-10 rounded-lg bg-primary/5 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">qr_code_scanner</span>
+</div>
+</div>
+<div class="text-display-lg font-display-lg text-on-surface" id="stat-total-scans">142</div>
+</div>
+<!-- Card 2 -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-6 flex flex-col gap-4 shadow-sm">
+<div class="flex justify-between items-start">
+<span class="text-label-md font-label-md text-on-surface-variant uppercase tracking-wide">Open Violations</span>
+<div class="w-10 h-10 rounded-lg bg-error-container flex items-center justify-center text-on-error-container">
+<span class="material-symbols-outlined">warning</span>
+</div>
+</div>
+<div class="text-display-lg font-display-lg text-on-surface" id="stat-open-violations">23</div>
+</div>
+<!-- Card 3 -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-6 flex flex-col gap-4 shadow-sm">
+<div class="flex justify-between items-start">
+<span class="text-label-md font-label-md text-on-surface-variant uppercase tracking-wide">Escalated Cases</span>
+<div class="w-10 h-10 rounded-lg bg-tertiary-fixed flex items-center justify-center text-on-tertiary-fixed">
+<span class="material-symbols-outlined">gavel</span>
+</div>
+</div>
+<div class="text-display-lg font-display-lg text-on-surface" id="stat-escalated-cases">5</div>
+</div>
+<!-- Card 4 -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-6 flex flex-col gap-4 shadow-sm">
+<div class="flex justify-between items-start">
+<span class="text-label-md font-label-md text-on-surface-variant uppercase tracking-wide">Compliance Rate</span>
+<div class="w-10 h-10 rounded-lg bg-secondary-container flex items-center justify-center text-on-secondary-container">
+<span class="material-symbols-outlined">check_circle</span>
+</div>
+</div>
+<div class="text-display-lg font-display-lg text-on-surface" id="stat-compliance-rate">84%</div>
+</div>
+</section>
+<!-- Data Table Section -->
+<section class="bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden shadow-sm">
+<div class="px-6 py-5 border-b border-outline-variant flex justify-between items-center bg-surface">
+<h2 class="text-headline-md font-headline-md text-primary">Recent Scans</h2>
+<button class="text-primary hover:bg-primary/5 px-3 py-1.5 rounded-lg text-body-md font-body-md font-medium transition-colors flex items-center gap-2" onclick="location.href='../scan_history_legallense/code.html'">
+                        View All
+                        <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</button>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low border-b border-outline-variant text-body-md font-body-md text-primary">
+<th class="px-6 py-4 font-semibold">Product Name</th>
+<th class="px-6 py-4 font-semibold">Date</th>
+<th class="px-6 py-4 font-semibold">Manufacturer</th>
+<th class="px-6 py-4 font-semibold">Status</th>
+<th class="px-6 py-4 font-semibold text-right">Action</th>
+</tr>
+</thead>
+<tbody class="text-body-md font-body-md text-on-surface" id="recent-scans-body"></tbody>
+</table>
+</div>
+</section>
+</main>
+</div>
+<script src="/assets/app.js"></script>
+<script>
+    if (LL.requireRole('official')) {
+        var session = LL.getSession();
+        document.getElementById('user-name').textContent = session.name;
+
+        var scans = LL.getScans();
+        var compliant = scans.filter(function (s) { return s.status === 'compliant'; }).length;
+        var flagged = scans.filter(function (s) { return s.status === 'flagged'; }).length;
+        var cases = LL.getCases();
+        var escalated = cases.filter(function (c) { return c.status === 'escalated' || c.status === 'under_review'; }).length;
+        var rate = scans.length ? Math.round((compliant / scans.length) * 100) : 0;
+
+        document.getElementById('stat-total-scans').textContent = scans.length;
+        document.getElementById('stat-open-violations').textContent = flagged;
+        document.getElementById('stat-escalated-cases').textContent = escalated;
+        document.getElementById('stat-compliance-rate').textContent = rate + '%';
+
+        var body = document.getElementById('recent-scans-body');
+        scans.slice(0, 5).forEach(function (scan) {
+            var meta = LL.statusMeta(scan.status);
+            var badgeClass = scan.status === 'compliant' ? 'bg-secondary-container text-on-secondary-container' :
+                scan.status === 'flagged' ? 'bg-error-container text-on-error-container' : 'bg-tertiary-container text-on-tertiary-container';
+            var icon = scan.status === 'compliant' ? 'check' : (scan.status === 'flagged' ? 'close' : 'pending');
+            var tr = document.createElement('tr');
+            tr.className = 'border-b border-outline-variant/50 hover:bg-surface-container-low/50 transition-colors';
+            tr.innerHTML =
+                '<td class="px-6 py-4 font-medium">' + LL.escapeHtml(scan.productName) + '</td>' +
+                '<td class="px-6 py-4 text-on-surface-variant">' + LL.fmtDateTime(scan.date) + '</td>' +
+                '<td class="px-6 py-4">' + LL.escapeHtml(scan.manufacturer) + '</td>' +
+                '<td class="px-6 py-4"><span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full ' + badgeClass + ' text-label-md font-label-md font-bold"><span class="material-symbols-outlined text-[14px]">' + icon + '</span>' + meta.label + '</span></td>' +
+                '<td class="px-6 py-4 text-right"><button class="border border-primary text-primary hover:bg-primary/5 px-4 py-1.5 rounded-lg text-body-md font-body-md font-medium transition-colors">View Report</button></td>';
+            tr.querySelector('button').addEventListener('click', function () {
+                location.href = '../compliance_report_legallense/code.html?id=' + encodeURIComponent(scan.id);
+            });
+            body.appendChild(tr);
+        });
+        if (!scans.length) {
+            body.innerHTML = '<tr><td class="px-6 py-8 text-center text-on-surface-variant" colspan="5">No scans recorded yet.</td></tr>';
+        }
+    }
+</script>
+</body></html>

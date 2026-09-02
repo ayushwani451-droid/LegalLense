@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+
+<html class="h-full" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>LegalLense - Login</title>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "secondary-fixed-dim": "#76d6d5",
+                      "surface-container-low": "#f3f4f5",
+                      "secondary-container": "#90efef",
+                      "secondary": "#006a6a",
+                      "surface": "#f8f9fa",
+                      "inverse-surface": "#2e3132",
+                      "primary-fixed": "#d3e4ff",
+                      "secondary-fixed": "#93f2f2",
+                      "on-primary-fixed-variant": "#1c4877",
+                      "primary-fixed-dim": "#a2c9ff",
+                      "surface-tint": "#386090",
+                      "on-primary-fixed": "#001c38",
+                      "on-primary-container": "#82a9dd",
+                      "surface-variant": "#e1e3e4",
+                      "surface-dim": "#d9dadb",
+                      "background": "#f8f9fa",
+                      "on-error-container": "#93000a",
+                      "tertiary-fixed": "#ffdfa0",
+                      "on-tertiary-container": "#d39d00",
+                      "primary": "#00274a",
+                      "outline": "#737780",
+                      "on-background": "#191c1d",
+                      "surface-container-high": "#e7e8e9",
+                      "on-tertiary-fixed": "#261a00",
+                      "on-secondary-fixed": "#002020",
+                      "surface-container-lowest": "#ffffff",
+                      "tertiary": "#332300",
+                      "surface-container-highest": "#e1e3e4",
+                      "primary-container": "#0b3d6b",
+                      "on-secondary-container": "#006e6e",
+                      "on-error": "#ffffff",
+                      "tertiary-container": "#4e3800",
+                      "on-tertiary-fixed-variant": "#5c4300",
+                      "inverse-primary": "#a2c9ff",
+                      "outline-variant": "#c3c6d0",
+                      "inverse-on-surface": "#f0f1f2",
+                      "tertiary-fixed-dim": "#fbbc00",
+                      "surface-bright": "#f8f9fa",
+                      "on-surface": "#191c1d",
+                      "on-surface-variant": "#42474f",
+                      "on-tertiary": "#ffffff",
+                      "on-secondary": "#ffffff",
+                      "on-secondary-fixed-variant": "#004f4f",
+                      "error-container": "#ffdad6",
+                      "surface-container": "#edeeef",
+                      "on-primary": "#ffffff",
+                      "error": "#ba1a1a"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.125rem",
+                      "lg": "0.25rem",
+                      "xl": "0.5rem",
+                      "full": "0.75rem"
+              },
+              "spacing": {
+                      "sidebar-width": "260px",
+                      "container-max": "1440px",
+                      "unit": "4px",
+                      "margin-page": "32px",
+                      "gutter": "24px"
+              },
+              "fontFamily": {
+                      "headline-lg": ["Inter"],
+                      "headline-md": ["Inter"],
+                      "label-md": ["Inter"],
+                      "display-lg": ["Inter"],
+                      "headline-lg-mobile": ["Inter"],
+                      "body-lg": ["Inter"],
+                      "body-md": ["Inter"]
+              },
+              "fontSize": {
+                      "headline-lg": ["28px", {"lineHeight": "36px", "fontWeight": "600"}],
+                      "headline-md": ["22px", {"lineHeight": "28px", "fontWeight": "600"}],
+                      "label-md": ["12px", {"lineHeight": "16px", "fontWeight": "600"}],
+                      "display-lg": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                      "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                      "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                      "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}]
+              }
+            }
+          }
+        }
+    </script>
+</head>
+<body class="h-full bg-background flex items-center justify-center font-sans antialiased text-on-surface">
+<!-- Main Container -->
+<main class="w-full max-w-md p-gutter sm:p-margin-page">
+<!-- Branding Header -->
+<div class="text-center mb-8 flex flex-col items-center">
+<div class="w-16 h-16 bg-surface-container-high rounded-full flex items-center justify-center mb-4 border border-outline-variant shadow-sm">
+<span class="material-symbols-outlined text-primary text-3xl" style="font-variation-settings: 'FILL' 1;">
+                    policy
+                </span>
+</div>
+<h1 class="text-display-lg font-display-lg text-primary mb-2">LegalLense</h1>
+<p class="text-body-md font-body-md text-on-surface-variant uppercase tracking-wider font-semibold">Department of Consumer Affairs</p>
+</div>
+<!-- Login Card -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl shadow-[0px_4px_12px_rgba(0,0,0,0.05)] overflow-hidden">
+<!-- Role Selector Tabs -->
+<div class="flex border-b border-outline-variant bg-surface-container-low">
+<button class="flex-1 py-4 text-body-md font-body-md font-semibold text-primary border-b-2 border-primary bg-surface-container-lowest transition-colors flex items-center justify-center gap-2" id="tab-official" onclick="selectRole('official')" type="button">
+<span class="material-symbols-outlined text-xl">admin_panel_settings</span>
+                    Official
+                </button>
+<button class="flex-1 py-4 text-body-md font-body-md font-medium text-on-surface-variant hover:bg-surface-container transition-colors flex items-center justify-center gap-2 border-b-2 border-transparent" id="tab-manufacturer" onclick="selectRole('manufacturer')" type="button">
+<span class="material-symbols-outlined text-xl">factory</span>
+                    Manufacturer
+                </button>
+</div>
+<!-- Form Container -->
+<div class="p-8">
+<form class="space-y-6" id="login-form" method="POST" onsubmit="return handleLogin(event)">
+<!-- Email/Username Field -->
+<div class="space-y-2">
+<label class="block text-label-md font-label-md text-on-surface" for="identifier">Email / Username</label>
+<div class="relative">
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-outline">person</span>
+</div>
+<input class="block w-full pl-10 pr-3 py-3 border border-outline-variant rounded-DEFAULT bg-surface-container-lowest text-body-md font-body-md text-on-surface focus:ring-1 focus:ring-primary focus:border-primary placeholder-outline transition-colors" id="identifier" name="identifier" placeholder="Enter your credentials" type="text"/>
+</div>
+</div>
+<!-- Password Field -->
+<div class="space-y-2">
+<div class="flex items-center justify-between">
+<label class="block text-label-md font-label-md text-on-surface" for="password">Password</label>
+<a class="text-label-md font-label-md text-primary hover:text-on-primary-fixed-variant transition-colors" href="#" onclick="return LL.comingSoon(event,'Password recovery')">Forgot password?</a>
+</div>
+<div class="relative">
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-outline">lock</span>
+</div>
+<input class="block w-full pl-10 pr-10 py-3 border border-outline-variant rounded-DEFAULT bg-surface-container-lowest text-body-md font-body-md text-on-surface focus:ring-1 focus:ring-primary focus:border-primary placeholder-outline transition-colors" id="password" name="password" placeholder="••••••••" type="password"/>
+<button class="absolute inset-y-0 right-0 pr-3 flex items-center text-outline hover:text-on-surface transition-colors" onclick="var p=document.getElementById('password'); p.type = p.type==='password'?'text':'password'; this.querySelector('span').textContent = p.type==='password'?'visibility_off':'visibility';" type="button">
+<span class="material-symbols-outlined">visibility_off</span>
+</button>
+</div>
+</div>
+<p class="hidden text-body-md font-body-md text-error" id="login-error">Please enter your credentials to continue.</p>
+<!-- Submit Button -->
+<button class="w-full flex justify-center items-center gap-2 py-3 px-4 border border-transparent rounded-DEFAULT shadow-sm text-body-lg font-body-lg font-semibold text-on-primary bg-secondary hover:bg-on-secondary-fixed-variant focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-secondary transition-colors min-h-[44px]" type="submit">
+                        Secure Login
+                        <span class="material-symbols-outlined text-lg">arrow_forward</span>
+</button>
+</form>
+</div>
+<!-- Security Footer -->
+<div class="bg-surface-container-low border-t border-outline-variant p-4 flex justify-center items-center gap-2">
+<span class="material-symbols-outlined text-primary text-sm">verified_user</span>
+<p class="text-label-md font-label-md text-on-surface-variant font-normal">Govt. of India Secure Portal</p>
+</div>
+</div>
+<!-- Meta Links -->
+<div class="mt-8 flex justify-center gap-6 text-label-md font-label-md text-on-surface-variant">
+<a class="hover:text-primary transition-colors" href="#" onclick="return LL.comingSoon(event,'Privacy Policy')">Privacy Policy</a>
+<span class="w-[1px] bg-outline-variant h-4"></span>
+<a class="hover:text-primary transition-colors" href="#" onclick="return LL.comingSoon(event,'Terms of Service')">Terms of Service</a>
+<span class="w-[1px] bg-outline-variant h-4"></span>
+<a class="hover:text-primary transition-colors" href="#" onclick="return LL.comingSoon(event,'Help Center')">Help Center</a>
+</div>
+<p class="mt-4 flex justify-center text-body-md font-body-md text-on-surface-variant">New manufacturer? <a class="text-secondary font-semibold hover:underline ml-1" href="../registration_manufacturer/code.html">Register here</a></p>
+</main>
+<script src="/assets/app.js"></script>
+<script>
+    var selectedRole = LL.qs('role') === 'manufacturer' ? 'manufacturer' : 'official';
+
+    function selectRole(role) {
+        selectedRole = role;
+        var officialTab = document.getElementById('tab-official');
+        var manufacturerTab = document.getElementById('tab-manufacturer');
+        var active = 'flex-1 py-4 text-body-md font-body-md font-semibold text-primary border-b-2 border-primary bg-surface-container-lowest transition-colors flex items-center justify-center gap-2';
+        var inactive = 'flex-1 py-4 text-body-md font-body-md font-medium text-on-surface-variant hover:bg-surface-container transition-colors flex items-center justify-center gap-2 border-b-2 border-transparent';
+        officialTab.className = role === 'official' ? active : inactive;
+        manufacturerTab.className = role === 'manufacturer' ? active : inactive;
+    }
+
+    function handleLogin(e) {
+        e.preventDefault();
+        var identifier = document.getElementById('identifier').value.trim();
+        var password = document.getElementById('password').value.trim();
+        var errorEl = document.getElementById('login-error');
+        if (!identifier || !password) {
+            errorEl.classList.remove('hidden');
+            return false;
+        }
+        errorEl.classList.add('hidden');
+        LL.login(selectedRole, identifier);
+        location.href = selectedRole === 'official' ? '../official_dashboard_legallense/code.html' : '../manufacturer_dashboard_legallense/code.html';
+        return false;
+    }
+
+    selectRole(selectedRole);
+</script>
+</body></html>

@@ -1,0 +1,22 @@
+# --- Frontend (Vite) ---
+frontend/node_modules/
+frontend/dist/
+# frontend/.env IS committed on purpose: it holds no secret, only the
+# public local-dev API URL default (see frontend/.env for why). Only
+# machine-specific/local overrides and a hypothetical guessed production
+# file are ignored:
+frontend/.env.local
+frontend/.env.*.local
+frontend/.env.production
+
+# --- Backend (Python) ---
+backend/.venv/
+backend/**/__pycache__/
+backend/**/*.pyc
+backend/.env
+backend/ocr_output/
+
+# --- OS / editor ---
+.DS_Store
+Thumbs.db
+.vscode/

@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>LegalLense - Case Detail</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "secondary-fixed-dim": "#76d6d5",
+                      "surface-container-low": "#f3f4f5",
+                      "secondary-container": "#90efef",
+                      "secondary": "#006a6a",
+                      "surface": "#f8f9fa",
+                      "inverse-surface": "#2e3132",
+                      "primary-fixed": "#d3e4ff",
+                      "secondary-fixed": "#93f2f2",
+                      "on-primary-fixed-variant": "#1c4877",
+                      "primary-fixed-dim": "#a2c9ff",
+                      "surface-tint": "#386090",
+                      "on-primary-fixed": "#001c38",
+                      "on-primary-container": "#82a9dd",
+                      "surface-variant": "#e1e3e4",
+                      "surface-dim": "#d9dadb",
+                      "background": "#f8f9fa",
+                      "on-error-container": "#93000a",
+                      "tertiary-fixed": "#ffdfa0",
+                      "on-tertiary-container": "#d39d00",
+                      "primary": "#00274a",
+                      "outline": "#737780",
+                      "on-background": "#191c1d",
+                      "surface-container-high": "#e7e8e9",
+                      "on-tertiary-fixed": "#261a00",
+                      "on-secondary-fixed": "#002020",
+                      "surface-container-lowest": "#ffffff",
+                      "tertiary": "#332300",
+                      "surface-container-highest": "#e1e3e4",
+                      "primary-container": "#0b3d6b",
+                      "on-secondary-container": "#006e6e",
+                      "on-error": "#ffffff",
+                      "tertiary-container": "#4e3800",
+                      "on-tertiary-fixed-variant": "#5c4300",
+                      "inverse-primary": "#a2c9ff",
+                      "outline-variant": "#c3c6d0",
+                      "inverse-on-surface": "#f0f1f2",
+                      "tertiary-fixed-dim": "#fbbc00",
+                      "surface-bright": "#f8f9fa",
+                      "on-surface": "#191c1d",
+                      "on-surface-variant": "#42474f",
+                      "on-tertiary": "#ffffff",
+                      "on-secondary": "#ffffff",
+                      "on-secondary-fixed-variant": "#004f4f",
+                      "error-container": "#ffdad6",
+                      "surface-container": "#edeeef",
+                      "on-primary": "#ffffff",
+                      "error": "#ba1a1a"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.125rem",
+                      "lg": "0.25rem",
+                      "xl": "0.5rem",
+                      "full": "0.75rem"
+              },
+              "spacing": {
+                      "sidebar-width": "260px",
+                      "container-max": "1440px",
+                      "unit": "4px",
+                      "margin-page": "32px",
+                      "gutter": "24px"
+              },
+              "fontFamily": {
+                      "headline-lg": ["Inter"],
+                      "headline-md": ["Inter"],
+                      "label-md": ["Inter"],
+                      "display-lg": ["Inter"],
+                      "headline-lg-mobile": ["Inter"],
+                      "body-lg": ["Inter"],
+                      "body-md": ["Inter"]
+              },
+              "fontSize": {
+                      "headline-lg": ["28px", {"lineHeight": "36px", "fontWeight": "600"}],
+                      "headline-md": ["22px", {"lineHeight": "28px", "fontWeight": "600"}],
+                      "label-md": ["12px", {"lineHeight": "16px", "fontWeight": "600"}],
+                      "display-lg": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                      "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                      "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                      "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}]
+              }
+            }
+          }
+        }
+      </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+      </style>
+</head>
+<body class="bg-background text-on-background min-h-screen flex antialiased">
+<!-- SideNavBar -->
+<nav class="fixed left-0 top-0 h-full w-[260px] bg-primary dark:bg-primary-container border-r border-outline-variant flex flex-col py-6 z-50">
+<div class="px-6 mb-8 flex items-center gap-3">
+<img class="w-10 h-10 object-contain rounded-full bg-surface" data-alt="Official seal or logo for the Department of Consumer Affairs, featuring an authoritative blue and gold emblem with sharp corporate modern styling." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBLGrZLVzNa5Zy7qReKyGnI-T7nKRRpI4vMyAVL7Ge4ZCjpgOJhDggRpkTMtTosJfJNIJlm6Q8a1KcbHROLEbdBhdUcxfaIhVZADkrebf5QeI5xUnHheqQ2TyXMyK17zrrJP7gln2GoM7HfhcyZINCBQloeJDUSwn5yze6mGqRVTmTKe8zvLm0UnCQFH70i8tfhYk2snApxKPGlChx7adB6pK9qa-jP3eMe_al6KTWXfxxFSEKhSQ3n"/>
+<div>
+<h1 class="text-headline-md font-headline-md font-bold text-on-primary">LegalLense</h1>
+<p class="text-label-md font-label-md text-on-primary/70">Govt. of India Portal</p>
+</div>
+</div>
+<div class="px-4 mb-6">
+<button class="w-full bg-secondary-fixed-dim text-on-primary-fixed-variant font-bold py-3 rounded-lg hover:opacity-90 transition-opacity flex justify-center items-center gap-2" onclick="location.href='../new_compliance_scan_legallense/code.html'">
+<span class="material-symbols-outlined">add</span>
+                New Compliance Scan
+            </button>
+</div>
+<div class="flex-1 overflow-y-auto flex flex-col gap-1">
+<a class="flex items-center gap-3 px-4 py-3 text-on-primary/70 hover:bg-on-primary-fixed-variant/5 transition-colors hover:text-on-primary" href="../official_dashboard_legallense/code.html">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="text-body-md font-body-md font-medium">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-primary/70 hover:bg-on-primary-fixed-variant/5 transition-colors hover:text-on-primary" href="../new_compliance_scan_legallense/code.html">
+<span class="material-symbols-outlined">qr_code_scanner</span>
+<span class="text-body-md font-body-md font-medium">Operations</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 border-l-4 border-secondary-fixed-dim bg-on-primary-fixed-variant/10 text-secondary-fixed-dim font-bold opacity-90 transition-opacity" href="../scan_history_legallense/code.html">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">history</span>
+<span class="text-body-md font-body-md">History</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-primary/70 hover:bg-on-primary-fixed-variant/5 transition-colors hover:text-on-primary" href="#" onclick="return LL.comingSoon(event,'Product directory')">
+<span class="material-symbols-outlined">inventory_2</span>
+<span class="text-body-md font-body-md font-medium">Products</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-primary/70 hover:bg-on-primary-fixed-variant/5 transition-colors hover:text-on-primary" href="#" onclick="return LL.comingSoon(event,'Settings')">
+<span class="material-symbols-outlined">settings</span>
+<span class="text-body-md font-body-md font-medium">Settings</span>
+</a>
+</div>
+<div class="mt-auto flex flex-col gap-1 pt-6 border-t border-on-primary/10">
+<a class="flex items-center gap-3 px-4 py-3 text-on-primary/70 hover:bg-on-primary-fixed-variant/5 transition-colors hover:text-on-primary" href="#" onclick="return LL.comingSoon(event,'Support')">
+<span class="material-symbols-outlined">help</span>
+<span class="text-body-md font-body-md font-medium">Support</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-primary/70 hover:bg-on-primary-fixed-variant/5 transition-colors hover:text-on-primary" href="../login_legallense/code.html" onclick="window.LL&&LL.logout();">
+<span class="material-symbols-outlined">logout</span>
+<span class="text-body-md font-body-md font-medium">Logout</span>
+</a>
+</div>
+</nav>
+<!-- Main Content Area -->
+<div class="ml-[260px] flex-1 flex flex-col min-w-0">
+<!-- TopAppBar -->
+<header class="flex justify-between items-center h-16 px-8 sticky top-0 z-40 bg-surface dark:bg-surface-dim border-b border-outline-variant transition-all duration-200 ease-in-out">
+<div class="flex items-center gap-8">
+<!-- Search could go here based on search_bar logic -->
+<div class="relative hidden lg:flex items-center">
+<span class="material-symbols-outlined absolute left-3 text-on-surface-variant">search</span>
+<input class="pl-10 pr-4 py-2 border border-outline-variant rounded-full bg-surface-container-lowest text-body-md font-body-md focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary w-64" placeholder="Search Case ID, Product..." type="text"/>
+</div>
+<nav class="hidden md:flex gap-6">
+<a class="text-on-surface-variant font-medium text-body-md font-body-md hover:text-primary hover:bg-surface-container-low px-3 py-2 rounded-md transition-colors" href="../official_dashboard_legallense/code.html">Official Dashboard</a>
+<a class="text-on-surface-variant font-medium text-body-md font-body-md hover:text-primary hover:bg-surface-container-low px-3 py-2 rounded-md transition-colors" href="#" onclick="return LL.comingSoon(event,'Departmental Guidelines')">Departmental Guidelines</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<button aria-label="Notification Bell" class="p-2 text-on-surface-variant hover:text-primary hover:bg-surface-container-low rounded-full transition-colors relative" onclick="LL.comingSoon(event,'Notifications')">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-1 right-1 w-2.5 h-2.5 bg-error rounded-full border-2 border-surface"></span>
+</button>
+<div class="h-8 w-px bg-outline-variant mx-2"></div>
+<div class="flex items-center gap-3 cursor-pointer hover:bg-surface-container-low p-1.5 rounded-lg transition-colors" onclick="LL.comingSoon(event,'Profile settings')">
+<img alt="User Profile Avatar" class="w-8 h-8 rounded-full object-cover" data-alt="A professional headshot of a senior enforcement inspector wearing formal business attire, neutral background, modern corporate lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAxcrz9OLsQK5NLio9Fmq7d5mqVIE2cSln-KKyg4P9w9BLZ0nmwq6TgD60GGNASbLal4vV3ECEWfMZSWZdbeg32PBsiF8_B_IccFvOcO43YED08vQ_-8sYkH_1DwkEj90i0DrRvMhKw87aC9FSvGUlqRhTKfyH1RNxwFuoY_-8bsnUuwkU1flH9g3mRiaFWuaSmRt-i5MBLNkGlF7aPvec8ffIfWwD-do_mRHFYeYsvTIAyN9mhip-n"/>
+<div class="hidden lg:block text-left">
+<p class="text-body-md font-body-md font-semibold text-primary dark:text-primary-fixed">Inspector R. Kumar</p>
+<p class="text-label-md font-label-md text-on-surface-variant">Enforcement Div.</p>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant">account_circle</span>
+</div>
+</div>
+</header>
+<!-- Page Content -->
+<main class="flex-1 p-margin-page overflow-y-auto">
+<!-- Breadcrumbs & Header -->
+<div class="max-w-container-max mx-auto w-full mb-8">
+<nav class="flex items-center gap-2 text-body-md font-body-md text-on-surface-variant mb-4">
+<a class="hover:text-primary hover:underline" href="../official_dashboard_legallense/code.html">Dashboard</a>
+<span class="material-symbols-outlined text-sm">chevron_right</span>
+<a class="hover:text-primary hover:underline" href="../scan_history_legallense/code.html">History</a>
+<span class="material-symbols-outlined text-sm">chevron_right</span>
+<span class="font-semibold text-primary" id="case-breadcrumb">Case #12345</span>
+</nav>
+<div class="flex justify-between items-end">
+<div>
+<h2 class="text-display-lg font-display-lg text-primary mb-2" id="case-title">Case Detail: #12345</h2>
+<p class="text-body-lg font-body-lg text-on-surface-variant">Violation Review &amp; Remediation Timeline</p>
+</div>
+<div class="flex items-center gap-2 px-4 py-2 bg-tertiary-fixed/20 border border-tertiary-fixed-dim rounded-full" id="case-status-badge">
+<span class="material-symbols-outlined text-on-tertiary-container text-sm">pending_actions</span>
+<span class="text-label-md font-label-md text-on-tertiary-container uppercase tracking-wider" id="case-status-label">Under Review</span>
+</div>
+</div>
+</div>
+<div class="hidden max-w-container-max mx-auto w-full bg-surface-container-lowest border border-outline-variant rounded-xl p-12 text-center mb-8" id="case-not-found">
+<span class="material-symbols-outlined text-5xl text-on-surface-variant mb-4">search_off</span>
+<h2 class="text-headline-md font-headline-md text-primary mb-2">Case Not Found</h2>
+<p class="text-body-md font-body-md text-on-surface-variant mb-6">We couldn't find a case matching that ID.</p>
+<button class="px-6 py-2.5 rounded bg-primary text-on-primary font-semibold" onclick="location.href='../scan_history_legallense/code.html'">Back to Scan History</button>
+</div>
+<!-- Content Grid -->
+<div class="max-w-container-max mx-auto w-full grid grid-cols-1 xl:grid-cols-3 gap-gutter" id="case-content">
+<!-- Left Column: Evidence & Summary (Span 1) -->
+<div class="xl:col-span-1 flex flex-col gap-6">
+<!-- Original Image Card -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden shadow-sm">
+<div class="p-4 border-b border-outline-variant bg-surface">
+<h3 class="text-headline-sm font-headline-sm font-semibold text-primary flex items-center gap-2">
+<span class="material-symbols-outlined">image</span>
+                                Original Scan
+                            </h3>
+</div>
+<div class="p-4 bg-surface-container-low">
+<img class="w-full aspect-[4/3] object-cover rounded-lg border border-outline-variant mb-4" data-alt="A macro photograph of a consumer product package showing a non-compliant nutritional label with missing regulatory markers. Harsh, direct lighting emphasizing text clarity, high contrast corporate compliance context." id="case-evidence-image" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDUhVxQiEz-CWU3Dx45K9IssW4KMdnLk7cKP_WQ1XB_yEHX54iSK9SlAzbSZBtPBK7W8ZFtgAhUiR9bp2-q8pJ3I7o6MNYV4kU5EnKFvkNiLUezwv3kwG6oSxYaHF7LQkGXquXWaGpsD27V4cuUL6f2LO7kUCEmMEtq-7njS75gN569IcDuoasIEcmauHa0HqIDsvkRIXcizqVAH3XmbF7_37n3QvhtPKNxKSt7ZujhRKpdsm5TiOWS"/>
+<button class="w-full py-2 bg-surface-container text-primary text-body-md font-body-md font-medium border border-outline-variant rounded-md hover:bg-surface-variant transition-colors flex justify-center items-center gap-2" id="view-evidence-btn">
+<span class="material-symbols-outlined text-sm">fullscreen</span>
+                                View High-Res Evidence
+                            </button>
+</div>
+</div>
+<!-- Compliance Report Summary -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl shadow-sm p-6">
+<h3 class="text-headline-sm font-headline-sm font-semibold text-primary mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-error">assignment_late</span>
+                            Report Summary
+                        </h3>
+<div class="space-y-4">
+<div>
+<p class="text-label-md font-label-md text-on-surface-variant mb-1">Entity</p>
+<p class="text-body-md font-body-md font-semibold text-on-background" id="case-entity">Acme Consumer Goods Ltd.</p>
+</div>
+<div>
+<p class="text-label-md font-label-md text-on-surface-variant mb-1">Violation Type</p>
+<p class="text-body-md font-body-md font-semibold text-on-background" id="case-violation-type">Section 14(a) - Missing Net Quantity</p>
+</div>
+<div>
+<p class="text-label-md font-label-md text-on-surface-variant mb-1">Detected Confidence</p>
+<div class="flex items-center gap-3">
+<div class="flex-1 h-2 bg-surface-container-high rounded-full overflow-hidden">
+<div class="h-full bg-error" id="case-confidence-bar" style="width: 94%"></div>
+</div>
+<span class="text-body-md font-body-md font-bold text-error" id="case-confidence-value">94%</span>
+</div>
+</div>
+<button class="w-full mt-2 py-2.5 bg-secondary text-on-secondary rounded-md font-semibold text-body-md font-body-md flex items-center justify-center gap-2 hover:bg-secondary/90 transition-colors" id="case-view-report-btn">
+<span class="material-symbols-outlined text-sm">description</span>
+                                View Compliance Report
+                            </button>
+</div>
+</div>
+</div>
+<!-- Right Column: Timeline (Span 2) -->
+<div class="xl:col-span-2 bg-surface-container-lowest border border-outline-variant rounded-xl shadow-sm">
+<div class="p-6 border-b border-outline-variant bg-surface flex justify-between items-center">
+<h3 class="text-headline-md font-headline-md font-semibold text-primary flex items-center gap-2">
+<span class="material-symbols-outlined">timeline</span>
+                            Action Timeline
+                        </h3>
+<div class="flex items-center gap-2">
+<button class="text-primary hover:bg-surface-container p-2 rounded-md transition-colors text-body-md font-body-md font-medium flex items-center gap-1" id="export-log-btn">
+<span class="material-symbols-outlined text-sm">download</span>
+                            Export Log
+                        </button>
+<button class="bg-secondary text-on-secondary hover:bg-secondary/90 px-4 py-2 rounded-md transition-colors text-body-md font-body-md font-semibold flex items-center gap-1" id="log-action-btn">
+<span class="material-symbols-outlined text-sm">gavel</span>
+                            Log Case Action
+                        </button>
+</div>
+</div>
+<div class="p-8">
+<div class="relative pl-8 space-y-8 before:absolute before:inset-y-0 before:left-[15px] before:w-px before:bg-outline-variant" id="case-timeline"></div>
+</div>
+</div>
+</div>
+</main>
+</div>
+<script src="/assets/app.js"></script>
+<script>
+    if (LL.requireRole('official')) {
+        var caseId = LL.qs('id') || 'CASE-LM2024-089';
+        var caseObj = LL.getCase(caseId);
+
+        if (!caseObj) {
+            document.getElementById('case-content').classList.add('hidden');
+            document.getElementById('case-status-badge').classList.add('hidden');
+            document.getElementById('case-not-found').classList.remove('hidden');
+            document.getElementById('case-breadcrumb').textContent = 'Case #' + caseId;
+            document.getElementById('case-title').textContent = 'Case Not Found';
+        } else {
+            var scan = LL.getScan(caseObj.scanId);
+            document.getElementById('case-breadcrumb').textContent = 'Case #' + caseObj.id;
+            document.getElementById('case-title').textContent = 'Case Detail: #' + caseObj.id;
+            document.getElementById('case-entity').textContent = caseObj.entity;
+            document.getElementById('case-violation-type').textContent = caseObj.violationType;
+            document.getElementById('case-confidence-bar').style.width = caseObj.confidence + '%';
+            document.getElementById('case-confidence-value').textContent = caseObj.confidence + '%';
+
+            var STATUS_LABEL = { open: 'Open', under_review: 'Under Review', escalated: 'Escalated', closed: 'Closed' };
+            document.getElementById('case-status-label').textContent = STATUS_LABEL[caseObj.status] || caseObj.status;
+
+            document.getElementById('view-evidence-btn').addEventListener('click', function () {
+                window.open(document.getElementById('case-evidence-image').src, '_blank');
+            });
+
+            document.getElementById('case-view-report-btn').addEventListener('click', function () {
+                location.href = '../compliance_report_legallense/code.html?id=' + encodeURIComponent(caseObj.scanId);
+            });
+
+            document.getElementById('log-action-btn').addEventListener('click', function () {
+                location.href = '../log_case_action_legallense/code.html?id=' + encodeURIComponent(caseObj.id);
+            });
+
+            document.getElementById('export-log-btn').addEventListener('click', function () {
+                var rows = [['Date', 'Actor', 'Title', 'Description', 'Attachment']];
+                caseObj.timeline.forEach(function (t) { rows.push([LL.fmtDateTime(t.date), t.actor, t.title, t.desc, t.attachment || '']); });
+                LL.exportCSV('case_' + caseObj.id + '_log.csv', rows);
+            });
+
+            var ICONS = { 'Scan uploaded': 'upload', 'Logged as Violation': 'gavel', 'Manufacturer notified': 'mail', 'Manufacturer uploaded revised label': 'description' };
+            var timelineEl = document.getElementById('case-timeline');
+            var items = caseObj.timeline.slice().reverse();
+            items.forEach(function (item, idx) {
+                var isLatest = idx === 0;
+                var wrap = document.createElement('div');
+                wrap.className = 'relative' + (isLatest ? '' : ' opacity-80');
+                var icon = ICONS[item.title] || 'flag';
+                var dotClass = isLatest ? 'bg-tertiary-fixed' : 'bg-surface-variant';
+                var dotInner = isLatest ? '<span class="w-2 h-2 rounded-full bg-on-tertiary-container animate-pulse"></span>' : '<span class="material-symbols-outlined text-[14px] text-on-surface-variant">' + icon + '</span>';
+
+                var attachmentHtml = '';
+                if (item.attachment) {
+                    attachmentHtml =
+                        '<div class="flex gap-4 p-3 bg-surface-container-low rounded-md border border-outline-variant/50 mt-4">' +
+                        '<span class="material-symbols-outlined text-outline">description</span>' +
+                        '<div class="flex-1"><p class="text-body-md font-body-md font-medium text-primary">' + LL.escapeHtml(item.attachment) + '</p>' +
+                        '<p class="text-label-md font-label-md text-on-surface-variant">Uploaded by ' + LL.escapeHtml(item.actor) + '</p></div>' +
+                        (isLatest ? '<button class="bg-primary text-on-primary px-4 py-1.5 rounded-md text-body-md font-body-md font-medium hover:opacity-90 transition-opacity" id="review-now-btn">Review Now</button>' : '') +
+                        '</div>';
+                }
+
+                if (isLatest) {
+                    wrap.innerHTML =
+                        '<div class="absolute -left-10 mt-1.5 w-6 h-6 rounded-full ' + dotClass + ' border-2 border-surface flex items-center justify-center z-10">' + dotInner + '</div>' +
+                        '<div class="bg-tertiary-fixed/10 border border-tertiary-fixed/30 rounded-lg p-5">' +
+                        '<div class="flex justify-between items-start mb-2">' +
+                        '<h4 class="text-body-lg font-body-lg font-semibold text-on-background">' + LL.escapeHtml(item.title) + '</h4>' +
+                        '<span class="text-label-md font-label-md text-on-surface-variant bg-surface px-2 py-1 rounded border border-outline-variant">' + LL.fmtDateTime(item.date) + '</span></div>' +
+                        '<p class="text-body-md font-body-md text-on-surface-variant mb-1">' + LL.escapeHtml(item.desc) + '</p>' +
+                        '<p class="text-label-md font-label-md text-primary font-medium">Actor: ' + LL.escapeHtml(item.actor) + '</p>' +
+                        attachmentHtml + '</div>';
+                } else {
+                    wrap.innerHTML =
+                        '<div class="absolute -left-10 mt-1.5 w-6 h-6 rounded-full ' + dotClass + ' border-2 border-surface flex items-center justify-center z-10">' + dotInner + '</div>' +
+                        '<div class="flex justify-between items-start">' +
+                        '<div><h4 class="text-body-lg font-body-lg font-semibold text-on-background">' + LL.escapeHtml(item.title) + '</h4>' +
+                        '<p class="text-body-md font-body-md text-on-surface-variant">' + LL.escapeHtml(item.desc) + '</p>' +
+                        '<p class="text-label-md font-label-md text-primary mt-1 font-medium">Actor: ' + LL.escapeHtml(item.actor) + '</p></div>' +
+                        '<span class="text-label-md font-label-md text-on-surface-variant">' + LL.fmtDateTime(item.date) + '</span></div>';
+                }
+                timelineEl.appendChild(wrap);
+                var reviewBtn = wrap.querySelector('#review-now-btn');
+                if (reviewBtn) {
+                    reviewBtn.addEventListener('click', function () {
+                        location.href = '../log_case_action_legallense/code.html?id=' + encodeURIComponent(caseObj.id);
+                    });
+                }
+            });
+        }
+    }
+</script>
+</body></html>

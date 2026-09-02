@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>LegalLense - Manufacturer Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "secondary-fixed-dim": "#76d6d5",
+                      "surface-container-low": "#f3f4f5",
+                      "secondary-container": "#90efef",
+                      "secondary": "#006a6a",
+                      "surface": "#f8f9fa",
+                      "inverse-surface": "#2e3132",
+                      "primary-fixed": "#d3e4ff",
+                      "secondary-fixed": "#93f2f2",
+                      "on-primary-fixed-variant": "#1c4877",
+                      "primary-fixed-dim": "#a2c9ff",
+                      "surface-tint": "#386090",
+                      "on-primary-fixed": "#001c38",
+                      "on-primary-container": "#82a9dd",
+                      "surface-variant": "#e1e3e4",
+                      "surface-dim": "#d9dadb",
+                      "background": "#f8f9fa",
+                      "on-error-container": "#93000a",
+                      "tertiary-fixed": "#ffdfa0",
+                      "on-tertiary-container": "#d39d00",
+                      "primary": "#00274a",
+                      "outline": "#737780",
+                      "on-background": "#191c1d",
+                      "surface-container-high": "#e7e8e9",
+                      "on-tertiary-fixed": "#261a00",
+                      "on-secondary-fixed": "#002020",
+                      "surface-container-lowest": "#ffffff",
+                      "tertiary": "#332300",
+                      "surface-container-highest": "#e1e3e4",
+                      "primary-container": "#0b3d6b",
+                      "on-secondary-container": "#006e6e",
+                      "on-error": "#ffffff",
+                      "tertiary-container": "#4e3800",
+                      "on-tertiary-fixed-variant": "#5c4300",
+                      "inverse-primary": "#a2c9ff",
+                      "outline-variant": "#c3c6d0",
+                      "inverse-on-surface": "#f0f1f2",
+                      "tertiary-fixed-dim": "#fbbc00",
+                      "surface-bright": "#f8f9fa",
+                      "on-surface": "#191c1d",
+                      "on-surface-variant": "#42474f",
+                      "on-tertiary": "#ffffff",
+                      "on-secondary": "#ffffff",
+                      "on-secondary-fixed-variant": "#004f4f",
+                      "error-container": "#ffdad6",
+                      "surface-container": "#edeeef",
+                      "on-primary": "#ffffff",
+                      "error": "#ba1a1a"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.125rem",
+                      "lg": "0.25rem",
+                      "xl": "0.5rem",
+                      "full": "0.75rem"
+              },
+              "spacing": {
+                      "sidebar-width": "260px",
+                      "container-max": "1440px",
+                      "unit": "4px",
+                      "margin-page": "32px",
+                      "gutter": "24px"
+              },
+              "fontFamily": {
+                      "headline-lg": [
+                              "Inter"
+                      ],
+                      "headline-md": [
+                              "Inter"
+                      ],
+                      "label-md": [
+                              "Inter"
+                      ],
+                      "display-lg": [
+                              "Inter"
+                      ],
+                      "headline-lg-mobile": [
+                              "Inter"
+                      ],
+                      "body-lg": [
+                              "Inter"
+                      ],
+                      "body-md": [
+                              "Inter"
+                      ]
+              },
+              "fontSize": {
+                      "headline-lg": [
+                              "28px",
+                              {
+                                      "lineHeight": "36px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "headline-md": [
+                              "22px",
+                              {
+                                      "lineHeight": "28px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "label-md": [
+                              "12px",
+                              {
+                                      "lineHeight": "16px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "display-lg": [
+                              "36px",
+                              {
+                                      "lineHeight": "44px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "headline-lg-mobile": [
+                              "24px",
+                              {
+                                      "lineHeight": "32px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "body-lg": [
+                              "16px",
+                              {
+                                      "lineHeight": "24px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "body-md": [
+                              "14px",
+                              {
+                                      "lineHeight": "20px",
+                                      "fontWeight": "400"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+      </script>
+<style>
+        body {
+            background-color: theme('colors.background');
+            color: theme('colors.on-background');
+        }
+    </style>
+</head>
+<body class="antialiased min-h-screen flex">
+<!-- SideNavBar -->
+<aside class="fixed left-0 top-0 h-full w-[260px] bg-primary dark:bg-primary-container text-on-primary dark:text-on-primary-container border-r border-outline-variant flex flex-col py-6 z-50 transition-all duration-300 hidden md:flex">
+<div class="px-6 mb-8 flex items-center gap-3">
+<img class="w-10 h-10 object-contain rounded-full bg-white/10 p-1" data-alt="Official seal of the Department of Consumer Affairs, India. A stylized, authoritative government emblem rendered in high-contrast white and dark blue. Crisp, modern, and official, symbolizing legal compliance and government authority in a clear, accessible digital style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBNzC3dsnBWDXVpeYJtEZbAwnYmDt87oE5kWUkkpSglphUdDHEE_mzG-97iSWULlgkA_9TzsQ3VH1wprEhX4SnOVqjMchdgbNNaRUnrkuBB5q_4oD9Dx_swphk5kiaJAB1Supf4wBpC0lk4j-i48wge3Ch9PNmFXFpr9k_msoTwCtKJ-0ym8RJP2H_trGQavRb9zehlaC7qPOqj4b2xXCUf0pKWdb-0VIp_hhsS281lROF4WjA2bIKa"/>
+<div>
+<h1 class="text-headline-md font-headline-md font-bold text-on-primary">LegalLense</h1>
+<p class="text-label-md font-label-md text-on-primary/70">Govt. of India Portal</p>
+</div>
+</div>
+<div class="px-4 mb-6">
+<button class="w-full bg-secondary text-on-secondary hover:bg-secondary/90 transition-colors py-3 px-4 rounded-xl font-label-md text-label-md flex items-center justify-center gap-2 shadow-sm" onclick="location.href='../new_self_check_legallense/code.html'">
+<span class="material-symbols-outlined text-[18px]">add_circle</span>
+                New Compliance Scan
+            </button>
+</div>
+<nav class="flex-1 px-2 space-y-1">
+<!-- Active Tab: Dashboard -->
+<a class="flex items-center gap-3 px-4 py-3 border-l-4 border-secondary-fixed-dim bg-on-primary-fixed-variant/10 text-secondary-fixed-dim font-bold rounded-r-xl transition-all" href="code.html">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">dashboard</span>
+<span class="text-body-md font-body-md font-semibold">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-primary/70 hover:text-on-primary hover:bg-on-primary-fixed-variant/5 transition-colors rounded-r-xl border-l-4 border-transparent" href="../new_self_check_legallense/code.html">
+<span class="material-symbols-outlined">qr_code_scanner</span>
+<span class="text-body-md font-body-md">New Self-Check</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-primary/70 hover:text-on-primary hover:bg-on-primary-fixed-variant/5 transition-colors rounded-r-xl border-l-4 border-transparent" href="#portfolio">
+<span class="material-symbols-outlined">inventory_2</span>
+<span class="text-body-md font-body-md">My Products</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-primary/70 hover:text-on-primary hover:bg-on-primary-fixed-variant/5 transition-colors rounded-r-xl border-l-4 border-transparent" href="#" onclick="return LL.comingSoon(event,'Settings')">
+<span class="material-symbols-outlined">settings</span>
+<span class="text-body-md font-body-md">Settings</span>
+</a>
+</nav>
+<div class="mt-auto px-2 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 text-on-primary/70 hover:text-on-primary hover:bg-on-primary-fixed-variant/5 transition-colors rounded-r-xl border-l-4 border-transparent" href="#" onclick="return LL.comingSoon(event,'Support')">
+<span class="material-symbols-outlined">help</span>
+<span class="text-body-md font-body-md">Support</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-primary/70 hover:text-on-primary hover:bg-on-primary-fixed-variant/5 transition-colors rounded-r-xl border-l-4 border-transparent" href="../login_legallense/code.html" onclick="window.LL&&LL.logout();">
+<span class="material-symbols-outlined">logout</span>
+<span class="text-body-md font-body-md">Logout</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Area -->
+<div class="flex-1 flex flex-col md:ml-[260px] min-h-screen">
+<!-- TopAppBar -->
+<header class="bg-surface dark:bg-surface-dim border-b border-outline-variant flex justify-between items-center h-16 px-8 sticky top-0 z-40 transition-all duration-200 ease-in-out w-full">
+<div class="flex items-center gap-6">
+<!-- Mobile Menu Button (Hidden on Desktop) -->
+<button class="md:hidden text-on-surface-variant p-2 hover:bg-surface-container-low rounded-full transition-colors">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<div class="hidden lg:flex items-center bg-surface-container-low rounded-full px-4 py-2 border border-outline-variant/30 w-64 focus-within:border-primary transition-colors">
+<span class="material-symbols-outlined text-on-surface-variant mr-2 text-[20px]">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-body-md font-body-md w-full placeholder-on-surface-variant/70 text-on-surface p-0" placeholder="Search guidelines, products..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="hidden sm:flex flex-col items-end mr-2">
+<span class="text-body-md font-body-md font-bold text-primary" id="user-name">Acme Consumer Goods</span>
+<span class="text-[10px] font-semibold bg-tertiary-fixed text-on-tertiary-fixed px-2 py-0.5 rounded-full uppercase tracking-wide">Manufacturer</span>
+</div>
+<button class="text-on-surface-variant hover:text-primary hover:bg-surface-container-low p-2 rounded-full transition-colors relative" onclick="LL.comingSoon(event,'Notifications')">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-1.5 right-1.5 w-2 h-2 bg-error rounded-full"></span>
+</button>
+<button class="flex items-center gap-2 hover:bg-surface-container-low p-1 pr-3 rounded-full transition-colors border border-outline-variant/30" onclick="LL.comingSoon(event,'Profile settings')">
+<img class="w-8 h-8 rounded-full object-cover border border-outline-variant/50" data-alt="A professional headshot of a corporate executive, serving as a user profile avatar. Clean, well-lit, and trustworthy, reflecting a modern corporate aesthetic suitable for an official government portal. The background is a soft, neutral gray." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDgrAYG32EFTmtOcy-w-TEi-6lANxrEDVu6BbeKYao1RLjMC-pwPKDF-sXCsK0wGXmXotET2-mqLETze0kOlj7WYy-N83R882R85JZTy2Y5CnWZfaTu2bvbuDQYZm-lAcxZA0LcQ5lqx6w30vYsjPzOi5_WruiH-GXGGpKHByd6gMQzni3el1VvvsXM9KdXHKhOBe8w8izeFzZ-A3-WtqhO_UnLTjJl-dpq0WCF-s-fIRjfbnU7ivxI"/>
+<span class="material-symbols-outlined text-on-surface-variant text-[20px]">expand_more</span>
+</button>
+</div>
+</header>
+<!-- Main Canvas -->
+<main class="flex-1 p-gutter md:p-margin-page max-w-container-max mx-auto w-full">
+<!-- Breadcrumbs -->
+<nav class="flex items-center gap-2 text-label-md font-label-md text-on-surface-variant mb-6">
+<a class="hover:text-primary transition-colors flex items-center gap-1" href="code.html"><span class="material-symbols-outlined text-[16px]">home</span> Home</a>
+<span class="material-symbols-outlined text-[16px]">chevron_right</span>
+<span class="text-on-surface font-semibold">Dashboard</span>
+</nav>
+<div class="mb-8 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+<div>
+<h2 class="text-display-lg font-display-lg text-primary mb-1">Manufacturer Overview</h2>
+<p class="text-body-lg font-body-lg text-on-surface-variant">Monitor product compliance status and regulatory health.</p>
+</div>
+<button class="bg-surface-container-low border border-outline-variant text-primary hover:bg-surface-container-high transition-colors py-2 px-4 rounded-lg font-label-md text-label-md font-semibold flex items-center gap-2 shadow-sm whitespace-nowrap" id="export-report-btn">
+<span class="material-symbols-outlined text-[18px]">download</span>
+                    Export Report
+                </button>
+</div>
+<!-- Summary Cards (Bento style grid) -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-gutter mb-12">
+<!-- Card 1 -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow relative overflow-hidden group">
+<div class="absolute -right-6 -top-6 w-24 h-24 bg-primary-fixed/30 rounded-full blur-2xl group-hover:bg-primary-fixed/50 transition-colors"></div>
+<div class="flex justify-between items-start mb-4 relative z-10">
+<div class="p-2 bg-primary-container text-on-primary-container rounded-lg">
+<span class="material-symbols-outlined">inventory_2</span>
+</div>
+</div>
+<div class="relative z-10">
+<p class="text-label-md font-label-md text-on-surface-variant mb-1 uppercase tracking-wider font-semibold">Total Products</p>
+<p class="text-display-lg font-display-lg text-on-surface" id="stat-total-products">45</p>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow relative overflow-hidden group">
+<div class="absolute -right-6 -top-6 w-24 h-24 bg-secondary-fixed/30 rounded-full blur-2xl group-hover:bg-secondary-fixed/50 transition-colors"></div>
+<div class="flex justify-between items-start mb-4 relative z-10">
+<div class="p-2 bg-secondary/10 text-secondary rounded-lg">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+</div>
+<div class="relative z-10">
+<p class="text-label-md font-label-md text-on-surface-variant mb-1 uppercase tracking-wider font-semibold">Compliant Products</p>
+<div class="flex items-baseline gap-2">
+<p class="text-display-lg font-display-lg text-on-surface" id="stat-compliant-products">38</p>
+<span class="text-label-md font-label-md text-secondary font-bold flex items-center"><span class="material-symbols-outlined text-[14px]">arrow_upward</span> 12%</span>
+</div>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow relative overflow-hidden group">
+<div class="absolute -right-6 -top-6 w-24 h-24 bg-tertiary-fixed/30 rounded-full blur-2xl group-hover:bg-tertiary-fixed/50 transition-colors"></div>
+<div class="flex justify-between items-start mb-4 relative z-10">
+<div class="p-2 bg-tertiary-container text-on-tertiary-container rounded-lg">
+<span class="material-symbols-outlined">warning</span>
+</div>
+</div>
+<div class="relative z-10">
+<p class="text-label-md font-label-md text-on-surface-variant mb-1 uppercase tracking-wider font-semibold">Needs Fixes</p>
+<div class="flex items-baseline gap-2">
+<p class="text-display-lg font-display-lg text-on-surface" id="stat-needs-fixes">7</p>
+<span class="text-label-md font-label-md text-on-surface-variant">requires action</span>
+</div>
+</div>
+</div>
+<!-- Card 4 -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow relative overflow-hidden group">
+<div class="absolute -right-6 -top-6 w-24 h-24 bg-primary-fixed-dim/30 rounded-full blur-2xl group-hover:bg-primary-fixed-dim/50 transition-colors"></div>
+<div class="flex justify-between items-start mb-4 relative z-10">
+<div class="p-2 bg-surface-variant text-on-surface-variant rounded-lg">
+<span class="material-symbols-outlined">analytics</span>
+</div>
+</div>
+<div class="relative z-10">
+<p class="text-label-md font-label-md text-on-surface-variant mb-1 uppercase tracking-wider font-semibold">Avg. Compliance Score</p>
+<div class="flex items-center gap-4">
+<p class="text-display-lg font-display-lg text-on-surface" id="stat-avg-score">92%</p>
+<div class="flex-1 h-2 bg-surface-variant rounded-full overflow-hidden">
+<div class="h-full bg-secondary rounded-full" id="stat-avg-score-bar" style="width: 92%"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Product Portfolio Section -->
+<div class="mb-6 flex justify-between items-end" id="portfolio">
+<h3 class="text-headline-md font-headline-md text-primary font-bold">Product Portfolio</h3>
+<a class="text-body-md font-body-md text-secondary font-semibold hover:underline flex items-center gap-1" href="#" onclick="return LL.comingSoon(event,'Full product directory')">View All <span class="material-symbols-outlined text-[18px]">arrow_forward</span></a>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-gutter">
+<!-- Product Card 1 -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all group flex flex-col">
+<div class="h-40 bg-surface-container-low relative overflow-hidden border-b border-outline-variant/50">
+<img class="w-full h-full object-cover mix-blend-multiply group-hover:scale-105 transition-transform duration-500" data-alt="High-quality studio shot of a modern, sleek consumer electronics product, perhaps a smart home device. Clean lines, minimalist design, resting on a pristine white surface with soft, diffused lighting. The image evokes a premium, compliant, and well-designed manufactured good." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCZtSD39wZcijsCyGZcZxtHR9heSGWj3FCT7DI3jNJTMGXov51CMtoDaFljiHFIyH9q2a08uX5Rwn6m3cT3qDKiN_4MFgOFEGWSYemiRcgi0V3DH01pLmtm7srSf5lCmHrWIKLhyqkT5Efd3aKjg-85ent1jG4zx7j9z5M6TuqIdnQCA1UT3XsL9tZNBQc28Gxq_JTSvF5OnYntMlA9cnWM4XViaP2ru42yGR6L4UCmugpsNoQArVzG"/>
+<div class="absolute top-3 right-3 bg-secondary-container text-on-secondary-container px-2.5 py-1 rounded-full flex items-center gap-1.5 shadow-sm border border-secondary/20">
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="text-label-md font-label-md font-bold uppercase tracking-wide">Compliant</span>
+</div>
+</div>
+<div class="p-5 flex flex-col flex-1">
+<div class="mb-4">
+<span class="text-[10px] font-bold text-on-surface-variant uppercase tracking-wider mb-1 block">Electronics</span>
+<h4 class="text-headline-sm font-headline-sm font-bold text-on-surface mb-1 truncate">Acme SmartHub Pro</h4>
+<p class="text-body-md font-body-md text-on-surface-variant truncate">SKU: ACME-SH-001</p>
+</div>
+<div class="mt-auto border-t border-outline-variant/40 pt-4 flex justify-between items-center">
+<span class="text-label-md font-label-md text-on-surface-variant">Last checked: Today</span>
+<button class="text-secondary hover:bg-secondary/10 p-1.5 rounded-md transition-colors" onclick="location.href='../self_check_report_legallense/code.html?id=SC-SMARTHUB-1'">
+<span class="material-symbols-outlined">description</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Product Card 2 -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all group flex flex-col">
+<div class="h-40 bg-surface-container-low relative overflow-hidden border-b border-outline-variant/50">
+<img class="w-full h-full object-cover mix-blend-multiply group-hover:scale-105 transition-transform duration-500" data-alt="A clean, minimalist rendering of a premium home appliance, such as an air purifier. Soft white and light gray tones, professional studio lighting, emphasizing build quality and modern design aesthetics. The setting is sterile and corporate, suitable for a government compliance dashboard." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC8Y1LLUAf8B1qS3ORbaEVJLZN6XLmXbLvyMYcj2ZkIvnzcXcNI1snxbok45uikoe_KpmMhTaw3sDAJIeOYV4wm_WRsGoUxBe5bPz-LnPxMCqlaspeOXq2O8_Rss93W8YY2_oDJQzkD23TAROJATmzOmrm4eES4y2JSsenLOEKOKSB4JLYUnF1j28q_EP8T7le9ZSCxikJCc_P1j9DLgIM-2bIa64BNjfMx9K0uUhUUrDbaimYcIen8"/>
+<div class="absolute top-3 right-3 bg-tertiary-fixed text-on-tertiary-container px-2.5 py-1 rounded-full flex items-center gap-1.5 shadow-sm border border-tertiary/20">
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">error</span>
+<span class="text-label-md font-label-md font-bold uppercase tracking-wide">Needs Fixes</span>
+</div>
+</div>
+<div class="p-5 flex flex-col flex-1">
+<div class="mb-4">
+<span class="text-[10px] font-bold text-on-surface-variant uppercase tracking-wider mb-1 block">Appliances</span>
+<h4 class="text-headline-sm font-headline-sm font-bold text-on-surface mb-1 truncate">PureAir Purifier V2</h4>
+<p class="text-body-md font-body-md text-on-surface-variant truncate">SKU: ACME-PA-002</p>
+</div>
+<div class="mt-auto border-t border-outline-variant/40 pt-4 flex justify-between items-center">
+<span class="text-label-md font-label-md text-on-surface-variant">Missing: Lab Report</span>
+<button class="bg-primary text-on-primary hover:bg-primary/90 px-3 py-1.5 rounded-md text-label-md font-label-md transition-colors" onclick="location.href='../new_self_check_legallense/code.html?productId=PROD-PUREAIR'">
+                                Update
+                            </button>
+</div>
+</div>
+</div>
+<!-- Product Card 3 -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all group flex flex-col">
+<div class="h-40 bg-surface-container-low relative overflow-hidden border-b border-outline-variant/50">
+<img class="w-full h-full object-cover mix-blend-multiply group-hover:scale-105 transition-transform duration-500" data-alt="A macro shot of sustainable, eco-friendly product packaging on a clean white background. High resolution, sharp details, conveying trust and quality. The design is modern corporate, emphasizing clean lines and clear typography, fitting for a compliance review." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBPwcLCBXYeFhEYFtVcADSiBtkNxMhpU3dK9T9dK7DUngh3WX3GPTlvDmZBs_7C4W4oS7P2Kkk7D3oWSioBdhLkU8lUFuuhH9GpKcFYS5UyB_MgTpUOIXA8D2A22qHCwFdN5GFZ2QZerUaVUh_w6Ni03H8e7S0zysGimab5_rTgIurKFL02LSnq8k53uKRuwl3tOwjefKVtCHwyq4zDlTG4q6z8hNDM12LZqhy8DtmeFqfkYOaKGKTt"/>
+<div class="absolute top-3 right-3 bg-secondary-container text-on-secondary-container px-2.5 py-1 rounded-full flex items-center gap-1.5 shadow-sm border border-secondary/20">
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="text-label-md font-label-md font-bold uppercase tracking-wide">Compliant</span>
+</div>
+</div>
+<div class="p-5 flex flex-col flex-1">
+<div class="mb-4">
+<span class="text-[10px] font-bold text-on-surface-variant uppercase tracking-wider mb-1 block">Packaging</span>
+<h4 class="text-headline-sm font-headline-sm font-bold text-on-surface mb-1 truncate">EcoPack Bio-Container</h4>
+<p class="text-body-md font-body-md text-on-surface-variant truncate">SKU: ACME-EP-105</p>
+</div>
+<div class="mt-auto border-t border-outline-variant/40 pt-4 flex justify-between items-center">
+<span class="text-label-md font-label-md text-on-surface-variant">Last checked: 2 days ago</span>
+<button class="text-secondary hover:bg-secondary/10 p-1.5 rounded-md transition-colors" onclick="location.href='../self_check_report_legallense/code.html?id=SC-ECOPACK-1'">
+<span class="material-symbols-outlined">description</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+<script src="/assets/app.js"></script>
+<script>
+    if (LL.requireRole('manufacturer')) {
+        var session = LL.getSession();
+        document.getElementById('user-name').textContent = session.name;
+
+        var products = LL.getProducts();
+        var selfChecks = LL.getSelfChecks();
+        var latestByProduct = {};
+        selfChecks.forEach(function (sc) {
+            if (!latestByProduct[sc.productId] || sc.version > latestByProduct[sc.productId].version) {
+                latestByProduct[sc.productId] = sc;
+            }
+        });
+        var latestList = Object.keys(latestByProduct).map(function (k) { return latestByProduct[k]; });
+        var compliantCount = latestList.filter(function (s) { return s.status === 'compliant'; }).length;
+        var needsFixesCount = latestList.filter(function (s) { return s.status === 'needs_fixes'; }).length;
+        var avgScore = latestList.length ? Math.round(latestList.reduce(function (a, s) { return a + s.score; }, 0) / latestList.length) : 0;
+
+        document.getElementById('stat-total-products').textContent = products.length;
+        document.getElementById('stat-compliant-products').textContent = compliantCount;
+        document.getElementById('stat-needs-fixes').textContent = needsFixesCount;
+        document.getElementById('stat-avg-score').textContent = avgScore + '%';
+        document.getElementById('stat-avg-score-bar').style.width = avgScore + '%';
+
+        document.getElementById('export-report-btn').addEventListener('click', function () {
+            var rows = [['Product', 'Category', 'Latest Score', 'Status']];
+            products.forEach(function (p) {
+                var latest = latestByProduct[p.id];
+                rows.push([p.name, p.category, latest ? latest.score : 'Not checked', latest ? latest.status : 'not_checked']);
+            });
+            LL.exportCSV('manufacturer_compliance_report.csv', rows);
+        });
+    }
+</script>
+</body></html>

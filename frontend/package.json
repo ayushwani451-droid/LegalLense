@@ -1,0 +1,15 @@
+{
+  "name": "legallense-frontend",
+  "private": true,
+  "version": "0.1.0",
+  "description": "LegalLense compliance portal frontend (static multi-page app, Vite-built for Vercel deployment).",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "vite": "^8.2.2"
+  }
+}

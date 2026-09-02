@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Compliance Report | LegalLense</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "secondary-fixed-dim": "#76d6d5",
+                    "surface-container-low": "#f3f4f5",
+                    "secondary-container": "#90efef",
+                    "secondary": "#006a6a",
+                    "surface": "#f8f9fa",
+                    "inverse-surface": "#2e3132",
+                    "primary-fixed": "#d3e4ff",
+                    "secondary-fixed": "#93f2f2",
+                    "on-primary-fixed-variant": "#1c4877",
+                    "primary-fixed-dim": "#a2c9ff",
+                    "surface-tint": "#386090",
+                    "on-primary-fixed": "#001c38",
+                    "on-primary-container": "#82a9dd",
+                    "surface-variant": "#e1e3e4",
+                    "surface-dim": "#d9dadb",
+                    "background": "#f8f9fa",
+                    "on-error-container": "#93000a",
+                    "tertiary-fixed": "#ffdfa0",
+                    "on-tertiary-container": "#d39d00",
+                    "primary": "#00274a",
+                    "outline": "#737780",
+                    "on-background": "#191c1d",
+                    "surface-container-high": "#e7e8e9",
+                    "on-tertiary-fixed": "#261a00",
+                    "on-secondary-fixed": "#002020",
+                    "surface-container-lowest": "#ffffff",
+                    "tertiary": "#332300",
+                    "surface-container-highest": "#e1e3e4",
+                    "primary-container": "#0b3d6b",
+                    "on-secondary-container": "#006e6e",
+                    "on-error": "#ffffff",
+                    "tertiary-container": "#4e3800",
+                    "on-tertiary-fixed-variant": "#5c4300",
+                    "inverse-primary": "#a2c9ff",
+                    "outline-variant": "#c3c6d0",
+                    "inverse-on-surface": "#f0f1f2",
+                    "tertiary-fixed-dim": "#fbbc00",
+                    "surface-bright": "#f8f9fa",
+                    "on-surface": "#191c1d",
+                    "on-surface-variant": "#42474f",
+                    "on-tertiary": "#ffffff",
+                    "on-secondary": "#ffffff",
+                    "on-secondary-fixed-variant": "#004f4f",
+                    "error-container": "#ffdad6",
+                    "surface-container": "#edeeef",
+                    "on-primary": "#ffffff",
+                    "error": "#ba1a1a"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "sidebar-width": "260px",
+                    "container-max": "1440px",
+                    "unit": "4px",
+                    "margin-page": "32px",
+                    "gutter": "24px"
+            },
+            "fontFamily": {
+                    "headline-lg": [
+                            "Inter"
+                    ],
+                    "headline-md": [
+                            "Inter"
+                    ],
+                    "label-md": [
+                            "Inter"
+                    ],
+                    "display-lg": [
+                            "Inter"
+                    ],
+                    "headline-lg-mobile": [
+                            "Inter"
+                    ],
+                    "body-lg": [
+                            "Inter"
+                    ],
+                    "body-md": [
+                            "Inter"
+                    ]
+            },
+            "fontSize": {
+                    "headline-lg": [
+                            "28px",
+                            {
+                                    "lineHeight": "36px",
+                                    "fontWeight": "600"
+                            }
+                    ],
+                    "headline-md": [
+                            "22px",
+                            {
+                                    "lineHeight": "28px",
+                                    "fontWeight": "600"
+                            }
+                    ],
+                    "label-md": [
+                            "12px",
+                            {
+                                    "lineHeight": "16px",
+                                    "fontWeight": "600"
+                            }
+                    ],
+                    "display-lg": [
+                            "36px",
+                            {
+                                    "lineHeight": "44px",
+                                    "letterSpacing": "-0.02em",
+                                    "fontWeight": "700"
+                            }
+                    ],
+                    "headline-lg-mobile": [
+                            "24px",
+                            {
+                                    "lineHeight": "32px",
+                                    "fontWeight": "600"
+                            }
+                    ],
+                    "body-lg": [
+                            "16px",
+                            {
+                                    "lineHeight": "24px",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "body-md": [
+                            "14px",
+                            {
+                                    "lineHeight": "20px",
+                                    "fontWeight": "400"
+                            }
+                    ]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; background-color: #F8F9FA; }
+        .bounding-box { border: 2px solid #00274a; position: absolute; background-color: rgba(0, 39, 74, 0.1); }
+    </style>
+</head>
+<body class="bg-background text-on-background flex min-h-screen font-body-md">
+<!-- Fixed SideNavBar -->
+<aside class="fixed left-0 top-0 h-full w-[260px] bg-primary text-on-primary border-r border-outline-variant flex flex-col z-50">
+<div class="p-6">
+<div class="flex items-center gap-3">
+<img alt="Department of Consumer Affairs Logo" class="w-10 h-10 object-contain rounded-full bg-white/10 p-1" data-alt="Official seal or logo of the Department of Consumer Affairs, Government of India. The logo should feature a minimalist, modern, corporate aesthetic suitable for a high-stakes digital compliance portal, designed in high contrast white and teal on a navy blue background. The style should be authoritative and clean." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDZPr2u3uPN8MUz7VLXgwFuZStxkpPYE-z0daP8AsPdAUiEq6AFFpmHbFQNC-t_VYKqbMDBYS-eWkFx8H_udI_PSvgqX41GYU8U1AsQ6W5EK1gweK6Ke4VrEErsEvNuQWj5C5XEiF7Knc5rUbwBVL_WO_IqODHE8BE6xBIVTEGmp23uqNnmYpgHEsPEzizznVuO--els9KCBsv1OYKZo1U7g70h4QXsb1h4KDABB8xe60L1dWQ0MwHv"/>
+<div>
+<h1 class="text-headline-md font-headline-md font-bold text-on-primary">LegalLense</h1>
+<p class="text-label-md font-label-md text-on-primary/70">Govt. of India Portal</p>
+</div>
+</div>
+<button class="mt-8 w-full bg-secondary-fixed-dim text-on-secondary-fixed font-bold py-3 px-4 rounded hover:opacity-90 transition-opacity flex items-center justify-center gap-2" onclick="location.href='../new_compliance_scan_legallense/code.html'">
+<span class="material-symbols-outlined" data-icon="add">add</span>
+                New Compliance Scan
+            </button>
+</div>
+<nav class="flex-1 overflow-y-auto py-2">
+<a class="flex items-center gap-3 px-4 py-3 text-on-primary/70 hover:text-on-primary hover:bg-on-primary-fixed-variant/5 transition-colors" href="../official_dashboard_legallense/code.html">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="text-body-md font-body-md font-medium">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-primary/70 hover:text-on-primary hover:bg-on-primary-fixed-variant/5 transition-colors" href="../new_compliance_scan_legallense/code.html">
+<span class="material-symbols-outlined" data-icon="qr_code_scanner">qr_code_scanner</span>
+<span class="text-body-md font-body-md font-medium">Operations</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 border-l-4 border-secondary-fixed-dim bg-on-primary-fixed-variant/10 text-secondary-fixed-dim font-bold opacity-90 transition-opacity" href="../scan_history_legallense/code.html">
+<span class="material-symbols-outlined" data-icon="history" style="font-variation-settings: 'FILL' 1;">history</span>
+<span class="text-body-md font-body-md">History</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-primary/70 hover:text-on-primary hover:bg-on-primary-fixed-variant/5 transition-colors" href="#" onclick="return LL.comingSoon(event,'Product directory')">
+<span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
+<span class="text-body-md font-body-md font-medium">Products</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-primary/70 hover:text-on-primary hover:bg-on-primary-fixed-variant/5 transition-colors" href="#" onclick="return LL.comingSoon(event,'Settings')">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="text-body-md font-body-md font-medium">Settings</span>
+</a>
+</nav>
+<div class="mt-auto border-t border-on-primary/10 py-4">
+<a class="flex items-center gap-3 px-4 py-3 text-on-primary/70 hover:text-on-primary hover:bg-on-primary-fixed-variant/5 transition-colors" href="#" onclick="return LL.comingSoon(event,'Support')">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+<span class="text-body-md font-body-md">Support</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-primary/70 hover:text-on-primary hover:bg-on-primary-fixed-variant/5 transition-colors" href="../login_legallense/code.html" onclick="window.LL&&LL.logout();">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+<span class="text-body-md font-body-md">Logout</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="ml-[260px] flex-1 flex flex-col min-w-0 bg-background">
+<!-- TopAppBar -->
+<header class="bg-surface flex justify-between items-center h-16 px-8 sticky top-0 z-40 border-b border-outline-variant transition-all duration-200 ease-in-out shadow-sm">
+<div class="flex-1 flex items-center gap-8">
+<h2 class="text-headline-md font-headline-md font-black text-primary hidden lg:block">LegalLense</h2>
+<div class="hidden md:flex gap-6">
+<a class="text-on-surface-variant font-medium text-body-md font-body-md hover:text-primary hover:bg-surface-container-low px-2 py-1 rounded transition-colors" href="../official_dashboard_legallense/code.html">Official Dashboard</a>
+<a class="text-on-surface-variant font-medium text-body-md font-body-md hover:text-primary hover:bg-surface-container-low px-2 py-1 rounded transition-colors" href="#" onclick="return LL.comingSoon(event,'Departmental Guidelines')">Departmental Guidelines</a>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 text-on-surface-variant hover:text-primary hover:bg-surface-container-low rounded-full transition-colors relative" onclick="LL.comingSoon(event,'Notifications')">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span class="absolute top-1.5 right-1.5 w-2 h-2 bg-error rounded-full"></span>
+</button>
+<button class="p-2 text-on-surface-variant hover:text-primary hover:bg-surface-container-low rounded-full transition-colors" onclick="LL.comingSoon(event,'Profile settings')">
+<span class="material-symbols-outlined" data-icon="account_circle">account_circle</span>
+</button>
+<div class="w-8 h-8 rounded-full overflow-hidden border border-outline-variant ml-2">
+<img alt="User Profile Avatar" class="w-full h-full object-cover" data-alt="A generic user profile avatar placeholder, styled in a minimalist, corporate light-mode aesthetic. Soft white and light grey background with a generic teal silhouette icon, representing a government official or compliance officer." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCAqjdyyyrYMIoTGZGXn-7wZbWtQOOYq5vwPQoCJ0zqfqo5vTKRKcc2PO40e-JpN3OcSvy6j92LJeXrEgFZwNAZ_p7bBQjpPkwUv-JLORa4isK4m9t9p8JD9JJQKe69CfyMdv2OrwL-6JhApH5Y44RWQYW76iWgARUKYr3nZeEtpWdcMkWuU8zBQdH2Sw14lSCJ2vYaeFgzs2Ye1PpgU92yaBkdU7N9gL5PTU1o9_XWNqeFW03lB9us"/>
+</div>
+</div>
+</header>
+<!-- Page Content -->
+<div class="p-8 max-w-[1440px] mx-auto w-full">
+<!-- Breadcrumbs & Header -->
+<div class="mb-8">
+<nav class="flex items-center text-body-md font-body-md text-on-surface-variant mb-4">
+<a class="hover:text-primary transition-colors" href="../official_dashboard_legallense/code.html">Dashboard</a>
+<span class="material-symbols-outlined mx-2 text-[16px]">chevron_right</span>
+<a class="hover:text-primary transition-colors" href="../scan_history_legallense/code.html">Scan History</a>
+<span class="material-symbols-outlined mx-2 text-[16px]">chevron_right</span>
+<span class="text-on-surface font-medium" id="report-breadcrumb">Report #LM2024-089</span>
+</nav>
+<div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+<div>
+<h1 class="text-headline-lg font-headline-lg text-primary mb-1" id="report-product-name">Compliance Report</h1>
+<p class="text-body-md font-body-md text-on-surface-variant" id="report-subtitle">Automated packaging scan against Legal Metrology Rules, 2011.</p>
+</div>
+<div class="flex items-center gap-3">
+<span class="text-body-md font-body-md text-on-surface-variant">Overall Score:</span>
+<div class="flex items-center gap-2 bg-tertiary-fixed-dim/20 text-tertiary-container px-4 py-2 rounded font-bold border border-tertiary-fixed-dim/50 shadow-sm" id="report-score-badge">
+<span class="material-symbols-outlined" id="report-score-icon">warning</span>
+<span class="text-headline-md font-headline-md" id="report-score-value">60%</span>
+</div>
+</div>
+</div>
+</div>
+<div class="hidden bg-surface-container-lowest border border-outline-variant rounded-xl p-12 text-center" id="report-not-found">
+<span class="material-symbols-outlined text-5xl text-on-surface-variant mb-4">search_off</span>
+<h2 class="text-headline-md font-headline-md text-primary mb-2">Report Not Found</h2>
+<p class="text-body-md font-body-md text-on-surface-variant mb-6">We couldn't find a compliance report matching that scan ID.</p>
+<button class="px-6 py-2.5 rounded bg-primary text-on-primary font-semibold" onclick="location.href='../scan_history_legallense/code.html'">Back to Scan History</button>
+</div>
+<!-- Two Column Layout -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8" id="report-content">
+<!-- Left: Uploaded Image Area -->
+<div class="lg:col-span-7 flex flex-col gap-4">
+<div class="bg-surface border border-outline-variant rounded-xl p-4 shadow-sm flex flex-col h-full">
+<div class="flex justify-between items-center mb-4">
+<h3 class="text-body-lg font-body-lg font-bold text-primary">Source Evidence</h3>
+<div class="flex gap-2">
+<button class="p-1.5 text-on-surface-variant hover:bg-surface-container-low rounded"><span class="material-symbols-outlined text-[20px]">zoom_in</span></button>
+<button class="p-1.5 text-on-surface-variant hover:bg-surface-container-low rounded"><span class="material-symbols-outlined text-[20px]">zoom_out</span></button>
+</div>
+</div>
+<div class="relative w-full h-[500px] bg-surface-container-low rounded border border-outline-variant overflow-hidden">
+<!-- Image Container -->
+<div class="absolute inset-0 p-4 flex items-center justify-center">
+<div class="relative max-w-full max-h-full">
+<img alt="Detergent Label Scan" class="max-w-full max-h-full object-contain shadow-md" data-alt="A high-resolution photograph of the back panel of a typical laundry detergent box. The label features dense, small text containing product details like Manufacturer, MRP, Net Weight, and Consumer Care details. The lighting is even and bright, mimicking a studio product shot or a high-quality scan intended for optical character recognition. The aesthetic is clean, clinical, and objective." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDCXCkcwseihh6wbLAUghtNjK4kELYDeBXfYy03qFcy8KOoq-xJVeX1Ms-Z-3rx1U6sWvx6Hk78Z4HlxeDKsOQKiqrJL2IltT6S1j7Lh_52u_XCRuUzsK9O_fdB2470l4c4x6pXJVGWGM9tqGhOxRPWvFd56cyI8ix912MDbNQ0z6kDeuCCLc-GMSkedDt_odiEURQrDySpRv9VZcCp9x-PozzQf37_BTSUiJTmap8uTXgc5H6zqn7m"/>
+<!-- Bounding Boxes Overlay (Simulated) -->
+<div class="bounding-box" style="top: 15%; left: 10%; width: 40%; height: 8%;" title="Manufacturer Details Detected">
+<span class="absolute -top-6 left-0 bg-primary text-on-primary text-[10px] px-1 font-mono rounded-sm shadow">MANUFACTURER</span>
+</div>
+<div class="bounding-box border-error bg-error-container/20" style="top: 35%; left: 10%; width: 25%; height: 6%;" title="Net Weight Error">
+<span class="absolute -top-6 left-0 bg-error text-on-error text-[10px] px-1 font-mono rounded-sm shadow">NET_QTY</span>
+</div>
+<div class="bounding-box" style="top: 45%; left: 10%; width: 20%; height: 6%;" title="MRP Detected">
+<span class="absolute -top-6 left-0 bg-primary text-on-primary text-[10px] px-1 font-mono rounded-sm shadow">MRP</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Right: Field Checklist -->
+<div class="lg:col-span-5 flex flex-col gap-4">
+<div class="bg-surface border border-outline-variant rounded-xl p-6 shadow-sm flex-1">
+<h3 class="text-body-lg font-body-lg font-bold text-primary mb-6 flex items-center gap-2 border-b border-outline-variant pb-3">
+<span class="material-symbols-outlined">checklist</span>
+                            Rule 6 Declaration Checklist
+                        </h3>
+<div class="flex flex-col gap-3" id="report-findings"></div>
+</div>
+</div>
+</div>
+<!-- Footer Actions -->
+<div class="mt-8 pt-6 border-t border-outline-variant flex flex-col sm:flex-row justify-end items-center gap-4">
+<button class="w-full sm:w-auto px-6 py-2.5 rounded border border-primary text-primary hover:bg-surface-container-low transition-colors font-semibold text-body-md font-body-md flex items-center justify-center gap-2" onclick="window.print()">
+<span class="material-symbols-outlined text-[20px]">picture_as_pdf</span>
+                    Export PDF
+                </button>
+<button class="w-full sm:w-auto px-6 py-2.5 rounded border border-primary text-primary hover:bg-surface-container-low transition-colors font-semibold text-body-md font-body-md flex items-center justify-center gap-2" onclick="LL.comingSoon(event,'DOCX export')">
+<span class="material-symbols-outlined text-[20px]">description</span>
+                    Export DOCX
+                </button>
+<button class="hidden w-full sm:w-auto px-6 py-2.5 rounded border border-primary text-primary hover:bg-surface-container-low transition-colors font-semibold text-body-md font-body-md flex items-center justify-center gap-2" id="view-case-btn">
+<span class="material-symbols-outlined text-[20px]">folder_open</span>
+                    View Case
+                </button>
+<button class="hidden w-full sm:w-auto px-8 py-2.5 rounded bg-secondary text-on-secondary hover:bg-secondary/90 transition-colors font-bold text-body-md font-body-md shadow-sm flex items-center justify-center gap-2" id="log-action-btn">
+<span class="material-symbols-outlined text-[20px]">gavel</span>
+                    Log Case Action
+                </button>
+</div>
+</div>
+</main>
+<script src="/assets/app.js"></script>
+<script>
+    if (LL.requireRole('official')) {
+        var scanId = LL.qs('id') || 'SCN-LM2024-089';
+        var scan = LL.getScan(scanId);
+
+        if (!scan) {
+            document.getElementById('report-content').classList.add('hidden');
+            document.getElementById('report-not-found').classList.remove('hidden');
+            document.getElementById('report-breadcrumb').textContent = 'Report #' + scanId;
+            document.getElementById('report-product-name').textContent = 'Compliance Report';
+            document.getElementById('report-subtitle').textContent = 'No scan record matches this ID.';
+            document.querySelector('#report-score-badge').closest('.flex.items-center.gap-3').classList.add('hidden');
+        } else {
+            document.getElementById('report-breadcrumb').textContent = 'Report #' + scan.id;
+            document.getElementById('report-product-name').textContent = scan.productName;
+            document.getElementById('report-subtitle').textContent = scan.manufacturer + ' • ' + scan.category + ' • Automated packaging scan against Legal Metrology Rules, 2011.';
+
+            var score = scan.score == null ? 0 : scan.score;
+            var badge = document.getElementById('report-score-badge');
+            var icon = document.getElementById('report-score-icon');
+            document.getElementById('report-score-value').textContent = (scan.score == null ? 'Pending' : score + '%');
+            if (scan.status === 'compliant') {
+                badge.className = 'flex items-center gap-2 bg-secondary-container/40 text-on-secondary-container px-4 py-2 rounded font-bold border border-secondary/40 shadow-sm';
+                icon.textContent = 'check_circle';
+            } else if (scan.status === 'pending') {
+                badge.className = 'flex items-center gap-2 bg-surface-variant text-on-surface-variant px-4 py-2 rounded font-bold border border-outline-variant shadow-sm';
+                icon.textContent = 'schedule';
+            } else {
+                badge.className = 'flex items-center gap-2 bg-tertiary-fixed-dim/20 text-tertiary-container px-4 py-2 rounded font-bold border border-tertiary-fixed-dim/50 shadow-sm';
+                icon.textContent = 'warning';
+            }
+
+            var FINDING_STYLE = {
+                compliant: { wrap: 'flex items-start justify-between p-3 bg-surface-container-lowest border border-outline-variant rounded hover:shadow-sm transition-shadow', badge: 'flex items-center gap-1 text-secondary bg-secondary-container/30 px-2 py-1 rounded text-[12px] font-bold border border-secondary/20', icon: 'check_circle', label: 'Compliant' },
+                missing: { wrap: 'flex items-start justify-between p-3 bg-error-container/10 border border-error/30 rounded hover:shadow-sm transition-shadow', badge: 'flex items-center gap-1 text-error bg-error-container px-2 py-1 rounded text-[12px] font-bold border border-error/20', icon: 'cancel', label: 'Missing' },
+                low_confidence: { wrap: 'flex items-start justify-between p-3 bg-tertiary-fixed-dim/5 border border-tertiary-fixed-dim/30 rounded hover:shadow-sm transition-shadow', badge: 'flex items-center gap-1 text-tertiary-container bg-tertiary-fixed-dim/20 px-2 py-1 rounded text-[12px] font-bold border border-tertiary-fixed-dim/40', icon: 'warning', label: 'Low Confidence' }
+            };
+
+            var container = document.getElementById('report-findings');
+            (scan.findings || []).forEach(function (f) {
+                var style = FINDING_STYLE[f.status] || FINDING_STYLE.compliant;
+                var row = document.createElement('div');
+                row.className = style.wrap;
+                row.innerHTML =
+                    '<div class="flex flex-col gap-1">' +
+                    '<span class="text-label-md font-label-md text-on-surface-variant uppercase tracking-wider">' + LL.escapeHtml(f.field) + '</span>' +
+                    '<span class="text-body-md font-body-md text-on-surface font-medium' + (f.status !== 'compliant' ? ' italic opacity-70' : '') + '">' + LL.escapeHtml(f.value || '') + '</span>' +
+                    (f.note ? '<span class="text-label-md font-label-md text-error flex items-center gap-1 mt-1"><span class="material-symbols-outlined text-[14px]">error</span>' + LL.escapeHtml(f.note) + '</span>' : '') +
+                    '</div>' +
+                    '<div class="' + style.badge + '"><span class="material-symbols-outlined text-[16px]">' + style.icon + '</span>' + style.label + '</div>';
+                container.appendChild(row);
+            });
+
+            if (scan.caseId) {
+                var viewCaseBtn = document.getElementById('view-case-btn');
+                var logActionBtn = document.getElementById('log-action-btn');
+                viewCaseBtn.classList.remove('hidden');
+                logActionBtn.classList.remove('hidden');
+                viewCaseBtn.addEventListener('click', function () { location.href = '../case_details_legallense/code.html?id=' + encodeURIComponent(scan.caseId); });
+                logActionBtn.addEventListener('click', function () { location.href = '../log_case_action_legallense/code.html?id=' + encodeURIComponent(scan.caseId); });
+            }
+        }
+    }
+</script>
+</body></html>

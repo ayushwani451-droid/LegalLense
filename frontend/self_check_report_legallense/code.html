@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>LegalLense - Manufacturer Self-Check Report</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "secondary-fixed-dim": "#76d6d5",
+                      "surface-container-low": "#f3f4f5",
+                      "secondary-container": "#90efef",
+                      "secondary": "#006a6a",
+                      "surface": "#f8f9fa",
+                      "inverse-surface": "#2e3132",
+                      "primary-fixed": "#d3e4ff",
+                      "secondary-fixed": "#93f2f2",
+                      "on-primary-fixed-variant": "#1c4877",
+                      "primary-fixed-dim": "#a2c9ff",
+                      "surface-tint": "#386090",
+                      "on-primary-fixed": "#001c38",
+                      "on-primary-container": "#82a9dd",
+                      "surface-variant": "#e1e3e4",
+                      "surface-dim": "#d9dadb",
+                      "background": "#f8f9fa",
+                      "on-error-container": "#93000a",
+                      "tertiary-fixed": "#ffdfa0",
+                      "on-tertiary-container": "#d39d00",
+                      "primary": "#00274a",
+                      "outline": "#737780",
+                      "on-background": "#191c1d",
+                      "surface-container-high": "#e7e8e9",
+                      "on-tertiary-fixed": "#261a00",
+                      "on-secondary-fixed": "#002020",
+                      "surface-container-lowest": "#ffffff",
+                      "tertiary": "#332300",
+                      "surface-container-highest": "#e1e3e4",
+                      "primary-container": "#0b3d6b",
+                      "on-secondary-container": "#006e6e",
+                      "on-error": "#ffffff",
+                      "tertiary-container": "#4e3800",
+                      "on-tertiary-fixed-variant": "#5c4300",
+                      "inverse-primary": "#a2c9ff",
+                      "outline-variant": "#c3c6d0",
+                      "inverse-on-surface": "#f0f1f2",
+                      "tertiary-fixed-dim": "#fbbc00",
+                      "surface-bright": "#f8f9fa",
+                      "on-surface": "#191c1d",
+                      "on-surface-variant": "#42474f",
+                      "on-tertiary": "#ffffff",
+                      "on-secondary": "#ffffff",
+                      "on-secondary-fixed-variant": "#004f4f",
+                      "error-container": "#ffdad6",
+                      "surface-container": "#edeeef",
+                      "on-primary": "#ffffff",
+                      "error": "#ba1a1a"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.125rem",
+                      "lg": "0.25rem",
+                      "xl": "0.5rem",
+                      "full": "0.75rem"
+              },
+              "spacing": {
+                      "sidebar-width": "260px",
+                      "container-max": "1440px",
+                      "unit": "4px",
+                      "margin-page": "32px",
+                      "gutter": "24px"
+              },
+              "fontFamily": {
+                      "headline-lg": [
+                              "Inter"
+                      ],
+                      "headline-md": [
+                              "Inter"
+                      ],
+                      "label-md": [
+                              "Inter"
+                      ],
+                      "display-lg": [
+                              "Inter"
+                      ],
+                      "headline-lg-mobile": [
+                              "Inter"
+                      ],
+                      "body-lg": [
+                              "Inter"
+                      ],
+                      "body-md": [
+                              "Inter"
+                      ]
+              },
+              "fontSize": {
+                      "headline-lg": [
+                              "28px",
+                              {
+                                      "lineHeight": "36px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "headline-md": [
+                              "22px",
+                              {
+                                      "lineHeight": "28px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "label-md": [
+                              "12px",
+                              {
+                                      "lineHeight": "16px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "display-lg": [
+                              "36px",
+                              {
+                                      "lineHeight": "44px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "headline-lg-mobile": [
+                              "24px",
+                              {
+                                      "lineHeight": "32px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "body-lg": [
+                              "16px",
+                              {
+                                      "lineHeight": "24px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "body-md": [
+                              "14px",
+                              {
+                                      "lineHeight": "20px",
+                                      "fontWeight": "400"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+      </script>
+</head>
+<body class="bg-background text-on-background font-body-md text-body-md h-screen flex overflow-hidden">
+<!-- SideNavBar -->
+<nav class="fixed left-0 top-0 h-full w-[260px] bg-primary dark:bg-primary-container border-r border-outline-variant flex flex-col h-full py-6 z-50">
+<div class="px-6 mb-8 flex flex-col">
+<div class="flex items-center gap-3 mb-2">
+<img alt="Department of Consumer Affairs Logo" class="w-10 h-10 object-contain rounded-full bg-white p-1" data-alt="Official emblem of the Department of Consumer Affairs, Government of India, featuring the national emblem and intricate official detailing, set against a clean corporate blue background, conveying authority and institutional clarity in a modern digital UI context." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDmQFcBvDTSPN_PR0VemrdliQDW3y5OtYuMhLurZyxNkWKUR0tWKb8ko2RoDpcnQetbo_yCtK8tWmWd5hCQySHFX7HjawE3n_-FC_L_LhEo0ODfZmWCrpn6l3aQ1PU6GrYf0ibupE-ifFxgk5sY9Pcujds-yNhClaFsACNIjr9SpIsF7NInHH-DfuEfWqJ57Q2PJHZXVZDZ19KVd2bjoI4nlcTugsa9I-azPb3IfCtM5t1eiTR-g-1W"/>
+<span class="text-headline-md font-headline-md font-bold text-on-primary">LegalLense</span>
+</div>
+<span class="text-label-md font-label-md text-on-primary/80 uppercase tracking-wider ml-13">Govt. of India Portal</span>
+</div>
+<div class="px-4 mb-6">
+<button class="w-full bg-secondary text-on-secondary rounded-lg py-3 px-4 font-headline-md text-body-md font-semibold flex items-center justify-center gap-2 hover:bg-secondary-fixed-dim transition-colors shadow-sm" onclick="location.href='../new_self_check_legallense/code.html'">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">add_circle</span>
+                New Compliance Scan
+            </button>
+</div>
+<ul class="flex-1 flex flex-col gap-1 w-full text-body-md font-body-md">
+<!-- Dashboard -->
+<li>
+<a class="flex items-center gap-3 px-4 py-3 text-on-primary/70 hover:text-on-primary hover:bg-on-primary-fixed-variant/5 transition-colors" href="../manufacturer_dashboard_legallense/code.html">
+<span class="material-symbols-outlined">dashboard</span>
+                    Dashboard
+                </a>
+</li>
+<!-- Operations -->
+<li>
+<a class="flex items-center gap-3 px-4 py-3 text-on-primary/70 hover:text-on-primary hover:bg-on-primary-fixed-variant/5 transition-colors" href="../new_self_check_legallense/code.html">
+<span class="material-symbols-outlined">qr_code_scanner</span>
+                    Operations
+                </a>
+</li>
+<!-- History -->
+<li>
+<a class="flex items-center gap-3 px-4 py-3 text-on-primary/70 hover:text-on-primary hover:bg-on-primary-fixed-variant/5 transition-colors" href="../revision_history_legallense/code.html" id="sidebar-history-link">
+<span class="material-symbols-outlined">history</span>
+                    History
+                </a>
+</li>
+<!-- Products (Active mapped from 'My Products') -->
+<li>
+<a class="flex items-center gap-3 px-4 py-3 border-l-4 border-secondary-fixed-dim bg-on-primary-fixed-variant/10 text-secondary-fixed-dim font-bold opacity-90 transition-opacity" href="../manufacturer_dashboard_legallense/code.html#portfolio">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">inventory_2</span>
+                    Products
+                </a>
+</li>
+<!-- Settings -->
+<li>
+<a class="flex items-center gap-3 px-4 py-3 text-on-primary/70 hover:text-on-primary hover:bg-on-primary-fixed-variant/5 transition-colors" href="#" onclick="return LL.comingSoon(event,'Settings')">
+<span class="material-symbols-outlined">settings</span>
+                    Settings
+                </a>
+</li>
+</ul>
+<div class="mt-auto px-0">
+<ul class="flex flex-col gap-1 w-full text-body-md font-body-md">
+<li>
+<a class="flex items-center gap-3 px-4 py-3 text-on-primary/70 hover:text-on-primary hover:bg-on-primary-fixed-variant/5 transition-colors" href="#" onclick="return LL.comingSoon(event,'Support')">
+<span class="material-symbols-outlined">help</span>
+                        Support
+                    </a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-4 py-3 text-on-primary/70 hover:text-on-primary hover:bg-on-primary-fixed-variant/5 transition-colors" href="../login_legallense/code.html" onclick="window.LL&&LL.logout();">
+<span class="material-symbols-outlined">logout</span>
+                        Logout
+                    </a>
+</li>
+</ul>
+</div>
+</nav>
+<!-- Main Content Area -->
+<main class="flex-1 ml-[260px] flex flex-col min-h-screen overflow-y-auto bg-background">
+<!-- TopAppBar -->
+<header class="docked full-width top-0 border-b border-outline-variant bg-surface dark:bg-surface-dim flex justify-between items-center h-16 px-8 sticky top-0 z-40">
+<div class="flex items-center gap-8">
+<!-- Search (Left aligned as per JSON) -->
+<div class="relative w-64">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[20px]">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-surface-container-low border-transparent focus:border-primary focus:ring-1 focus:ring-primary rounded-lg text-body-md text-on-surface placeholder:text-on-surface-variant transition-all" placeholder="Search guidelines..." type="text"/>
+</div>
+<nav class="hidden lg:flex gap-6">
+<a class="text-on-surface-variant font-medium hover:text-primary hover:bg-surface-container-low transition-all duration-200 ease-in-out px-2 py-1 rounded" href="../manufacturer_dashboard_legallense/code.html">Manufacturer Dashboard</a>
+<a class="text-on-surface-variant font-medium hover:text-primary hover:bg-surface-container-low transition-all duration-200 ease-in-out px-2 py-1 rounded" href="#" onclick="return LL.comingSoon(event,'Departmental Guidelines')">Departmental Guidelines</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<button aria-label="Notification Bell" class="p-2 rounded-full text-on-surface-variant hover:bg-surface-container-low hover:text-primary transition-colors relative" onclick="LL.comingSoon(event,'Notifications')">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-1 right-1 w-2 h-2 bg-error rounded-full"></span>
+</button>
+<div class="h-6 w-[1px] bg-outline-variant mx-2"></div>
+<button class="flex items-center gap-2 hover:bg-surface-container-low p-1 pr-3 rounded-full transition-colors border border-transparent hover:border-outline-variant" onclick="LL.comingSoon(event,'Profile settings')">
+<img alt="User Profile Avatar" class="w-8 h-8 rounded-full object-cover" data-alt="Professional corporate headshot of a user, clean lighting, confident expression, neutral gray background, suitable for an official government portal user profile avatar." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDvSPg6WYTIIT5a871MInWdSMEMff6E7KngGjeNqIEVAEGvk_v-tD9yHCsAMjoEBq7wSXC9bOc3LIlV7IapjyfHO6kynuCN5YO8k6F0ynRr5spWdYYrR9JTKtb4YaMH__1DvC22HyUiJbbcaijzUc6vma0x4Inb6jJ5QB4ohMZ9IUZoDlm1J8fqUGWGJmdsLdKJrgaRL4lMPdwpIHzGLFEjPUXrfxY3IP1s4Jvb3_l5bIWKKmquwp9d"/>
+<span class="material-symbols-outlined text-on-surface-variant">arrow_drop_down</span>
+</button>
+</div>
+</header>
+<!-- Page Content -->
+<div class="flex-1 p-margin-page max-w-container-max mx-auto w-full">
+<!-- Breadcrumbs -->
+<nav aria-label="Breadcrumb" class="mb-6 flex items-center text-body-md text-on-surface-variant">
+<ol class="flex items-center gap-2">
+<li><a class="hover:text-primary transition-colors" href="../manufacturer_dashboard_legallense/code.html">Dashboard</a></li>
+<li><span class="material-symbols-outlined text-[16px]">chevron_right</span></li>
+<li><a class="hover:text-primary transition-colors" href="../manufacturer_dashboard_legallense/code.html#portfolio">My Products</a></li>
+<li><span class="material-symbols-outlined text-[16px]">chevron_right</span></li>
+<li aria-current="page" class="font-medium text-on-surface" id="report-breadcrumb">Label v2 Analysis</li>
+</ol>
+</nav>
+<div class="hidden bg-surface-container-lowest border border-outline-variant rounded-xl p-12 text-center mb-8" id="self-check-not-found">
+<span class="material-symbols-outlined text-5xl text-on-surface-variant mb-4">search_off</span>
+<h2 class="text-headline-md font-headline-md text-primary mb-2">Self-Check Report Not Found</h2>
+<p class="text-body-md font-body-md text-on-surface-variant mb-6">We couldn't find a self-check matching that ID.</p>
+<button class="px-6 py-2.5 rounded bg-primary text-on-primary font-semibold" onclick="location.href='../manufacturer_dashboard_legallense/code.html'">Back to Dashboard</button>
+</div>
+<!-- Page Header -->
+<div class="mb-8 flex flex-col md:flex-row md:items-end justify-between gap-4" id="self-check-header">
+<div>
+<h1 class="text-display-lg font-display-lg text-primary mb-2">Self-Check Report</h1>
+<p class="text-body-lg font-body-lg text-on-surface-variant" id="report-subtitle">Review the automated compliance analysis for your uploaded label.</p>
+</div>
+<div class="flex flex-col sm:flex-row gap-3">
+<button class="bg-surface border border-outline-variant text-primary px-6 py-3 rounded-lg font-headline-md text-body-md font-semibold hover:bg-surface-container-low transition-colors shadow-sm flex items-center gap-2" id="view-revisions-btn">
+<span class="material-symbols-outlined">history</span>
+                    View Revision History
+                </button>
+<button class="bg-secondary text-on-secondary px-6 py-3 rounded-lg font-headline-md text-body-md font-semibold hover:bg-secondary-fixed-dim transition-colors shadow-sm flex items-center gap-2" id="reupload-btn">
+<span class="material-symbols-outlined">upload</span>
+                    Re-upload Revised Label
+                </button>
+</div>
+</div>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter" id="report-content">
+<!-- Left Column: Label Image (Spans 7 cols) -->
+<div class="lg:col-span-7 flex flex-col gap-6">
+<div class="bg-surface rounded-xl border border-outline-variant overflow-hidden shadow-sm flex flex-col h-full">
+<div class="p-4 border-b border-outline-variant bg-surface-container-low flex justify-between items-center">
+<h2 class="text-headline-md font-headline-md text-primary">Label Analysis View</h2>
+<div class="flex gap-2">
+<button class="p-1.5 text-on-surface-variant hover:text-primary rounded bg-surface border border-outline-variant hover:bg-surface-container-highest transition-colors"><span class="material-symbols-outlined text-[20px]">zoom_in</span></button>
+<button class="p-1.5 text-on-surface-variant hover:text-primary rounded bg-surface border border-outline-variant hover:bg-surface-container-highest transition-colors"><span class="material-symbols-outlined text-[20px]">zoom_out</span></button>
+</div>
+</div>
+<div class="p-6 flex-1 bg-surface-container-lowest flex items-center justify-center relative min-h-[400px]">
+<!-- Mockup of the label with bounding boxes -->
+<div class="relative max-w-md w-full border border-outline-variant shadow-sm rounded">
+<img class="w-full h-auto rounded object-contain" data-alt="A clean, flat layout image of a generic consumer product label, perhaps a food or cosmetic item, placed centrally. Overlaid on the label are a few distinct, thin glowing bounding boxes (one yellow, one green) highlighting specific text areas like 'Net Quantity' and 'Address', illustrating an automated computer vision scanning process in a high-tech compliance dashboard." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA1rqD_9cYxZTFOXsqw4BFbNJoC5Z-dtcOcGbpnr1c5MAXLIKCg1nhW0M5x6fvSp8ZhnEmbVHgvkQO3bNggjlvOcr0xWT0BOoPD3ZE9YKHrkMr1L0o-7oM31qUr8wSAGj1ls7IJU4WOZdkHQvNVrOiqXsMiBNw3UMDA58dLu2kOpzYVT7CXDXqagsypr0zNtaPdREsr8Vrj2ZwUJ_HH3m5GP1abJ2ao45bgw0ChKZHXGyRrosA5TPGX"/>
+<!-- Bounding Box Overlays (Illustrative) -->
+<div class="absolute top-[15%] left-[10%] w-[30%] h-[10%] border-2 border-tertiary-fixed-dim bg-tertiary-fixed-dim/10 rounded-sm group cursor-pointer">
+<div class="absolute -top-6 left-0 bg-surface border border-tertiary-fixed-dim text-label-md px-2 py-0.5 rounded shadow text-on-surface opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-10">Net Quantity</div>
+</div>
+<div class="absolute top-[35%] left-[5%] w-[80%] h-[20%] border-2 border-secondary bg-secondary/10 rounded-sm group cursor-pointer">
+<div class="absolute -top-6 left-0 bg-surface border border-secondary text-label-md px-2 py-0.5 rounded shadow text-on-surface opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-10">Manufacturer Address</div>
+</div>
+<div class="absolute bottom-[20%] right-[10%] w-[40%] h-[12%] border-2 border-tertiary-fixed-dim bg-tertiary-fixed-dim/10 rounded-sm group cursor-pointer">
+<div class="absolute -top-6 right-0 bg-surface border border-tertiary-fixed-dim text-label-md px-2 py-0.5 rounded shadow text-on-surface opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-10">MRP Format</div>
+</div>
+</div>
+</div>
+<div class="p-4 bg-surface-container-low border-t border-outline-variant text-label-md text-on-surface-variant flex gap-4">
+<div class="flex items-center gap-1"><div class="w-3 h-3 border border-secondary bg-secondary/20 rounded-sm"></div> Compliant Area</div>
+<div class="flex items-center gap-1"><div class="w-3 h-3 border border-tertiary-fixed-dim bg-tertiary-fixed-dim/20 rounded-sm"></div> Needs Attention</div>
+</div>
+</div>
+</div>
+<!-- Right Column: Checklist (Spans 5 cols) -->
+<div class="lg:col-span-5 flex flex-col gap-6">
+<div class="bg-surface rounded-xl border border-outline-variant shadow-sm flex flex-col h-full">
+<div class="p-6 border-b border-outline-variant">
+<h2 class="text-headline-md font-headline-md text-primary mb-2">Compliance Checklist</h2>
+<p class="text-body-md text-on-surface-variant">Review the suggestions below to ensure full compliance before final submission.</p>
+<!-- Summary Bar -->
+<div class="mt-4 flex items-center gap-4 bg-surface-container-lowest p-3 rounded-lg border border-outline-variant">
+<div class="flex items-center justify-center w-12 h-12 rounded-full bg-secondary/10 text-secondary">
+<span class="text-headline-lg font-headline-lg" id="passed-count">1</span>
+</div>
+<div>
+<div class="text-label-md text-on-surface-variant uppercase tracking-wider">Passed</div>
+</div>
+<div class="h-8 w-[1px] bg-outline-variant"></div>
+<div class="flex items-center justify-center w-12 h-12 rounded-full bg-tertiary-fixed-dim/10 text-tertiary-container">
+<span class="text-headline-lg font-headline-lg" id="suggestions-count">2</span>
+</div>
+<div>
+<div class="text-label-md text-on-surface-variant uppercase tracking-wider">Suggestions</div>
+</div>
+</div>
+</div>
+<div class="p-0 flex-1 overflow-y-auto">
+<!-- Checklist Items -->
+<ul class="flex flex-col" id="checklist-items"></ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<script src="/assets/app.js"></script>
+<script>
+    if (LL.requireRole('manufacturer')) {
+        var id = LL.qs('id') || 'SC-1002';
+        var record = LL.getSelfCheck(id);
+        var historyLink = document.getElementById('sidebar-history-link');
+
+        if (!record) {
+            document.getElementById('self-check-header').classList.add('hidden');
+            document.getElementById('report-content').classList.add('hidden');
+            document.getElementById('self-check-not-found').classList.remove('hidden');
+        } else {
+            historyLink.href = '../revision_history_legallense/code.html?productId=' + encodeURIComponent(record.productId);
+            document.getElementById('report-breadcrumb').textContent = record.productName + ' v' + record.version;
+            document.getElementById('report-subtitle').textContent = record.productName + ' — Version ' + record.version + ' • Score: ' + record.score + '%';
+
+            var passed = record.findings.filter(function (f) { return f.status === 'compliant'; }).length;
+            var suggestions = record.findings.length - passed;
+            document.getElementById('passed-count').textContent = passed;
+            document.getElementById('suggestions-count').textContent = suggestions;
+
+            var list = document.getElementById('checklist-items');
+            record.findings.forEach(function (f, idx) {
+                var li = document.createElement('li');
+                li.className = 'p-6 hover:bg-surface-container-lowest transition-colors group' + (idx < record.findings.length - 1 ? ' border-b border-outline-variant' : '');
+                if (f.status === 'compliant') {
+                    li.innerHTML =
+                        '<div class="flex items-start gap-4"><div class="mt-0.5 text-secondary"><span class="material-symbols-outlined" style="font-variation-settings: \'FILL\' 1;">check_circle</span></div>' +
+                        '<div class="flex-1"><h3 class="text-body-lg font-headline-md font-semibold text-on-surface mb-1">' + LL.escapeHtml(f.field) + '</h3>' +
+                        '<p class="text-body-md text-on-surface-variant">' + LL.escapeHtml(f.note || 'Fully compliant.') + '</p></div></div>';
+                } else {
+                    li.innerHTML =
+                        '<div class="flex items-start gap-4"><div class="mt-0.5 text-tertiary-fixed-dim"><span class="material-symbols-outlined" style="font-variation-settings: \'FILL\' 1;">warning</span></div>' +
+                        '<div class="flex-1"><h3 class="text-body-lg font-headline-md font-semibold text-on-surface mb-1">' + LL.escapeHtml(f.field) + '</h3>' +
+                        '<div class="bg-tertiary-fixed-dim/10 border border-tertiary-fixed-dim/30 rounded-md p-3 text-body-md text-on-surface mt-2 text-tertiary-container"><span class="font-semibold block mb-1">Suggestion:</span>' + LL.escapeHtml(f.note || '') + '</div></div></div>';
+                }
+                list.appendChild(li);
+            });
+
+            document.getElementById('view-revisions-btn').addEventListener('click', function () {
+                location.href = '../revision_history_legallense/code.html?productId=' + encodeURIComponent(record.productId);
+            });
+            document.getElementById('reupload-btn').addEventListener('click', function () {
+                location.href = '../new_self_check_legallense/code.html?productId=' + encodeURIComponent(record.productId);
+            });
+
+            if (record.status === 'compliant') {
+                var certBtn = document.createElement('button');
+                certBtn.className = 'bg-secondary-container text-on-secondary-container px-6 py-3 rounded-lg font-headline-md text-body-md font-semibold hover:bg-secondary-container/80 transition-colors shadow-sm flex items-center gap-2';
+                certBtn.innerHTML = '<span class="material-symbols-outlined">verified</span> View Compliance Certificate';
+                certBtn.addEventListener('click', function () {
+                    location.href = '../compliance_summary_legallense/code.html?id=' + encodeURIComponent(record.id);
+                });
+                document.getElementById('self-check-header').querySelector('.flex.flex-col.sm\\:flex-row').appendChild(certBtn);
+            }
+        }
+    }
+</script>
+</body></html>

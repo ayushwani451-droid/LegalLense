@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>LegalLense - Advanced Digital Compliance Scanning</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "secondary-fixed-dim": "#76d6d5",
+                      "surface-container-low": "#f3f4f5",
+                      "secondary-container": "#90efef",
+                      "secondary": "#006a6a",
+                      "surface": "#f8f9fa",
+                      "inverse-surface": "#2e3132",
+                      "primary-fixed": "#d3e4ff",
+                      "secondary-fixed": "#93f2f2",
+                      "on-primary-fixed-variant": "#1c4877",
+                      "primary-fixed-dim": "#a2c9ff",
+                      "surface-tint": "#386090",
+                      "on-primary-fixed": "#001c38",
+                      "on-primary-container": "#82a9dd",
+                      "surface-variant": "#e1e3e4",
+                      "surface-dim": "#d9dadb",
+                      "background": "#f8f9fa",
+                      "on-error-container": "#93000a",
+                      "tertiary-fixed": "#ffdfa0",
+                      "on-tertiary-container": "#d39d00",
+                      "primary": "#00274a",
+                      "outline": "#737780",
+                      "on-background": "#191c1d",
+                      "surface-container-high": "#e7e8e9",
+                      "on-tertiary-fixed": "#261a00",
+                      "on-secondary-fixed": "#002020",
+                      "surface-container-lowest": "#ffffff",
+                      "tertiary": "#332300",
+                      "surface-container-highest": "#e1e3e4",
+                      "primary-container": "#0b3d6b",
+                      "on-secondary-container": "#006e6e",
+                      "on-error": "#ffffff",
+                      "tertiary-container": "#4e3800",
+                      "on-tertiary-fixed-variant": "#5c4300",
+                      "inverse-primary": "#a2c9ff",
+                      "outline-variant": "#c3c6d0",
+                      "inverse-on-surface": "#f0f1f2",
+                      "tertiary-fixed-dim": "#fbbc00",
+                      "surface-bright": "#f8f9fa",
+                      "on-surface": "#191c1d",
+                      "on-surface-variant": "#42474f",
+                      "on-tertiary": "#ffffff",
+                      "on-secondary": "#ffffff",
+                      "on-secondary-fixed-variant": "#004f4f",
+                      "error-container": "#ffdad6",
+                      "surface-container": "#edeeef",
+                      "on-primary": "#ffffff",
+                      "error": "#ba1a1a"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.125rem",
+                      "lg": "0.25rem",
+                      "xl": "0.5rem",
+                      "full": "0.75rem"
+              },
+              "spacing": {
+                      "sidebar-width": "260px",
+                      "container-max": "1440px",
+                      "unit": "4px",
+                      "margin-page": "32px",
+                      "gutter": "24px"
+              },
+              "fontFamily": {
+                      "headline-lg": [
+                              "Inter"
+                      ],
+                      "headline-md": [
+                              "Inter"
+                      ],
+                      "label-md": [
+                              "Inter"
+                      ],
+                      "display-lg": [
+                              "Inter"
+                      ],
+                      "headline-lg-mobile": [
+                              "Inter"
+                      ],
+                      "body-lg": [
+                              "Inter"
+                      ],
+                      "body-md": [
+                              "Inter"
+                      ]
+              },
+              "fontSize": {
+                      "headline-lg": [
+                              "28px",
+                              {
+                                      "lineHeight": "36px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "headline-md": [
+                              "22px",
+                              {
+                                      "lineHeight": "28px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "label-md": [
+                              "12px",
+                              {
+                                      "lineHeight": "16px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "display-lg": [
+                              "36px",
+                              {
+                                      "lineHeight": "44px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "headline-lg-mobile": [
+                              "24px",
+                              {
+                                      "lineHeight": "32px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "body-lg": [
+                              "16px",
+                              {
+                                      "lineHeight": "24px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "body-md": [
+                              "14px",
+                              {
+                                      "lineHeight": "20px",
+                                      "fontWeight": "400"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: theme('colors.background');
+            color: theme('colors.on-background');
+        }
+        .hero-gradient {
+            background: linear-gradient(135deg, theme('colors.primary-container') 0%, theme('colors.primary') 100%);
+        }
+        .card-hover {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+    </style>
+</head>
+<body class="antialiased min-h-screen flex flex-col">
+<!-- Top App Bar (Simplified for Landing Page) -->
+<header class="bg-surface border-b border-outline-variant h-16 sticky top-0 z-40 px-8 flex justify-between items-center w-full max-w-[1440px] mx-auto">
+<div class="flex items-center gap-3">
+<img alt="Government Logo" class="h-10 w-10 object-contain rounded-full" data-alt="The official emblem of the Government of India, featuring the Lion Capital of Ashoka. The emblem is rendered in a crisp, dark navy blue outline style, suitable for a modern corporate web header. The background is pristine white. The mood is authoritative and official, aligned with a high-stakes compliance portal." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCH0SO1bvaAhvJx7XHZ1iu0XThnambqEWeeRsHkf9wS-K9noyjW5XpVXoeDYm2jlDlvWl7fOy6Y1yQx1ZY4Z5JqU6-8j_U2Yv_Aij90ALJgUtcrzRw01Kx_nvovUDKnYol8IPGNlA_DByAsrhnj1EZIZPyfHqaKaJuHr8kEka4ivZUAtr3sweypiyKCVG3r06QxV5qbeY3yCl1Gq7IEDEbiLTuphSdnFPldcVLSQLBvqxpVPsaSL7kz"/>
+<span class="text-headline-md font-headline-md font-bold text-primary">LegalLense</span>
+</div>
+<div class="hidden md:flex gap-6">
+<a class="text-body-md font-body-md text-on-surface-variant font-medium hover:text-primary transition-colors" href="#" onclick="return LL.comingSoon(event,'About the Rules')">About the Rules</a>
+<a class="text-body-md font-body-md text-on-surface-variant font-medium hover:text-primary transition-colors" href="#" onclick="return LL.comingSoon(event,'Help Center')">Help Center</a>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-grow w-full max-w-[1440px] mx-auto px-margin-page md:px-margin-page flex flex-col items-center pt-16 pb-24">
+<!-- Hero Section -->
+<section class="w-full flex flex-col items-center text-center max-w-4xl mb-24">
+<h1 class="text-display-lg font-display-lg text-primary mb-6">LegalLense</h1>
+<p class="text-headline-md font-headline-md text-on-surface-variant mb-12 max-w-3xl">
+                Advanced digital compliance scanning for the Legal Metrology (Packaged Commodities) Rules, 2011.
+            </p>
+<div class="flex flex-col sm:flex-row gap-6 w-full justify-center">
+<button class="bg-secondary hover:bg-on-secondary-fixed-variant text-on-secondary text-body-lg font-body-lg font-semibold py-4 px-8 rounded-lg min-h-[44px] transition-colors shadow-sm flex items-center justify-center gap-2" onclick="location.href='../login_legallense/code.html?role=official'">
+<span class="material-symbols-outlined" data-icon="admin_panel_settings">admin_panel_settings</span>
+                    Enforcement Official Login
+                </button>
+<button class="bg-surface hover:bg-surface-container-low text-primary border-2 border-primary text-body-lg font-body-lg font-semibold py-4 px-8 rounded-lg min-h-[44px] transition-colors flex items-center justify-center gap-2" onclick="location.href='../login_legallense/code.html?role=manufacturer'">
+<span class="material-symbols-outlined" data-icon="storefront">storefront</span>
+                    Manufacturer/Operator Login
+                </button>
+</div>
+<p class="mt-6 text-body-md font-body-md text-on-surface-variant">New manufacturer? <a class="text-secondary font-semibold hover:underline" href="../registration_manufacturer/code.html">Register your company</a></p>
+</section>
+<!-- How it Works Section - Bento Grid Style -->
+<section class="w-full max-w-5xl mt-12">
+<div class="text-center mb-12">
+<h2 class="text-headline-lg font-headline-lg text-primary">How it Works</h2>
+<div class="w-16 h-1 bg-secondary mx-auto mt-4 rounded-full"></div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<!-- Step 1 -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-8 card-hover flex flex-col items-center text-center relative overflow-hidden">
+<div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary-fixed to-primary-container opacity-50"></div>
+<div class="w-20 h-20 bg-primary-fixed rounded-full flex items-center justify-center mb-6 text-primary-container">
+<span class="material-symbols-outlined text-4xl" data-icon="upload_file">upload_file</span>
+</div>
+<h3 class="text-headline-md font-headline-md text-primary mb-3">Upload</h3>
+<p class="text-body-md font-body-md text-on-surface-variant">
+                        Securely upload high-resolution photos of product labels or packaging for automated review.
+                    </p>
+</div>
+<!-- Step 2 -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-8 card-hover flex flex-col items-center text-center relative overflow-hidden">
+<div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-secondary-fixed to-secondary opacity-50"></div>
+<div class="w-20 h-20 bg-secondary-fixed rounded-full flex items-center justify-center mb-6 text-secondary">
+<span class="material-symbols-outlined text-4xl" data-icon="document_scanner">document_scanner</span>
+</div>
+<h3 class="text-headline-md font-headline-md text-primary mb-3">Scan</h3>
+<p class="text-body-md font-body-md text-on-surface-variant">
+                        Our AI-powered engine analyzes the label against current Legal Metrology regulations.
+                    </p>
+</div>
+<!-- Step 3 -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-8 card-hover flex flex-col items-center text-center relative overflow-hidden">
+<div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-tertiary-fixed to-tertiary-container opacity-50"></div>
+<div class="w-20 h-20 bg-tertiary-fixed rounded-full flex items-center justify-center mb-6 text-tertiary-container">
+<span class="material-symbols-outlined text-4xl" data-icon="analytics">analytics</span>
+</div>
+<h3 class="text-headline-md font-headline-md text-primary mb-3">Report</h3>
+<p class="text-body-md font-body-md text-on-surface-variant">
+                        Generate instant, comprehensive compliance reports detailing violations and actionable insights.
+                    </p>
+</div>
+</div>
+</section>
+</main>
+<!-- Professional Footer -->
+<footer class="bg-surface-container-high border-t border-outline-variant py-12 mt-auto">
+<div class="w-full max-w-[1440px] mx-auto px-margin-page flex flex-col md:flex-row justify-between items-center gap-6">
+<div class="flex items-center gap-4">
+<img alt="Govt Emblem Footer" class="h-12 w-12 object-contain grayscale opacity-80" data-alt="A small, subtle watermark version of the National Emblem of India, in a monochromatic dark grey against a light grey background. It signifies official government backing without dominating the footer. The design is clean, crisp, and highly legible for web use." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAQGEi7rDuucaCy0pkco94FosnfcaRlzDNPDvb8CETKbQdj0bVxRHijFslDhhx2QBxHW3o2haFjaUaWXC86potIGQJhXjmjrNi4322cZcpru8O3sAfFRTQBOrXDni_ISrAGjRZcuigvuPPc8Cu93UmeE88NeDFp9aZ-6AcpknphjKkRUaOtzfteKhKdPQ8i9qvNAy5NU4236V9JC_BWQjQhGHtyc-AguQ6y2aWyH7dbJnpIvvxrJbUJ"/>
+<div>
+<h4 class="text-body-lg font-body-lg font-bold text-on-surface">Department of Consumer Affairs</h4>
+<p class="text-label-md font-label-md text-on-surface-variant">Government of India</p>
+</div>
+</div>
+<div class="flex gap-6 text-label-md font-label-md text-on-surface-variant">
+<a class="hover:text-primary transition-colors" href="#" onclick="return LL.comingSoon(event,'Privacy Policy')">Privacy Policy</a>
+<a class="hover:text-primary transition-colors" href="#" onclick="return LL.comingSoon(event,'Terms of Service')">Terms of Service</a>
+<a class="hover:text-primary transition-colors" href="#" onclick="return LL.comingSoon(event,'Contact Support')">Contact Support</a>
+</div>
+</div>
+</footer>
+<script src="/assets/app.js"></script>
+</body></html>

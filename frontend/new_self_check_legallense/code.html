@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Manufacturer Self-Check Upload</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "secondary-fixed-dim": "#76d6d5",
+                    "surface-container-low": "#f3f4f5",
+                    "secondary-container": "#90efef",
+                    "secondary": "#006a6a",
+                    "surface": "#f8f9fa",
+                    "inverse-surface": "#2e3132",
+                    "primary-fixed": "#d3e4ff",
+                    "secondary-fixed": "#93f2f2",
+                    "on-primary-fixed-variant": "#1c4877",
+                    "primary-fixed-dim": "#a2c9ff",
+                    "surface-tint": "#386090",
+                    "on-primary-fixed": "#001c38",
+                    "on-primary-container": "#82a9dd",
+                    "surface-variant": "#e1e3e4",
+                    "surface-dim": "#d9dadb",
+                    "background": "#f8f9fa",
+                    "on-error-container": "#93000a",
+                    "tertiary-fixed": "#ffdfa0",
+                    "on-tertiary-container": "#d39d00",
+                    "primary": "#00274a",
+                    "outline": "#737780",
+                    "on-background": "#191c1d",
+                    "surface-container-high": "#e7e8e9",
+                    "on-tertiary-fixed": "#261a00",
+                    "on-secondary-fixed": "#002020",
+                    "surface-container-lowest": "#ffffff",
+                    "tertiary": "#332300",
+                    "surface-container-highest": "#e1e3e4",
+                    "primary-container": "#0b3d6b",
+                    "on-secondary-container": "#006e6e",
+                    "on-error": "#ffffff",
+                    "tertiary-container": "#4e3800",
+                    "on-tertiary-fixed-variant": "#5c4300",
+                    "inverse-primary": "#a2c9ff",
+                    "outline-variant": "#c3c6d0",
+                    "inverse-on-surface": "#f0f1f2",
+                    "tertiary-fixed-dim": "#fbbc00",
+                    "surface-bright": "#f8f9fa",
+                    "on-surface": "#191c1d",
+                    "on-surface-variant": "#42474f",
+                    "on-tertiary": "#ffffff",
+                    "on-secondary": "#ffffff",
+                    "on-secondary-fixed-variant": "#004f4f",
+                    "error-container": "#ffdad6",
+                    "surface-container": "#edeeef",
+                    "on-primary": "#ffffff",
+                    "error": "#ba1a1a"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "sidebar-width": "260px",
+                    "container-max": "1440px",
+                    "unit": "4px",
+                    "margin-page": "32px",
+                    "gutter": "24px"
+            },
+            "fontFamily": {
+                    "headline-lg": ["Inter"],
+                    "headline-md": ["Inter"],
+                    "label-md": ["Inter"],
+                    "display-lg": ["Inter"],
+                    "headline-lg-mobile": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "body-md": ["Inter"]
+            },
+            "fontSize": {
+                    "headline-lg": ["28px", {"lineHeight": "36px", "fontWeight": "600"}],
+                    "headline-md": ["22px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "label-md": ["12px", {"lineHeight": "16px", "fontWeight": "600"}],
+                    "display-lg": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .drag-active {
+            border-color: #00274a;
+            background-color: #d3e4ff;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen flex">
+<!-- SideNavBar (Shared Component) -->
+<aside class="fixed left-0 top-0 h-full w-[260px] bg-primary dark:bg-primary-container border-r border-outline-variant flex flex-col py-6 z-50 shadow-none">
+<div class="px-6 mb-8">
+<h1 class="text-headline-md font-headline-md font-bold text-on-primary">LegalLense</h1>
+<p class="text-label-md font-label-md text-on-primary/70 mt-1">Govt. of India Portal</p>
+</div>
+<div class="px-4 mb-6">
+<button class="w-full bg-secondary-fixed-dim text-on-secondary-fixed-variant hover:bg-secondary-fixed py-3 px-4 rounded font-label-md text-label-md flex items-center justify-center gap-2 transition-colors" onclick="location.href='code.html'">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">add</span>
+                New Compliance Scan
+            </button>
+</div>
+<nav class="flex-1 flex flex-col gap-1">
+<a class="flex items-center gap-3 px-4 py-3 text-on-primary/70 hover:text-on-primary hover:bg-on-primary-fixed-variant/5 transition-colors" href="../manufacturer_dashboard_legallense/code.html">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="text-body-md font-body-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 border-l-4 border-secondary-fixed-dim bg-on-primary-fixed-variant/10 text-secondary-fixed-dim font-bold opacity-90 transition-opacity" href="code.html">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">qr_code_scanner</span>
+<span class="text-body-md font-body-md">Operations</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-primary/70 hover:text-on-primary hover:bg-on-primary-fixed-variant/5 transition-colors" href="../revision_history_legallense/code.html">
+<span class="material-symbols-outlined">history</span>
+<span class="text-body-md font-body-md">History</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-primary/70 hover:text-on-primary hover:bg-on-primary-fixed-variant/5 transition-colors" href="../manufacturer_dashboard_legallense/code.html#portfolio">
+<span class="material-symbols-outlined">inventory_2</span>
+<span class="text-body-md font-body-md">Products</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-primary/70 hover:text-on-primary hover:bg-on-primary-fixed-variant/5 transition-colors" href="#" onclick="return LL.comingSoon(event,'Settings')">
+<span class="material-symbols-outlined">settings</span>
+<span class="text-body-md font-body-md">Settings</span>
+</a>
+</nav>
+<div class="mt-auto flex flex-col gap-1 border-t border-outline-variant/20 pt-4">
+<a class="flex items-center gap-3 px-4 py-3 text-on-primary/70 hover:text-on-primary hover:bg-on-primary-fixed-variant/5 transition-colors" href="#" onclick="return LL.comingSoon(event,'Support')">
+<span class="material-symbols-outlined">help</span>
+<span class="text-body-md font-body-md">Support</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-primary/70 hover:text-on-primary hover:bg-on-primary-fixed-variant/5 transition-colors" href="../login_legallense/code.html" onclick="window.LL&&LL.logout();">
+<span class="material-symbols-outlined">logout</span>
+<span class="text-body-md font-body-md">Logout</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 ml-[260px] flex flex-col min-h-screen">
+<!-- TopAppBar (Shared Component) -->
+<header class="flex justify-between items-center h-16 px-8 sticky top-0 z-40 bg-surface dark:bg-surface-dim border-b border-outline-variant flat no shadows transition-all duration-200 ease-in-out">
+<div class="flex items-center gap-8">
+<div class="relative w-64">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-surface-container-low border-none rounded focus:ring-2 focus:ring-primary text-body-md font-body-md text-on-surface" placeholder="Search..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<nav class="hidden md:flex gap-6">
+<a class="text-on-surface-variant font-medium text-body-md font-body-md hover:text-primary hover:bg-surface-container-low px-2 py-1 rounded" href="../manufacturer_dashboard_legallense/code.html">Manufacturer Dashboard</a>
+<a class="text-on-surface-variant font-medium text-body-md font-body-md hover:text-primary hover:bg-surface-container-low px-2 py-1 rounded" href="#" onclick="return LL.comingSoon(event,'Departmental Guidelines')">Departmental Guidelines</a>
+</nav>
+<div class="flex items-center gap-4 border-l border-outline-variant pl-6">
+<button class="text-on-surface-variant hover:text-primary p-2 rounded-full hover:bg-surface-container-low transition-colors relative" onclick="LL.comingSoon(event,'Notifications')">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-1.5 right-1.5 w-2 h-2 bg-error rounded-full"></span>
+</button>
+<button class="text-on-surface-variant hover:text-primary p-2 rounded-full hover:bg-surface-container-low transition-colors" onclick="LL.comingSoon(event,'Profile settings')">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">account_circle</span>
+</button>
+</div>
+</div>
+</header>
+<!-- Canvas -->
+<div class="p-8 max-w-[1440px] mx-auto w-full">
+<!-- Breadcrumbs -->
+<nav aria-label="Breadcrumb" class="flex items-center gap-2 text-body-md font-body-md text-on-surface-variant mb-6">
+<a class="hover:text-primary transition-colors" href="../manufacturer_dashboard_legallense/code.html">Dashboard</a>
+<span class="material-symbols-outlined text-sm">chevron_right</span>
+<span class="text-primary font-medium">New Self-Check</span>
+</nav>
+<div class="mb-10">
+<h2 class="text-display-lg font-display-lg text-primary mb-2">Check your label before printing</h2>
+<p class="text-body-lg font-body-lg text-on-surface-variant max-w-2xl">Upload your draft label artwork or PDF. Our AI engine will cross-reference it against the latest Legal Metrology (Packaged Commodities) Rules to ensure full compliance before you proceed to manufacturing.</p>
+</div>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+<!-- Main Upload Area -->
+<div class="lg:col-span-2 bg-surface-container-lowest rounded-xl border border-outline-variant p-8 flex flex-col shadow-[0px_4px_12px_rgba(0,0,0,0.02)]">
+<div class="border-2 border-dashed border-outline-variant rounded-xl p-12 flex flex-col items-center justify-center text-center bg-surface-container-low transition-all duration-200 cursor-pointer hover:border-primary hover:bg-primary-fixed/20 mb-6 flex-1 min-h-[320px]" id="drop-zone">
+<div class="w-16 h-16 bg-primary-fixed text-primary rounded-full flex items-center justify-center mb-4">
+<span class="material-symbols-outlined text-3xl">cloud_upload</span>
+</div>
+<h3 class="text-headline-md font-headline-md text-on-surface mb-2">Drag &amp; Drop label artwork</h3>
+<p class="text-body-md font-body-md text-on-surface-variant mb-6">Supported formats: PDF, JPG, PNG (Max 50MB)</p>
+<button class="bg-surface text-primary border border-outline-variant hover:border-primary hover:bg-surface-container-low px-6 py-2 rounded text-body-md font-body-md font-medium transition-colors">
+                            Browse Files
+                        </button>
+<input accept=".pdf,.jpg,.jpeg,.png" class="hidden" id="file-input" type="file"/>
+</div>
+</div>
+<!-- Settings & Action -->
+<div class="flex flex-col gap-6">
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant p-6 shadow-[0px_4px_12px_rgba(0,0,0,0.02)]">
+<h4 class="text-headline-md font-headline-md text-primary mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary-container">info</span>
+                            Analysis Tracking
+                        </h4>
+<div class="mb-4">
+<label class="block text-label-md font-label-md text-on-surface-variant mb-1" for="batch-id">Product Name / Batch ID *</label>
+<input class="w-full bg-surface-container-lowest border border-outline-variant rounded px-3 py-2 text-body-md font-body-md focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all placeholder:text-outline" id="batch-id" placeholder="e.g., Summer Collection V2" type="text"/>
+</div>
+<div class="mb-6">
+<label class="block text-label-md font-label-md text-on-surface-variant mb-1" for="category">Commodity Category (Optional)</label>
+<select class="w-full bg-surface-container-lowest border border-outline-variant rounded px-3 py-2 text-body-md font-body-md focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all" id="category">
+<option value="">Select a category...</option>
+<option value="Food & Beverage">Food &amp; Beverage</option>
+<option value="Cosmetics">Cosmetics</option>
+<option value="Electronics">Electronics</option>
+<option value="Home Care">Home Care</option>
+</select>
+</div>
+<p class="hidden mb-3 text-label-md font-label-md text-error" id="self-check-error">Please choose a file and enter a product name.</p>
+<button class="w-full bg-primary text-on-primary hover:bg-primary-container py-4 rounded text-body-lg font-body-lg font-medium shadow-[0px_4px_12px_rgba(0,0,0,0.05)] transition-all flex justify-center items-center gap-2" id="analyze-btn">
+<span class="material-symbols-outlined">analytics</span>
+                            Analyze for Compliance
+                        </button>
+</div>
+<div class="bg-secondary-fixed/20 rounded-xl border border-secondary-container p-6 text-on-surface">
+<h5 class="text-body-lg font-body-lg font-semibold mb-2 flex items-center gap-2 text-secondary">
+<span class="material-symbols-outlined">verified</span>
+                             Secure &amp; Confidential
+                        </h5>
+<p class="text-body-md font-body-md text-on-surface-variant">All uploaded artworks are encrypted and automatically deleted from our active servers after 24 hours. Your intellectual property is protected.</p>
+</div>
+</div>
+</div>
+</div>
+</main>
+<script>
+        const dropZone = document.getElementById('drop-zone');
+        const fileInput = document.getElementById('file-input');
+
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            dropZone.addEventListener(eventName, preventDefaults, false);
+        });
+
+        function preventDefaults (e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+
+        ['dragenter', 'dragover'].forEach(eventName => {
+            dropZone.addEventListener(eventName, highlight, false);
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            dropZone.addEventListener(eventName, unhighlight, false);
+        });
+
+        function highlight(e) {
+            dropZone.classList.add('drag-active');
+        }
+
+        function unhighlight(e) {
+            dropZone.classList.remove('drag-active');
+        }
+
+        dropZone.addEventListener('drop', handleDrop, false);
+        dropZone.addEventListener('click', () => fileInput.click());
+
+        function handleDrop(e) {
+            let dt = e.dataTransfer;
+            let files = dt.files;
+            handleFiles(files);
+        }
+
+        function handleFiles(files) {
+            if(files.length > 0) {
+                 // Minimal interaction feedback for demo
+                 const h3 = dropZone.querySelector('h3');
+                 h3.textContent = files[0].name;
+                 dropZone.classList.add('bg-primary-fixed/20');
+                 dropZone.classList.add('border-primary');
+            }
+        }
+
+        fileInput.addEventListener('change', function() {
+            handleFiles(this.files);
+        });
+    </script>
+    <script src="/assets/app.js"></script>
+    <script>
+        if (LL.requireRole('manufacturer')) {
+            var chosenFile = null;
+            fileInput.addEventListener('change', function () { chosenFile = this.files && this.files[0]; });
+            dropZone.addEventListener('drop', function (e) { chosenFile = e.dataTransfer.files && e.dataTransfer.files[0]; });
+
+            var productId = LL.qs('productId');
+            var batchIdInput = document.getElementById('batch-id');
+            var categorySelect = document.getElementById('category');
+            if (productId) {
+                var product = LL.getProduct(productId);
+                if (product) {
+                    batchIdInput.value = product.name;
+                    var opt = Array.prototype.find.call(categorySelect.options, function (o) { return o.value === product.category; });
+                    if (opt) categorySelect.value = product.category;
+                }
+            }
+
+            document.getElementById('analyze-btn').addEventListener('click', function () {
+                var errorEl = document.getElementById('self-check-error');
+                var name = batchIdInput.value.trim();
+                if (!name || !chosenFile) {
+                    errorEl.classList.remove('hidden');
+                    return;
+                }
+                errorEl.classList.add('hidden');
+                var record = LL.createSelfCheck({
+                    productId: productId || null,
+                    productName: name,
+                    category: categorySelect.value || 'General',
+                    fileName: chosenFile.name
+                });
+                location.href = '../self_check_report_legallense/code.html?id=' + encodeURIComponent(record.id);
+            });
+        }
+    </script>
+</body></html>
