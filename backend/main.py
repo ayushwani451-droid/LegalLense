@@ -33,13 +33,11 @@ try:
     # Works when the process is started from the repo root, e.g.
     # `uvicorn backend.main:app` (local dev, Render with Root Directory unset).
     from backend.api.ocr import router as ocr_router, init_worker_engine as init_ocr_worker_engine
-    from backend.api.demo_ocr import router as demo_ocr_router
 except ImportError:
     # Works when `backend/` itself is the working root, e.g. Render/Vercel
     # with Root Directory (or a service's "root") set to `backend`, where
     # `backend` is not importable as a top-level package from inside itself.
     from api.ocr import router as ocr_router, init_worker_engine as init_ocr_worker_engine  # type: ignore[no-redef]
-    from api.demo_ocr import router as demo_ocr_router  # type: ignore[no-redef]
 
 logging.basicConfig(
     level=logging.INFO,
@@ -122,9 +120,6 @@ else:
     )
 
 app.include_router(ocr_router)
-# TEMPORARY / DEMO-ONLY - see api/demo_ocr.py docstring. Remove this line
-# (and delete api/demo_ocr.py) once the live demo is over.
-app.include_router(demo_ocr_router)
 
 
 @app.get("/api/health")
