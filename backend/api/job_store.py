@@ -14,10 +14,14 @@ currently is.
 
 from __future__ import annotations
 
+import logging
+import os
 import threading
 import uuid
 from datetime import datetime, timezone
 from typing import Any, Dict, Literal, Optional
+
+logger = logging.getLogger("legallense.api.job_store")
 
 JobStatus = Literal["pending", "processing", "done", "error"]
 
@@ -35,6 +39,13 @@ def create_job() -> str:
             "error": None,
             "created_at": datetime.now(timezone.utc).isoformat(),
         }
+    # Logged with pid so a "Job not found" report in Railway logs can be
+    # cross-checked: if the create and the failed lookup show different
+    # pids, it's a multi-process/replica split-brain, not a typo or a
+    # store bug. If the pids match, look at wall-clock gap instead - a
+    # container restart (OOM, redeploy) between the two requests would
+    # also wipe this in-memory store despite a single worker.
+    logger.info("Job %s created (pid=%d)", job_id, os.getpid())
     return job_id
 
 
@@ -65,4 +76,6 @@ def set_error(job_id: str, message: str) -> None:
 def get_job(job_id: str) -> Optional[Dict[str, Any]]:
     with _lock:
         job = _jobs.get(job_id)
+        found = job is not None
+        logger.info("Job %s lookup (pid=%d): %s", job_id, os.getpid(), "found" if found else "NOT FOUND")
         return dict(job) if job is not None else None
