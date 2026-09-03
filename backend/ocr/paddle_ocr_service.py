@@ -222,9 +222,18 @@ class PaddleOCRService:
         detections = self._parse_result(raw_results)
         logger.info("OCR produced %d detection(s) for %s", len(detections), path)
 
+        # Detections' bbox/polygon coordinates are pixel coordinates in
+        # `image` as it was actually handed to the engine - i.e. AFTER any
+        # preprocessing/downscale above, not the original file's
+        # dimensions. Reporting this image's actual shape lets a caller
+        # (e.g. the frontend, drawing bounding boxes over the originally
+        # uploaded, undownscaled image) scale coordinates correctly.
+        image_height, image_width = image.shape[:2]
+
         if not detections:
             return OCRResult(
                 success=True, image=image_name, image_path=str(path),
+                image_width=image_width, image_height=image_height,
                 full_text="", detections=[], detection_count=0,
                 preprocessing_applied=preprocessing_applied,
                 error=OCRError(code="empty_result", message="No text detected in image"),
@@ -233,6 +242,7 @@ class PaddleOCRService:
         full_text = "\n".join(d.text for d in detections)
         return OCRResult(
             success=True, image=image_name, image_path=str(path),
+            image_width=image_width, image_height=image_height,
             full_text=full_text, detections=detections, detection_count=len(detections),
             preprocessing_applied=preprocessing_applied,
         )

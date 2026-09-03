@@ -101,6 +101,14 @@
         .material-symbols-outlined {
             font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
         }
+        /* Bounding-box overlay: the SVG itself must not intercept clicks/drags
+           on the image beneath it, but each individual box should still be
+           hoverable - the classic "parent none, children auto" pattern. */
+        #bbox-overlay { pointer-events: none; }
+        #bbox-overlay rect { pointer-events: auto; cursor: pointer; transition: fill-opacity 0.15s ease, stroke-width 0.15s ease; }
+        #bbox-overlay rect:hover, #bbox-overlay rect.ocr-bbox-active { fill-opacity: 0.32; stroke-width: 3; }
+        .ocr-result-row { transition: background-color 0.15s ease; }
+        .ocr-result-row.ocr-row-active { background-color: #d3e4ff; }
     </style>
 </head>
 <body class="bg-background text-on-background font-body-md min-h-screen flex">
@@ -203,8 +211,9 @@
 <!-- Image preview + bounding-box overlay (populated after a file is chosen / OCR completes) -->
 <div class="hidden mt-6 bg-surface border border-outline-variant rounded-xl p-4" id="preview-card">
 <h4 class="text-body-lg font-body-lg font-bold text-on-surface mb-3">Selected Image</h4>
-<div class="relative inline-block max-w-full" id="preview-image-wrap">
-<img alt="Selected label preview" class="max-w-full max-h-[420px] rounded-lg border border-outline-variant" id="preview-image"/>
+<div class="relative inline-block max-w-full leading-[0]" id="preview-image-wrap">
+<img alt="Selected label preview" class="max-w-full max-h-[420px] rounded-lg border border-outline-variant block" id="preview-image"/>
+<svg class="absolute inset-0 w-full h-full hidden" id="bbox-overlay" preserveAspectRatio="none"></svg>
 </div>
 </div>
 <!-- Action Area -->
@@ -258,12 +267,34 @@
         var previewWrap = document.getElementById('preview-image-wrap');
         var resultsCard = document.getElementById('ocr-results-card');
         var resultsBody = document.getElementById('ocr-results-body');
+        var bboxOverlay = document.getElementById('bbox-overlay');
+
+        // Cycled by detection index so adjacent boxes are visually distinct;
+        // also used as the matching swatch color in the results list below.
+        var BBOX_COLORS = ['#00274a', '#006a6a', '#8a5a00', '#7a1fa2', '#1f7a4d', '#a83232', '#1f4fa8', '#a8631f'];
+
+        function boxColor(index) {
+            return BBOX_COLORS[index % BBOX_COLORS.length];
+        }
+
+        function confidenceBadge(pct) {
+            if (pct >= 90) return { label: 'High', classes: 'bg-secondary-container text-on-secondary-container' };
+            if (pct >= 70) return { label: 'Medium', classes: 'bg-tertiary-fixed text-on-tertiary-fixed-variant' };
+            return { label: 'Low', classes: 'bg-error-container text-on-error-container' };
+        }
+
+        function highlightDetection(index, on) {
+            var row = document.getElementById('ocr-row-' + index);
+            if (row) row.classList.toggle('ocr-row-active', on);
+            var rect = bboxOverlay.querySelector('rect[data-index="' + index + '"]');
+            if (rect) rect.classList.toggle('ocr-bbox-active', on);
+        }
 
         function resetResults() {
             resultsCard.classList.add('hidden');
             resultsBody.innerHTML = '';
-            var existingBoxes = previewWrap.querySelectorAll('.ocr-bbox');
-            existingBoxes.forEach(function (el) { el.remove(); });
+            bboxOverlay.innerHTML = '';
+            bboxOverlay.classList.add('hidden');
         }
 
         function showValidationError(msg) {
@@ -305,27 +336,55 @@
             reader.readAsDataURL(chosenFile);
         });
 
-        function drawBoundingBoxes(detections) {
+        function drawBoundingBoxes(detections, analyzedWidth, analyzedHeight) {
+            bboxOverlay.innerHTML = '';
             if (!detections || !detections.length) return;
-            var naturalW = previewImg.naturalWidth;
-            var naturalH = previewImg.naturalHeight;
-            var renderedW = previewImg.clientWidth;
-            var renderedH = previewImg.clientHeight;
-            if (!naturalW || !naturalH) return;
-            var scaleX = renderedW / naturalW;
-            var scaleY = renderedH / naturalH;
 
-            detections.forEach(function (det) {
-                var box = document.createElement('div');
-                box.className = 'ocr-bbox';
-                var x1 = det.bbox[0] * scaleX, y1 = det.bbox[1] * scaleY;
-                var x2 = det.bbox[2] * scaleX, y2 = det.bbox[3] * scaleY;
-                box.setAttribute('style',
-                    'position:absolute;left:' + x1 + 'px;top:' + y1 + 'px;' +
-                    'width:' + (x2 - x1) + 'px;height:' + (y2 - y1) + 'px;' +
-                    'border:2px solid #00274a;background:rgba(0,39,74,0.08);pointer-events:none;');
-                box.title = det.text + ' (' + Math.round(det.confidence * 100) + '%)';
-                previewWrap.appendChild(box);
+            // Detections' bbox coordinates are pixels in the image PaddleOCR
+            // actually ran on - which the backend may have downscaled before
+            // inference (see backend/api/ocr.py's OCR_MAX_IMAGE_SIDE), so
+            // this is NOT always the same as the originally uploaded file's
+            // resolution shown here. The API reports the analyzed image's
+            // own dimensions (image_width/image_height) for exactly this
+            // reason; fall back to the preview <img>'s natural size only if
+            // an older/unexpected response is missing them.
+            var w = analyzedWidth || previewImg.naturalWidth;
+            var h = analyzedHeight || previewImg.naturalHeight;
+            if (!w || !h) return;
+
+            // A viewBox matching the analyzed image's own pixel dimensions
+            // means every <rect> below is drawn in THOSE coordinates
+            // directly, with no manual scale-factor math - the SVG scales
+            // the whole thing to the rendered <img> size for us. This stays
+            // correct even if the image is later rendered at a different
+            // size (e.g. window resize), since it's declarative, not a
+            // one-time pixel calculation.
+            bboxOverlay.setAttribute('viewBox', '0 0 ' + w + ' ' + h);
+            bboxOverlay.classList.remove('hidden');
+
+            var ns = 'http://www.w3.org/2000/svg';
+            detections.forEach(function (det, i) {
+                var x1 = det.bbox[0], y1 = det.bbox[1], x2 = det.bbox[2], y2 = det.bbox[3];
+                var color = boxColor(i);
+                var rect = document.createElementNS(ns, 'rect');
+                rect.setAttribute('x', x1);
+                rect.setAttribute('y', y1);
+                rect.setAttribute('width', Math.max(0, x2 - x1));
+                rect.setAttribute('height', Math.max(0, y2 - y1));
+                rect.setAttribute('fill', color);
+                rect.setAttribute('fill-opacity', '0.12');
+                rect.setAttribute('stroke', color);
+                rect.setAttribute('stroke-width', '2');
+                rect.setAttribute('vector-effect', 'non-scaling-stroke'); // keep the border a crisp, consistent thickness regardless of image size
+                rect.setAttribute('data-index', String(i));
+
+                var title = document.createElementNS(ns, 'title');
+                title.textContent = det.text + ' (' + Math.round(det.confidence * 100) + '%)';
+                rect.appendChild(title);
+
+                rect.addEventListener('mouseenter', function () { highlightDetection(i, true); });
+                rect.addEventListener('mouseleave', function () { highlightDetection(i, false); });
+                bboxOverlay.appendChild(rect);
             });
         }
 
@@ -352,28 +411,35 @@
                 return;
             }
 
-            var summary = '<div class="flex items-center gap-6 mb-5 pb-5 border-b border-outline-variant">' +
-                '<div><div class="text-label-md font-label-md text-on-surface-variant uppercase">Text Regions Detected</div>' +
-                '<div class="text-headline-lg font-headline-lg text-primary">' + data.detection_count + '</div></div></div>';
+            var summary = '<div class="flex items-center gap-4 mb-6 p-4 rounded-lg bg-primary-fixed/25 border border-primary-fixed">' +
+                '<div class="w-11 h-11 rounded-full bg-primary flex items-center justify-center shrink-0">' +
+                '<span class="material-symbols-outlined text-on-primary">document_scanner</span></div>' +
+                '<div><div class="text-headline-md font-headline-md text-primary">' + data.detection_count + ' Text Region' + (data.detection_count === 1 ? '' : 's') + ' Detected</div>' +
+                '<div class="text-body-md font-body-md text-on-surface-variant">Hover a result below or a box on the image to match them up.</div></div></div>';
 
-            var rows = data.detections.map(function (det) {
+            var rows = data.detections.map(function (det, i) {
                 var pct = Math.round(det.confidence * 100);
-                var barColor = pct >= 90 ? 'bg-secondary' : (pct >= 70 ? 'bg-tertiary-fixed-dim' : 'bg-error');
-                return '<div class="flex items-center justify-between gap-4 py-2.5 border-b border-outline-variant/50 last:border-0">' +
-                    '<span class="text-body-md font-body-md text-on-surface flex-1">' + LL.escapeHtml(det.text) + '</span>' +
-                    '<div class="flex items-center gap-2 w-32 shrink-0">' +
-                    '<div class="flex-1 h-1.5 bg-surface-variant rounded-full overflow-hidden"><div class="h-full ' + barColor + '" style="width:' + pct + '%"></div></div>' +
-                    '<span class="text-label-md font-label-md text-on-surface-variant w-10 text-right">' + pct + '%</span>' +
-                    '</div></div>';
+                var badge = confidenceBadge(pct);
+                return '<div class="ocr-result-row flex items-center gap-3 p-3 rounded-lg border border-outline-variant/70 hover:bg-surface-container-low" id="ocr-row-' + i + '" data-index="' + i + '">' +
+                    '<span class="w-2.5 h-2.5 rounded-full shrink-0" style="background:' + boxColor(i) + '"></span>' +
+                    '<span class="flex-1 text-body-lg font-body-lg text-on-surface">' + LL.escapeHtml(det.text) + '</span>' +
+                    '<span class="text-label-md font-label-md font-bold px-2.5 py-1 rounded-full shrink-0 ' + badge.classes + '">' + badge.label + ' &middot; ' + pct + '%</span>' +
+                    '</div>';
             }).join('');
 
-            resultsBody.innerHTML = summary + '<div class="flex flex-col">' + rows + '</div>' +
+            resultsBody.innerHTML = summary + '<div class="flex flex-col gap-2" id="ocr-results-list">' + rows + '</div>' +
                 '<p class="mt-4 text-label-md font-label-md text-on-surface-variant italic">This is raw text extracted by PaddleOCR. Legal Metrology compliance checking is not implemented yet.</p>';
 
+            document.getElementById('ocr-results-list').querySelectorAll('.ocr-result-row').forEach(function (row) {
+                var i = Number(row.getAttribute('data-index'));
+                row.addEventListener('mouseenter', function () { highlightDetection(i, true); });
+                row.addEventListener('mouseleave', function () { highlightDetection(i, false); });
+            });
+
             if (previewImg.complete) {
-                drawBoundingBoxes(data.detections);
+                drawBoundingBoxes(data.detections, data.image_width, data.image_height);
             } else {
-                previewImg.addEventListener('load', function () { drawBoundingBoxes(data.detections); }, { once: true });
+                previewImg.addEventListener('load', function () { drawBoundingBoxes(data.detections, data.image_width, data.image_height); }, { once: true });
             }
         }
 

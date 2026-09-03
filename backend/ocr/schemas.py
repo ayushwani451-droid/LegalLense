@@ -45,6 +45,12 @@ class OCRResult(BaseModel):
     success: bool
     image: str = Field(..., description="Filename (basename) of the processed image")
     image_path: Optional[str] = Field(None, description="Full input path as given to the service")
+    image_width: Optional[int] = Field(
+        None, description="Width, in pixels, of the image actually fed to PaddleOCR (after any preprocessing/downscale) - detections' bbox/polygon coordinates are in this coordinate space, not the original upload's."
+    )
+    image_height: Optional[int] = Field(
+        None, description="Height, in pixels, of the image actually fed to PaddleOCR (after any preprocessing/downscale) - see image_width."
+    )
     full_text: str = Field("", description="All detected text lines joined with newlines")
     detections: List[Detection] = Field(default_factory=list)
     detection_count: int = Field(0, description="Number of text detections returned")
