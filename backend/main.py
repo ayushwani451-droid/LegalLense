@@ -46,6 +46,64 @@ logging.basicConfig(
 logger = logging.getLogger("legallense.main")
 
 
+def _build_ocr_process_pool() -> ProcessPoolExecutor:
+    return ProcessPoolExecutor(max_workers=1)
+
+
+async def _warm_up_ocr_pool(executor: ProcessPoolExecutor) -> None:
+    """Pre-load the PaddleOCR engine in `executor`'s worker process so the
+    next job submitted to it doesn't pay the ~20s model-load cost inline.
+    Failure here is logged but not fatal - a per-job engine_init_failed
+    error (or, on a genuinely dead worker, another crash-and-recreate
+    cycle) will surface it instead."""
+    try:
+        logger.info("Warming up PaddleOCR engine in the OCR worker process...")
+        await asyncio.get_running_loop().run_in_executor(executor, init_ocr_worker_engine)
+        logger.info("PaddleOCR engine ready in worker process.")
+    except Exception:
+        logger.exception("PaddleOCR engine failed to warm up in worker process; will retry on first job.")
+
+
+async def recreate_ocr_process_pool(app: FastAPI, broken_executor: ProcessPoolExecutor) -> ProcessPoolExecutor:
+    """Replace app.state.ocr_process_pool after it has broken (e.g. the
+    single worker process was OOM-killed mid-inference) so the NEXT job
+    gets a working pool instead of the permanent
+    "BrokenProcessPool...not usable anymore" state a ProcessPoolExecutor
+    is left in once its worker dies.
+
+    Safe to call concurrently from multiple in-flight OCR jobs: a broken
+    pool fails ALL of its pending/queued futures at once (not just the one
+    that was actually running), so several backend/api/ocr.py request
+    tasks can all land here at nearly the same moment. app.state.ocr_pool_lock
+    (created in lifespan below) plus the compare-and-swap check just below
+    ensure only the first caller actually builds a replacement - every
+    other caller sees that app.state.ocr_process_pool no longer `is` the
+    broken executor it was given, and simply returns the pool the winner
+    already created instead of building (and leaking) another one.
+    """
+    async with app.state.ocr_pool_lock:
+        current = app.state.ocr_process_pool
+        if current is not broken_executor:
+            return current  # someone else already replaced it
+
+        logger.warning("OCR process pool is broken - creating a replacement worker process...")
+        try:
+            broken_executor.shutdown(wait=False)
+        except Exception:
+            logger.exception("Error shutting down the already-broken OCR process pool (ignoring)")
+
+        new_executor = _build_ocr_process_pool()
+        app.state.ocr_process_pool = new_executor
+        # Fire-and-forget: don't make the caller (itself in the middle of
+        # handling a crashed job) wait ~20s for the new pool's engine to
+        # warm up. If the next job arrives before this finishes, it just
+        # pays that cold-start cost inline instead, same as the very first
+        # job after a fresh app start.
+        asyncio.create_task(_warm_up_ocr_pool(new_executor))
+        logger.info("OCR process pool replaced; subsequent jobs will use the new worker process.")
+        return new_executor
+
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     """Own the OCR worker process's lifetime alongside the app's.
@@ -58,24 +116,29 @@ async def lifespan(app: FastAPI):
     running a second OCR job concurrently would mean two full model copies
     competing for RAM on top of each other.
 
-    The engine load (~20s) happens once, lazily, inside that worker
-    process on first use - so it is warmed up here at startup, the same
-    reasoning the previous single-process version used, just aimed at the
-    process that now actually performs inference instead of this one.
+    app.state.ocr_pool_lock and app.state.ocr_pool_recreate back the
+    self-healing behavior in recreate_ocr_process_pool() above - stored on
+    app.state (rather than imported directly) so backend/api/ocr.py can
+    trigger a recreation after a BrokenProcessPool without importing this
+    module and creating a main.py <-> api/ocr.py import cycle (main.py
+    already imports from api/ocr.py).
+
+    The engine load (~20s) happens once, lazily, inside the worker process
+    on first use - so it is warmed up here at startup, the same reasoning
+    the previous single-process version used, just aimed at the process
+    that now actually performs inference instead of this one.
     """
-    executor = ProcessPoolExecutor(max_workers=1)
+    app.state.ocr_pool_lock = asyncio.Lock()
+    app.state.ocr_pool_recreate = recreate_ocr_process_pool
+
+    executor = _build_ocr_process_pool()
     app.state.ocr_process_pool = executor
-    try:
-        logger.info("Warming up PaddleOCR engine in the OCR worker process...")
-        await asyncio.get_running_loop().run_in_executor(executor, init_ocr_worker_engine)
-        logger.info("PaddleOCR engine ready in worker process.")
-    except Exception:
-        logger.exception("PaddleOCR engine failed to warm up in worker process; will retry on first job.")
+    await _warm_up_ocr_pool(executor)
 
     yield
 
     logger.info("Shutting down OCR worker process...")
-    executor.shutdown(wait=True)
+    app.state.ocr_process_pool.shutdown(wait=True)
 
 
 app = FastAPI(

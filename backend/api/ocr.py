@@ -33,19 +33,22 @@ import os
 import tempfile
 import uuid
 from concurrent.futures import ProcessPoolExecutor
+from concurrent.futures.process import BrokenProcessPool
 from pathlib import Path
 from typing import Literal, Optional
 
-from fastapi import APIRouter, File, HTTPException, Request, UploadFile
+from fastapi import APIRouter, FastAPI, File, HTTPException, Request, UploadFile
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 
 try:
     from backend.ocr.paddle_ocr_service import OCRInitializationError, PaddleOCRService
+    from backend.ocr.preprocessing import PreprocessOptions
     from backend.ocr.schemas import OCRError, OCRResult
 except ImportError:
     # See backend/main.py for why both import styles are supported.
     from ocr.paddle_ocr_service import OCRInitializationError, PaddleOCRService  # type: ignore[no-redef]
+    from ocr.preprocessing import PreprocessOptions  # type: ignore[no-redef]
     from ocr.schemas import OCRError, OCRResult  # type: ignore[no-redef]
 
 try:
@@ -74,6 +77,21 @@ MAX_UPLOAD_BYTES = int(os.environ.get("MAX_UPLOAD_MB", "15")) * 1024 * 1024
 # independently in both the main process and the worker process - there is
 # no need to pass this value across the process boundary as an argument.
 _ENABLE_MKLDNN = os.environ.get("OCR_ENABLE_MKLDNN", "false").strip().lower() in ("1", "true", "yes")
+
+# Long-side downscale threshold applied to every real upload before
+# inference (see _run_ocr_worker below) - deliberately NOT
+# backend/ocr/preprocessing.py's own MAX_SIDE_DEFAULT (2000), which is too
+# permissive for this app's actual memory budget: a real 1536x1024 test
+# photo (backend/test_images/legal_label_test.png, comfortably under
+# 2000px) was measured pushing a single worker process to ~571MB peak RSS
+# during inference alone - on a memory-constrained host, that is enough to
+# get the worker OOM-killed outright (surfaces as
+# concurrent.futures.process.BrokenProcessPool). Downscaling that same
+# image to max_side=1024 cut peak memory to ~55MB above baseline (a ~9.4x
+# reduction) for a loss of exactly 1 of 60 detected text regions.
+# Configurable via env var so it can be tuned from Railway without a code
+# change if the container's memory limit changes.
+_OCR_MAX_IMAGE_SIDE = int(os.environ.get("OCR_MAX_IMAGE_SIDE", "1024"))
 
 ALLOWED_EXTENSIONS = {".jpg", ".jpeg", ".png", ".webp"}
 
@@ -153,9 +171,23 @@ def _run_ocr_worker(tmp_path_str: str, original_name: str) -> dict:
     as a well-formed OCRResult(success=False, error=...), which is
     forwarded here as-is. Only a genuinely unexpected exception would
     propagate out of this function, to be pickled and re-raised in the
-    main process by concurrent.futures (handled in _run_ocr_job below).
+    main process by concurrent.futures (handled in _run_ocr_job below) -
+    this includes the worker process itself dying (e.g. OOM-killed), which
+    surfaces to the main process as concurrent.futures.process.BrokenProcessPool
+    rather than as a return value from this function at all.
+
+    preprocess_options requests a downscale (see backend/ocr/preprocessing.py's
+    resize_if_large(), a no-op for images already at or under the
+    threshold) before inference - large real-world photos (multi-MB,
+    several-thousand-pixels-per-side) were found to OOM-kill this worker
+    process; PaddleOCR's memory use scales with input pixel count, and
+    label/document text stays perfectly readable well below this
+    threshold, so this is a large memory-safety win for negligible
+    accuracy cost.
     """
-    result = _get_worker_service().run(tmp_path_str)
+    result = _get_worker_service().run(
+        tmp_path_str, preprocess_options=PreprocessOptions(resize=True, max_side=_OCR_MAX_IMAGE_SIDE)
+    )
     # Swap the temp filename back out for the original, client-facing name,
     # and scrub the server-side temp path out of any error message so no
     # internal filesystem detail reaches the browser.
@@ -168,23 +200,29 @@ def _run_ocr_worker(tmp_path_str: str, original_name: str) -> dict:
 
 # --- main-process orchestration -----------------------------------------
 
-async def _run_ocr_job(job_id: str, tmp_path: Path, original_name: str, executor: ProcessPoolExecutor) -> None:
+async def _run_ocr_job(job_id: str, tmp_path: Path, original_name: str, app: FastAPI) -> None:
     """Runs as a fire-and-forget asyncio Task on the main process's event
     loop (scheduled via asyncio.create_task in run_ocr() below - never
     awaited there, so POST /api/ocr still returns immediately).
 
-    Submits the actual inference to `executor` and awaits the resulting
-    future. Awaiting a ProcessPoolExecutor future yields control back to
-    the event loop for the entire 52-168s the other process is working -
-    unlike the previous BackgroundTasks-thread version, nothing here holds
-    the GIL, so concurrent requests (including GET
-    /api/ocr/status/{job_id}) keep getting served normally the whole time.
+    Takes the FastAPI `app` (rather than the executor directly) so it
+    always submits to whichever ProcessPoolExecutor is CURRENTLY live on
+    app.state.ocr_process_pool at the moment of submission - important
+    because that pool can be swapped out mid-flight by
+    recreate_ocr_process_pool() (backend/main.py) after a crash.
+
+    Awaiting a ProcessPoolExecutor future yields control back to the event
+    loop for the entire 52-168s the other process is working - unlike the
+    previous BackgroundTasks-thread version, nothing here holds the GIL,
+    so concurrent requests (including GET /api/ocr/status/{job_id}) keep
+    getting served normally the whole time.
 
     Never lets an exception from the worker process propagate silently -
     always records either a "done" result or an "error" status for the
     job."""
     set_status(job_id, "processing")
     loop = asyncio.get_running_loop()
+    executor: ProcessPoolExecutor = app.state.ocr_process_pool
     try:
         result_dict = await loop.run_in_executor(executor, _run_ocr_worker, str(tmp_path), original_name)
 
@@ -199,6 +237,25 @@ async def _run_ocr_job(job_id: str, tmp_path: Path, original_name: str, executor
     except OCRInitializationError:
         logger.exception("PaddleOCR engine failed to initialize for job %s", job_id)
         set_error(job_id, "OCR engine failed to initialize")
+
+    except BrokenProcessPool:
+        # The worker process died mid-inference - most likely OOM-killed by
+        # the host on a large/complex image. A ProcessPoolExecutor never
+        # recovers from this on its own (every future already
+        # queued/running on it fails the same way, and every future
+        # submitted to it afterwards fails immediately too), so this job's
+        # own retry is not attempted here - only a fresh pool for the NEXT
+        # job. Full exception logged server-side; the client only gets a
+        # clear, generic message, no internals.
+        logger.exception(
+            "OCR worker process crashed (likely OOM) while processing job %s for '%s' - replacing the worker pool",
+            job_id, original_name,
+        )
+        set_error(job_id, "OCR worker crashed, possibly due to memory limits - please try again")
+        try:
+            await app.state.ocr_pool_recreate(app, executor)
+        except Exception:
+            logger.exception("Failed to recreate the OCR process pool after a crash")
 
     except Exception:
         logger.exception("Unexpected error while processing OCR job %s for %s", job_id, original_name)
@@ -257,8 +314,7 @@ async def run_ocr(request: Request, file: Optional[UploadFile] = File(None)):
     logger.info("Saved upload '%s' (%d bytes) to temp file for OCR", original_name, len(contents))
 
     job_id = create_job()
-    executor: ProcessPoolExecutor = request.app.state.ocr_process_pool
-    asyncio.create_task(_run_ocr_job(job_id, tmp_path, original_name, executor))
+    asyncio.create_task(_run_ocr_job(job_id, tmp_path, original_name, request.app))
     logger.info("Scheduled OCR job %s for '%s'", job_id, original_name)
 
     return JSONResponse(status_code=202, content={"job_id": job_id, "status": "pending"})

@@ -37,7 +37,10 @@ def resize_if_large(image: np.ndarray, max_side: int = MAX_SIDE_DEFAULT) -> np.n
         return image
     scale = max_side / float(longest)
     new_size = (int(w * scale), int(h * scale))
-    logger.debug("Resizing image from %sx%s to %s", w, h, new_size)
+    # INFO, not DEBUG: this is the memory-safety downscale for large
+    # real-world photos (see backend/api/ocr.py's _run_ocr_worker) - worth
+    # seeing in Railway logs without turning on debug logging.
+    logger.info("Downscaling image for OCR: %dx%d -> %dx%d (max_side=%d)", w, h, new_size[0], new_size[1], max_side)
     return cv2.resize(image, new_size, interpolation=cv2.INTER_AREA)
 
 
